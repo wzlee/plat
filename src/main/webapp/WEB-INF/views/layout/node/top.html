@@ -1,0 +1,19 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+ <div class="top">
+   <div class="logo">
+     <h1><a href="#"><span class="undis">深圳市中小企业公共服务平台@珠宝</span></a></h1>
+   </div>
+   <div class="search-bar">
+     <form action="searchService" method="post">
+       <div class="search-text">
+         <input name="name" type="text" onblur="if(this.value=='')this.value='申请专利'" onfocus="this.value=''" value="申请专利" />
+         <input name="start" type="text" value="0" style="display: none;" />
+         <input name="limit" type="text" value="15" style="display: none;" />
+       </div>
+       <div class="search-btn">
+         <button></button>
+       </div>
+     </form>
+   </div>
+   <div class="member-action"><a href="login">登录</a>|<a href="/register_step_1">注册</a></div>
+ </div>

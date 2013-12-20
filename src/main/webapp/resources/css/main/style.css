@@ -1,0 +1,571 @@
+@charset "utf-8";
+/*  
+*@Description: public reset css  
+*@Author: Roger Xia  
+*@Update: Roger Xia(2012-11-23 15:26)  
+*/
+
+/* 清除内外边距 */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */ dl, dt, dd, ul, ol, li, /* list elements 列表元素 */ pre, /* text formatting elements 文本格式元素 */ fieldset, lengend, button, input, textarea, /* form elements 表单元素 */ th, td { /* table elements 表格元素 */
+	margin: 0;
+	padding: 0;
+}
+body{
+	background:#f4f4f4;
+}
+/* 设置默认字体 */
+body, button, input, select, textarea { /* for ie */
+	/*font: 12px/1 Tahoma, Helvetica, Arial, "宋体", sans-serif;*/
+    font: 12px/1 Arial,"\5b8b\4f53",sans-serif; /* 用 ascii 字符表示，使得在任何编码下都无问题 */
+}
+p {
+	line-height:1.5em;
+}
+h1 {
+	font-size: 18px; /* 18px / 12px = 1.5 */
+}
+h2 {
+	font-size: 16px;
+}
+h3 {
+	font-size: 14px;
+}
+h4, h5, h6 {
+	font-size: 100%;
+}
+address, cite, dfn, em, var {
+	font-style: normal;
+} /* 将斜体扶正 */
+code, kbd, pre, samp, tt {
+	font-family: "Courier New", Courier, monospace;
+} /* 统一等宽字体 */
+small {
+	font-size: 12px;
+} /* 小于 12px 的中文很难阅读，让 small 正常化 */
+/* 重置列表元素 */
+ul, ol {
+	list-style: none;
+}
+/* 重置文本格式元素 */
+a {
+	text-decoration: none !important;
+	color:#666;
+}
+a:focus {
+     outline:none;
+     -moz-outline:none;
+}
+abbr[title], acronym[title] { /* 注：1.ie6 不支持 abbr; 2.这里用了属性选择符，ie6 下无效果 */
+	border-bottom: 1px dotted;
+	cursor: help;
+}
+q:before, q:after {
+	content: '';
+}
+/* 重置表单元素 */
+legend {
+	color: #000;
+} /* for ie6 */
+fieldset, img {
+	border: none;
+} /* img 搭车：让链接里的 img 无边框 */
+/* 注：optgroup 无法扶正 */
+button, input, select, textarea {
+	font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
+}
+/* 重置表格元素 */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* 重置 hr */
+hr {
+	border: none;
+	height: 1px;
+}
+/* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
+html {
+	overflow-y: scroll;
+}
+.w{
+	width:960px;
+	margin:0 auto;
+	position:relative;
+}
+.clearer{
+	clear:both;
+	width:100%;
+	height:0;
+}
+.wrap{
+	position:relative;
+	width:960px;
+	margin:0 auto;
+	height:auto;
+	padding-bottom:46px;
+}
+.hide{
+	display:none;	
+}
+.f-purple{
+	color:#660066;
+}
+.clearfix:before,.clearfix:after{
+	content:"";
+	display:table;
+}
+.clearfix:after{
+	clear:both;
+}
+.clearfix{
+	*zoom:1;
+}
+/*超出隐藏*/
+.ov-h{
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+/*
+ *页眉
+ */
+.header{
+	width:100%;
+	height:160px;
+	background: #fff;
+	box-shadow: 0 2px 2px #e2e2e2;
+	position: relative;
+	z-index:3;
+}
+.top-toolbar{
+	height: 28px;
+	line-height: 28px;
+	background: #eeeeee;
+	border-bottom: 1px solid #d6d6d6;
+}
+.top-toolbar-panel{
+	width: 960px;
+	margin: 0 auto;
+	text-align: right;
+	color: #666;
+}
+.top-toolbar-panel a.login{
+	color: #606;
+	font-weight:600;
+}
+.top-toolbar-panel .name{
+	font-family: arial;
+}
+.top-container{
+	width: 960px;
+	height: 94px;
+	margin:0 auto;
+}
+.top-nav{
+	width: 100%;
+	border-top: 1px solid #e2e2e2;
+	border-bottom: 1px solid #e2e2e2;
+	background:#F0F0F0;
+}
+.logo{
+	float:left;
+	padding-top: 30px;
+	width:160px;
+	height:45px;	
+}
+.logo h1{
+	background:url(../../images/main/logo.png) no-repeat;	
+}
+.logo h1 a{
+	display:block;
+	width:160px;
+	height:45px;
+}
+.top-nav  ul{
+	width: 960px;
+	margin: 0 auto;
+}
+.top-nav  ul  li{
+	float: left;
+	line-height: 35px;
+	position: relative;
+}
+.top-nav  ul  li  a{
+	display: block;
+	padding: 0 11.6px;/*lwch modify 2013-10-23*/
+	font-size: 14px;
+	color: #666;
+	font-family: "微软雅黑";
+}
+.top-nav  ul  li  a:hover, .top-nav  ul  li.active  a{
+	background: #ffffff;
+	color: #606;
+}
+.top-nav  ul ul.sub-nav li{float:none;height:30px;margin:0;}
+.top-nav  ul ul.sub-nav{
+	display: none;
+	position: absolute;
+	top: 35px;
+	left: 0;
+	z-index: 999;
+	width: 120px;
+	background: #fff;
+	box-shadow: 2px 2px 2px #333;
+	
+	_background: transparent;
+}
+.top-nav  ul ul.sub-nav  li  a{
+	display: block;
+	font-size: 14px;
+	color: #666;
+	font-family: "微软雅黑";
+}
+.top-nav  ul ul.sub-nav  li  a:hover{
+	background: #764180;
+	color: #fff;
+}
+/*搜索框*/
+.search-box{
+	float: left;
+	width: 480px;
+	height: 55px;
+	padding: 35px 0 0 170px;
+	position: relative;
+	z-index: 3;
+}
+
+.search-box .selected{
+	float: left;
+	width: 70px;
+	height: 35px;
+	background: #dadada;
+	font-size: 14px;
+	position:relative;
+}
+.search-box .selected-choose{
+	display: block;
+	width: 53px;
+	padding-left:10px;
+	line-height: 35px;
+	color: #666;
+	position:relative;
+}
+.search-box .arrow{
+	position:absolute;
+	right: 0px;
+	display: block;
+	top:14px;
+	width: 9px;
+	height: 6px;
+	background: url(../../images/main/arrow_b.png) no-repeat;
+}
+.select-list{
+	display: none;
+	position:absolute;
+	top:35px;
+	width:70px;
+	loft:0;
+	box-shadow: 2px 2px 2px #333;
+}
+.select-list li{
+	line-height: 26px;
+	height: 26px;
+	width:100%;
+	background: #fff;
+	border: 1px solid #d7cfd9;
+	border-top:none;
+	position:ralative;
+	*margin-bottom:none;
+}
+.select-list li a{
+	display: block;
+	padding: 0 10px;
+	color: #666666;
+}
+.select-list li a:hover{
+	background: #dadada;
+}
+.search-box .controls{
+	float: left;
+	width:407px;
+	height: 35px;
+}
+.search-box .controls .text{
+	float: left;
+	padding: 5px 10px;
+	width: 280px;
+	border:1px solid #dadada;
+	height: 23px;
+	line-height: 23px;
+	color: #999999;
+	font-size: 14px;
+}
+.search-box .controls .button{
+	border: 0;
+	float: left;
+	width: 105px;
+	height:35px;
+	line-height: 35px;
+	cursor: pointer;
+	background:#6B3077;
+	color:#fff;
+	font-size:16px;
+	font-family:microsoft yahei;
+}
+.w-rending{
+	float:right;width:145px;text-align:center;
+}
+.w-rending img{
+	margin-top:22px;	
+}
+/*
+ *分页样式
+ */
+.plist{
+	text-align:center;
+	height:24px;
+	padding:20px 0;
+	clear: both;
+}
+.plist a{
+	display:inline-block;
+	height:24px;
+	line-height:24px;
+	padding:0 10px;
+	background:#fff;
+	color:#666;
+	margin:0 3px;
+}
+.plist a.on{
+	background:#606;
+	color:#fff;
+}
+/*
+ *页脚
+ */
+.footer{
+	clear:both;
+	padding-top:36px;
+	height:242px;
+	background: #808080 url(../../images/main/footer_bg.jpg) top center;
+	border-top:1px solid #b4b4b4;
+	color: #fff;
+}
+.footer .m{
+	width: 960px;
+	height: 180px;
+	margin: 0 auto;
+}
+.footer-links{
+	float: left;
+}
+.footer-links dl{
+	float: left;
+}
+.footer-links dl.s1{
+	width: 136px;
+}
+.footer-links dl.s2{
+	width: 110px;
+}
+.footer-links dl a{
+	color: #fff;
+}
+.footer-links dl dt{
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: 12px;
+}
+.footer-links dl dd{
+	padding-bottom: 10px;
+}
+.footer-weixin{
+	float: left;
+	width: 112px;
+	height: 112px;
+}
+.footer-search{
+	float: right;
+	width: 272px;
+}
+.footer-search h3{
+	padding-top: 4px;
+	font-size: 14px;
+}
+.footer-search-group{
+	height: 28px;
+	padding-top: 12px;
+}
+.footer-search-group .input-x{
+	width: 172px;
+	height: 28px;
+	line-height: 28px;
+	padding: 0 10px;
+	border: 0;
+	float: left;
+	color: #7e7e7e;
+}
+.footer-search-group .sub{
+	width: 76px;
+	height: 28px;
+	border: 0;
+	background: #660066;
+	color: #fff;
+	cursor: pointer;
+}
+.footer .b{
+
+}
+.footer .b p{
+	text-align: center;
+	line-height: 24px;
+}
+/*
+ *通用弹窗
+ */
+.large-dialog-box{
+    margin: -215px 0 0 -225px;
+    height: 430px;
+}
+.small-dialog-box{
+    margin: -120px 0 0 -225px;
+    height: 240px;	
+}
+.dialog-box{
+	width: 450px;
+    background: #ededed;
+    box-shadow: 0 0 5px #333333;
+    color: #666666;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+	font-family:"\5FAE\8F6F\96C5\9ED1";
+	font-size:14px;
+}
+.dialog-box .d-title{
+	font-size:18px;
+	margin:12px 15px 0;
+	position: relative;
+	color: #010101;
+}
+.dialog-box .d-title .d-close{
+	position: absolute;
+	top:0;
+	right:0;
+	width: 16px;
+	height: 16px;
+	background: url(../../images/main/close_icon.png) no-repeat;
+}
+.dialog-box .d-content{
+	padding:15px;
+}
+.dialog-box .d-message{
+	line-height:1.5em;
+	color:#aeaeae;
+	padding:0 30px;
+}
+.dialog-box .d-table{
+	margin:24px 30px 0;
+}
+.dialog-box .d-msg{
+	color: #666;
+	font-size:12px;
+	padding-left:20px;
+	margin-top:5px;
+	background:url(../../images/main/sprites_register_icons.png) no-repeat;
+}
+.dialog-box .right{
+	display:inline;
+	background-position: 0 0;
+}
+.dialog-box .error{
+	background-position: 0 -26px;
+}
+.dialog-box .d-input{
+    border: 1px solid #CCCCCC;
+    color: #999999;
+    font-size: 18px;
+    height: 28px;
+    margin-right: 10px;
+    padding: 0 4px;
+    width: 196px;
+}
+.dialog-box .d-button{
+	border:none;
+	height:36px;
+	padding:0 58px 4px;
+	background:#606;
+	font-size:21px;
+	color:#fff;
+	cursor:pointer;
+	font-family: "\9ED1\4F53";
+}
+.dialog-box .d-button:hover{
+	background: #4e004e;
+}
+.dialog-box .d-cancel{
+	color:#666;
+	margin-left:20px;
+	font-size:12px;
+}
+.d-success{
+	width:290px;
+	margin: 40px auto 0;
+	padding-left:36px;
+	background:url(../../images/main/apply_ok.png) 0 6px no-repeat;
+}
+.d-success a{
+	color: #0379ff;
+}
+.dialog-overlay {
+	display:none;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+/*回到顶部*/
+#toTop {
+    background: url("../../images/main/back_to_top.jpg") no-repeat scroll 0 -45px transparent;
+    bottom: 10px;
+    cursor: pointer;
+    display: none;
+    width: 45px;
+    height: 45px;
+    position: fixed;
+    right: 10px;
+}
+#toTop:hover{
+	background-position: 0 0;
+}
+/************服务评价的星星图标************/
+.star .meta-star{
+	margin: 4px 0 0 0;
+	display: inline-block;
+	width: 102px;
+	height: 17px;
+	background: url(../../images/main/sprites_star.png) no-repeat;
+}
+.star .level-0{
+	background-position:0 0;
+}
+.star .level-1{
+	background-position:0 -30px;
+}
+.star .level-2{
+	background-position:0 -60px;
+}
+.star .level-3{
+	background-position:0 -90px;
+}
+.star.level-4{
+	background-position:0 -120px;
+}
+.star .level-5{
+	background-position:0 -150px;
+}
+/************end服务评价的星星图标************/
+

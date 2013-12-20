@@ -1,0 +1,398 @@
+@charset "utf-8";
+/*  
+*@Description: public reset css  
+*@Author: Roger Xia  
+*@Update: Roger Xia(2012-11-23 15:26)  
+*/
+
+/* 清除内外边距 */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */ dl, dt, dd, ul, ol, li, /* list elements 列表元素 */ pre, /* text formatting elements 文本格式元素 */ fieldset, lengend, button, input, textarea, /* form elements 表单元素 */ th, td { /* table elements 表格元素 */
+	margin: 0;
+	padding: 0;
+}
+/* 设置默认字体 */
+body, button, input, select, textarea { /* for ie */
+	/*font: 12px/1 Tahoma, Helvetica, Arial, "宋体", sans-serif;*/
+    font: 12px/1 Arial, "\5b8b\4f53", sans-serif; /* 用 ascii 字符表示，使得在任何编码下都无问题 */
+}
+p {
+	line-height:1.5em;
+}
+h1 {
+	font-size: 18px; /* 18px / 12px = 1.5 */
+}
+h2 {
+	font-size: 16px;
+}
+h3 {
+	font-size: 14px;
+}
+h4, h5, h6 {
+	font-size: 100%;
+}
+address, cite, dfn, em, var {
+	font-style: normal;
+} /* 将斜体扶正 */
+code, kbd, pre, samp, tt {
+	font-family: "Courier New", Courier, monospace;
+} /* 统一等宽字体 */
+small {
+	font-size: 12px;
+} /* 小于 12px 的中文很难阅读，让 small 正常化 */
+/* 重置列表元素 */
+ul, ol {
+	list-style: none;
+}
+/* 重置文本格式元素 */
+a {
+	text-decoration: none;
+}
+abbr[title], acronym[title] { /* 注：1.ie6 不支持 abbr; 2.这里用了属性选择符，ie6 下无效果 */
+	border-bottom: 1px dotted;
+	cursor: help;
+}
+q:before, q:after {
+	content: '';
+}
+/* 重置表单元素 */
+legend {
+	color: #000;
+} /* for ie6 */
+fieldset, img {
+	border: none;
+} /* img 搭车：让链接里的 img 无边框 */
+/* 注：optgroup 无法扶正 */
+button, input, select, textarea {
+	font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
+}
+/* 重置表格元素 */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* 重置 hr */
+hr {
+	border: none;
+	height: 1px;
+}
+/* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
+html {
+	overflow-y: scroll;
+}
+.hide{
+	display: none;
+}
+/*Login Form*/
+/* #d-content-login_dialog{
+	width:300px;
+	padding:20px 50px;
+} */
+.reg-data{
+	padding-left:20px;
+	padding-top:60px;
+	text-align:center;
+	line-height:20px;
+}
+.remeber{
+	padding-left:4px;
+}
+.aui_buttons{
+	background:#eee;
+}
+.FORGET_PASSWORD{
+	padding-left:10px;
+}
+.login-form .item{
+	padding:10px 0;
+}
+.input-append input, .input-prepend input, .input-append select, .input-prepend select, .input-append .uneditable-input, .input-prepend .uneditable-input {
+    margin-left:0;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 0;
+    position: relative;
+    vertical-align: top;
+}
+.input-prepend .add-on:first-child, .input-prepend .btn:first-child {
+    border-radius: 4px 0 0 4px;
+}
+.input-prepend .add-on, .input-prepend .btn {
+    margin-right: -5px;
+}
+.input-append .add-on, .input-prepend .add-on, .input-append .btn, .input-prepend .btn, .input-append .btn-group > .dropdown-toggle, .input-prepend .btn-group > .dropdown-toggle {
+    vertical-align: top;
+}
+.input-append .add-on, .input-prepend .add-on {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    height: 20px;
+    line-height: 20px;
+    min-width: 16px;
+    padding: 4px 5px;
+    text-align: center;
+    text-shadow: 0 1px 0 #FFFFFF;
+    width: auto;
+}
+/*
+ * breadcrumb
+ */
+.breadcrumb{
+    background-color: #F5F5F5;
+    border-radius: 4px 4px 4px 4px;
+    list-style: none outside none;
+    margin: 0 0 20px;
+    padding: 8px 15px;
+}
+.breadcrumb > li {
+    display: inline-block;
+    line-height: 20px;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+.breadcrumb > .active {
+    color: #999999;
+}
+
+.breadcrumb > li > .divider {
+    color: #CCCCCC;
+    padding: 0 5px;
+}
+
+.tab-content > .active, .pill-content > .active {
+    display: block;
+}
+.tab-content > .tab-pane, .pill-content > .pill-pane {
+    display: none;
+}
+button::-moz-focus-inner, input::-moz-focus-inner {
+    border: 0 none;
+    padding: 0;
+}
+.input-append input[class*="span"], .input-append .uneditable-input[class*="span"], .input-prepend input[class*="span"], .input-prepend .uneditable-input[class*="span"], .row-fluid input[class*="span"], .row-fluid select[class*="span"], .row-fluid textarea[class*="span"], .row-fluid .uneditable-input[class*="span"], .row-fluid .input-prepend [class*="span"], .row-fluid .input-append [class*="span"] {
+    display: inline-block;
+}
+input.span2, textarea.span2, .uneditable-input.span2 {
+    width: 156px;
+}
+.input-append input, .input-prepend input, .input-append select, .input-prepend select, .input-append .uneditable-input, .input-prepend .uneditable-input {
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 0;
+    position: relative;
+    vertical-align: top;
+}
+.input-append input, .input-prepend input, .input-append select, .input-prepend select, .input-append .uneditable-input, .input-prepend .uneditable-input, .input-append .dropdown-menu, .input-prepend .dropdown-menu, .input-append .popover, .input-prepend .popover {
+    font-size: 14px;
+}
+input.span2, textarea.span2, .uneditable-input.span2 {
+    width: 126px;
+}
+input[class*="span"], select[class*="span"], textarea[class*="span"], .uneditable-input[class*="span"], .row-fluid input[class*="span"], .row-fluid select[class*="span"], .row-fluid textarea[class*="span"], .row-fluid .uneditable-input[class*="span"] {
+    float: none;
+    margin-left: 0;
+}
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+}
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+    /* border-radius: 4px 4px 4px 4px; */
+    color: #555555;
+    display: inline-block;
+    font-size: 14px;
+    height: 20px;
+    line-height: 20px;
+    /* margin-bottom: 10px; */
+    padding: 4px 6px;
+    vertical-align: middle;
+}
+.span2 {
+    width: 170px;
+}
+[class*="span"] {
+    float: left;
+    margin-left: 30px;
+    min-height: 1px;
+}
+.span2 {
+    width: 140px;
+}
+[class*="span"] {
+    float: left;
+    margin-left: 20px;
+    min-height: 1px;
+}
+input, textarea, .uneditable-input {
+    margin-left: 0;
+}
+input, textarea, .uneditable-input {
+    margin-left: 0;
+}
+/* input, textarea, .uneditable-input {
+    width: 206px;
+} */
+input, button, select, textarea {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+label, input, button, select, textarea {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+}
+button, input {
+    line-height: normal;
+}
+button, input, select, textarea {
+    font-size: 100%;
+    margin: 0;
+    vertical-align: middle;
+}
+.control-group {
+    margin-bottom: 10px;
+}
+.input-append, .input-prepend {
+    display: inline-block;
+    font-size: 0;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.input-prepend .add-on:first-child, .input-prepend .btn:first-child {
+    border-radius: 4px 0 0 4px;
+}
+.input-prepend .add-on, .input-prepend .btn {
+    margin-right: -1px;
+}
+.input-append .add-on, .input-prepend .add-on, .input-append .btn, .input-prepend .btn, .input-append .btn-group > .dropdown-toggle, .input-prepend .btn-group > .dropdown-toggle {
+    border-radius: 0 0 0 0;
+    vertical-align: top;
+}
+.input-append .add-on, .input-prepend .add-on {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: normal;
+    height: 20px;
+    line-height: 20px;
+    min-width: 16px;
+    padding: 4px 5px;
+    text-align: center;
+    text-shadow: 0 1px 0 #FFFFFF;
+    width: auto;
+}
+.input-append, .input-prepend {
+    font-size: 0;
+    white-space: nowrap;
+}
+.help-inline {
+  display: inline-block;
+  padding-left: 5px;
+  vertical-align: middle;
+}
+#login-form p.s3 {
+    font-size: 12px;
+    height: 32px;
+    line-height: 32px;
+    padding-left: 80px;
+    text-indent: inherit;
+}
+#login-form p {
+    padding: 5px;
+}
+/*
+ * 娉ㄥ唽鐧婚檰Tabs
+ */
+ .my-nav-tabs{
+    border-left:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    height: 34px;
+ }
+ .my-nav-tabs:after{
+    clear: both;
+}
+.my-nav-tabs:before, .my-nav-tabs:after{
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.my-nav-tabs > li{
+	float:left;
+	height:33px;
+	line-height:33px;
+	margin-bottom: -1px;
+	width:105px;
+	text-align:center;
+	border-right:1px solid #ddd;
+	border-top:1px solid #ddd;
+	background:#f4f4f4;
+	cursor: pointer;
+}
+.my-nav-tabs > li.curr {
+    background:#FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
+    font-weight: bold;
+}
+.my-tab-content{
+    width:300px;
+}
+.my-tab-content > .tab-pane{
+	display:none;
+}
+.my-tab-content > .tab-pane:first-child{
+	display:block;
+}
+.upassid-info, .upassword-info, .authcode-info{
+	color:#f00;
+	/* padding: 4px 6px; */
+}
+/*apply-form*/
+.apply-data{
+	margin: 0 30px;
+	font-size: 14px;
+	color:#666;
+	line-height:1.2em;
+}
+.apply-data input[type="text"]{
+	width:196px;
+}
+.apply-message{
+    color: #AEAEAE;
+    line-height: 1.5em;
+    padding-bottom:20px;
+}
+.apply-data .s1{
+	line-height:30px;
+	text-align:right;
+	padding-right:10px;
+	width:100px;
+	vertical-align: top;
+}
+.apply-name-info, .apply-tel-info, .apply-email-info{
+	color: #666;
+	font-size:12px;
+	padding-left:20px;
+	margin-top:5px;
+	background:url(sprites_register_icons.png) 0 -26px no-repeat;
+}
+.dia-success{
+	width:290px;
+	margin: 10px auto 0;
+	padding-left:36px;
+	background:url(apply_ok.png) 0 6px no-repeat;
+	font-size: 14px;
+}
+.dia-success a{
+	color: #0379ff;
+}
+.dia-button{
+	border:none;
+	height:36px;
+	padding:0 58px 3px;
+	background:#606;
+	font-size:21px;
+	color:#fff;
+	cursor:pointer;
+	font-family: "\9ED1\4F53";
+}

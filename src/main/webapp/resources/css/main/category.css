@@ -1,0 +1,67 @@
+/*面包屑*/
+.crumb-nav{
+    margin-top: 12px;
+    height: 32px;
+    line-height: 32px;
+    color: #999;
+}
+.crumb-nav .current{
+    color: #666;
+}
+/*分类列表*/
+.category-title{
+    color: #666;
+    font-size: 16px;
+    font-family: "微软雅黑";
+    font-weight: normal;
+    padding: 12px 0 8px 0;
+}
+.category-container{
+    width: 100%;
+    position: relative;
+}
+.category-container ul{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 984px;
+}
+.category-container li{
+    float: left;
+    width: 216px;
+    border: 2px solid #fff;
+    background: #fff;
+    position: relative;
+    margin: 0 26px 26px 0;
+}
+.category-container li:hover{
+    border-color: #d6d6d6;
+}
+.category-container dl{
+    padding: 14px;
+    line-height: 2em;
+}
+.category-container dl dt a{
+    display: block;
+    padding: 0 6px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #666;
+}
+.category-container dl dt a:hover{
+    background: #f0f0f0;
+    color: #333;
+}
+.category-container dl dd a{
+    display: block;
+    padding: 0 6px;
+    height: 20px;
+    line-height: 20px;
+    color: #808080;
+}
+.category-container dl dd a:hover{
+    background: #f0f0f0;
+    color: #666;
+}

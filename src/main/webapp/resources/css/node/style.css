@@ -1,0 +1,295 @@
+@charset "utf-8";
+/*  
+*@Description: public reset css  
+*@Author: Roger Xia  
+*@Update: Roger Xia(2012-11-23 15:26)  
+*/
+
+/* 清除内外边距 */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */ dl, dt, dd, ul, ol, li, /* list elements 列表元素 */ pre, /* text formatting elements 文本格式元素 */ fieldset, lengend, button, input, textarea, /* form elements 表单元素 */ th, td { /* table elements 表格元素 */
+	margin: 0;
+	padding: 0;
+}
+/* 设置默认字体 */
+body, button, input, select, textarea { /* for ie */
+	/*font: 12px/1 Tahoma, Helvetica, Arial, "宋体", sans-serif;*/
+    font: 12px/1 Arial, "\5b8b\4f53", sans-serif; /* 用 ascii 字符表示，使得在任何编码下都无问题 */
+}
+body{
+	background:#f4f4f4;	
+}
+p {
+	line-height:1.5em;
+}
+h1 {
+	font-size: 18px; /* 18px / 12px = 1.5 */
+}
+h2 {
+	font-size: 16px;
+}
+h3 {
+	font-size: 14px;
+}
+h4, h5, h6 {
+	font-size: 100%;
+}
+address, cite, dfn, em, var {
+	font-style: normal;
+} /* 将斜体扶正 */
+code, kbd, pre, samp, tt {
+	font-family: "Courier New", Courier, monospace;
+} /* 统一等宽字体 */
+small {
+	font-size: 12px;
+} /* 小于 12px 的中文很难阅读，让 small 正常化 */
+/* 重置列表元素 */
+ul, ol {
+	list-style: none;
+}
+/* 重置文本格式元素 */
+a {
+	text-decoration: none;
+}
+a:focus {
+     outline:none;
+     -moz-outline:none;
+}
+abbr[title], acronym[title] { /* 注：1.ie6 不支持 abbr; 2.这里用了属性选择符，ie6 下无效果 */
+	border-bottom: 1px dotted;
+	cursor: help;
+}
+q:before, q:after {
+	content: '';
+}
+/* 重置表单元素 */
+legend {
+	color: #000;
+} /* for ie6 */
+fieldset, img {
+	border: none;
+} /* img 搭车：让链接里的 img 无边框 */
+/* 注：optgroup 无法扶正 */
+button, input, select, textarea {
+	font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
+}
+/* 重置表格元素 */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* 重置 hr */
+hr {
+	border: none;
+	height: 1px;
+}
+/* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
+html {
+	overflow-y: scroll;
+}
+.clearer{
+	clear:both;
+	width:100%;
+	height:0;
+}
+.undis {
+	display:none;
+}
+.wrap{
+	position:relative;
+	width:958px;
+	margin:0 auto;
+	height:auto;
+	padding-bottom:46px;
+}
+/*
+ *重用代码
+ */
+.header .top, .header .bottom{
+	margin:0 auto;
+	width:960px;	
+}
+/*
+ * 页眉框架
+ */
+/*
+ *页眉
+ */
+.header{
+	width:100%;
+	height:160px;
+	background: #fff;
+	box-shadow: 0 2px 2px #e2e2e2;
+	position: relative;
+	z-index:3;
+}
+.top-toolbar{
+	height: 28px;
+	line-height: 28px;
+	background: #eeeeee;
+	border-bottom: 1px solid #d6d6d6;
+}
+.top-toolbar-panel{
+	width: 960px;
+	margin: 0 auto;
+	text-align: right;
+	color: #666;
+}
+.top-toolbar-panel a{
+	color: #666;
+}
+.top-toolbar-panel .name{
+	color: #660066;
+	font-family: arial;
+}
+.top-container{
+	width: 960px;
+	height: 94px;
+	margin:0 auto;
+}
+.top-nav{
+	width: 100%;
+	height: 35px;
+	border-top: 1px solid #e2e2e2;
+	border-bottom: 1px solid #e2e2e2;
+	background: #f0f0f0;
+}
+.logo{
+	float:left;
+	padding-top: 30px;
+	width:160px;
+	height:45px;	
+}
+.logo h1{
+	background:url(../../images/main/logo.png) no-repeat;	
+}
+.logo h1 a{
+	display:block;
+	width:160px;
+	height:45px;
+}
+.top-nav ul{
+	width: 960px;
+	margin: 0 auto;
+}
+.top-nav ul li{
+	float: left;
+	line-height: 35px;
+}
+.top-nav ul li a{
+	display: block;
+	padding: 0 18px;
+	font-size: 14px;
+	color: #404040;
+	font-family: "微软雅黑";
+}
+.top-nav ul li a:hover, .top-nav ul li.active a{
+	background: #ffffff;
+	color:#606;
+}
+/*搜索框*/
+.search-box{
+	float: right;
+	width: 556px;
+	height: 35px;
+	padding: 38px 0 0 0;
+	position: relative;
+	z-index: 3;
+}
+.search-box .selected{
+	float: left;
+	width: 62px;
+	height: 35px;
+	background: #dadada;
+	font-size: 14px;
+}
+.search-box .selected-choose{
+	display: block;
+	width: 53px;
+	padding-left:10px;
+	line-height: 35px;
+	color: #666;
+}
+.search-box .arrow{
+	float: right;
+	padding-right: 10px;
+	display: block;
+	margin-top:14px;
+	width: 9px;
+	height: 6px;
+	background: url(../../images/main/arrow_b.png) no-repeat;
+}
+.select-list{
+	display: none;
+	box-shadow: 2px 2px 2px #333;
+}
+.select-list li{
+	line-height: 26px;
+	height: 26px;
+	background: #fff;
+	border: 1px solid #d7cfd9;
+	margin-top: -1px;
+}
+.select-list li a{
+	display: block;
+	padding: 0 10px;
+	color: #666666;
+}
+.select-list li a:hover{
+	background: #dadada;
+}
+.search-box .controls{
+	float: left;
+	width: 494px;
+	height: 35px;
+}
+.search-box .controls .text{
+	float: left;
+	padding: 0 10px;
+	width: 380px;
+	border:1px solid #dadada;
+	height: 33px;
+	line-height: 33px;
+	color: #999999;
+	font-size: 14px;
+}
+.search-box .controls .button{
+	border: 0;
+	float: left;
+	width: 92px;
+	height:35px;
+	line-height: 35px;
+	cursor: pointer;
+	background: url(../../images/main/search_btn.gif) no-repeat;
+}
+/*
+ *登陆注册
+ */
+.member-action {
+	float:right;
+	font-size:14px;
+	padding-top:10px;
+}
+.member-action a {
+	color:#333;
+	display:inline-block;
+	padding:0 10px;
+}
+/*
+ *页脚
+ */
+.footer{
+	clear:both;
+	padding-top:34px;
+	height:100px;
+	background:#fff;
+	border-top:1px solid #eaeaea;	
+}
+.footer p{
+	text-align:center;	
+}
+.footer p.s1{
+	color:#666;	
+}
+.footer p.s2{
+	color:#999;	
+}

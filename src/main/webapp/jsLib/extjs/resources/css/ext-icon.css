@@ -1,0 +1,157 @@
+.icon-windows{
+	background-image: url("../themes/icons/windows.png")!important;
+}
+.icon-password{
+	background-image: url("../themes/icons/changep.png")!important;
+}
+.icon-theme{
+	background-image: url("../themes/icons/theme.png")!important;
+}
+.icon-about{
+	background-image: url("../themes/icons/about.png")!important;
+}
+.icon-lock{
+	background-image: url("../themes/icons/lock.ico")!important;
+}
+.icon-default{
+	background-image: url("../themes/icons/defaults.png")!important;
+}
+.icon-gray{
+	background-image: url("../themes/icons/gray.png")!important;
+}
+.icon-night{
+	background-image: url("../themes/icons/night.png")!important;
+}
+}
+.icon-ie{
+	background-image: url("../themes/icons/ie.png")!important;
+}
+.icon-login{
+	background-image: url("../themes/icons/login.png")!important;
+}
+.icon-logout{
+	background-image: url("../themes/icons/logout.png")!important;
+}
+.icon-reset{
+	background-image: url("../themes/icons/reset.png")!important;
+}
+.icon-clear{
+	background-image: url("../themes/icons/clear.png")!important;
+}
+.icon-refresh-all {
+    background-image: url("../themes/icons/refresh.png") !important;
+}
+.icon-search {
+    background-image: url("../themes/icons/search.png") !important;
+}
+.icon-add {
+    background-image: url("../themes/icons/add.png") !important;
+}
+.icon-view {
+    background-image: url("../themes/icons/view.png") !important;
+}
+.icon-edit {
+    background-image: url("../themes/icons/edit.png") !important;
+}
+.icon-remove {
+    background-image: url("../themes/icons/remove.png") !important;
+}
+.icon-backup {
+    background-image: url("../themes/icons/backup.png") !important;
+}
+.icon-up {
+    background-image: url("../themes/icons/up.png") !important;
+}
+.icon-down {
+    background-image: url("../themes/icons/down.png") !important;
+}
+.icon-view {
+    background-image: url("../themes/icons/view.png") !important;
+}
+.icon-play {
+    background-image: url("../themes/icons/play.png") !important;
+}
+.icon-hold {
+    background-image: url("../themes/icons/stop.png") !important;
+}
+.icon-close {
+    background-image: url("../themes/icons/close.png") !important;
+}
+.icon-cancel {
+    background-image: url("../themes/icons/cancel.png") !important;
+}
+.icon-preview {
+    background-image: url("../themes/icons/preview.png") !important;
+}
+.icon-mail {
+    background-image: url("../themes/icons/mail.png") !important;
+}
+.icon-publish {
+    background-image: url("../themes/icons/publish.png") !important;
+}
+.icon-scan {
+    background-image: url("../themes/icons/scan.png") !important;
+}
+.icon-ok {
+    background-image: url("../themes/icons/ok.png") !important;
+}
+.icon-play {
+    background-image: url("../themes/icons/play.png") !important;
+}
+.icon-copy {
+    background-image: url("../themes/icons/copy.png") !important;
+}
+.icon-contact {
+    background-image: url("../themes/icons/contact.png") !important;
+}
+.icon-delete {
+    background-image: url("../themes/icons/delete.png") !important;
+}
+.icon-sync {
+    background-image: url("../themes/icons/sync.png") !important;
+}
+.icon-undo {
+    background-image: url("../themes/icons/undo.png") !important;
+}
+.icon-import {
+    background-image: url("../themes/icons/import.png") !important;
+}
+.icon-export {
+    background-image: url("../themes/icons/export.png") !important;
+}
+.icon-expand-all {
+    background-image: url("../themes/images/default/tree/expand-all.gif") !important;
+}
+.icon-collapse-all  {
+    background-image: url("../themes/images/default/tree/collapse-all.gif") !important;
+}
+.icon-group  {
+    background-image: url("../themes/icons/group.png") !important;
+}
+/* 向上的箭头 */
+.icon-ascending  {
+    background-image: url("../themes/icons/ascending.png") !important;
+}
+/* 向下的箭头 */
+.icon-descending  {
+    background-image: url("../themes/icons/descending.png") !important;
+}
+/** 仿 iOS 系统通知数字样式 **/
+span.num{
+	background-color: #f00;
+	background-image: -webkit-linear-gradient(top, #f00, #600); /* Chrome 10+, Saf5.1+, iOS 5+ */
+	background-image:    -moz-linear-gradient(top, #f00, #600); /* FF3.6+ */
+	background-image:     -ms-linear-gradient(top, #f00, #600); /* IE10 */
+	background-image:      -o-linear-gradient(top, #f00, #600); /* Opera 11.10+ */	
+	color:#fff;
+	font-family:Verdana;
+	font-weight:normal;
+	padding:2px 5px;
+	border:3px solid #fff;
+	border-radius:15px;
+	position:absolute;
+	margin-top:-20px;
+	margin-left:-10px;
+	box-shadow: 0 2px 3px 0px rgba(0,0,0,1);
+	text-shadow: -1px -1px 0 #000;
+}

@@ -1,0 +1,40 @@
+Ext.define('plat.model.mall.MallCategoryModel', {
+    extend: 'Ext.data.Model',
+    fields: [{
+        name: 'id',
+        type: 'int'
+    }, {
+        name: 'code',
+        type: 'string'
+    }, {
+        name: 'text',
+        type: 'string'
+    }, {
+        name: 'pid',
+        type: 'string'
+    }, {
+        name: 'description',
+        type: 'string'
+    }, {
+        name: 'leaf',
+        type: 'boolean'
+    }, {
+        name: 'clazz',
+        type: 'string'
+    }, {
+        name: 'picture',
+        type: 'string'
+    }, {
+        name: 'hide',
+        type: 'boolean'
+    }, {
+        name: 'sort',
+        type: 'int'
+    }, {
+        name: 'addTime',
+        type: 'string'
+    }, {
+        name: 'lastEditTime',
+        type: 'string'
+    }]
+});

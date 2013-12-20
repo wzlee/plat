@@ -1,0 +1,753 @@
+/*
+ *认证管理引导页
+ */
+ body{
+ 	color:#666666;
+ }
+.pt10{
+	padding-top:10px;
+}
+.pb10{
+	padding-bottom:10px;
+	color:#666666;
+}
+.auth-guide-content{
+	margin: 50px auto;
+	padding: 30px 0;
+	width: 660px;
+	height: 120px;
+	background: #cfe7de;
+	color: #666;
+	text-align: center;
+}
+.auth-guide-content p{
+	line-height: 2.2em;
+}
+.auth-guide-content .auth-links{
+	height: 32px;
+	padding-top: 36px;
+}
+.auth-guide-content .auth-links a{
+	width: 132px;
+	height: 32px;
+	line-height: 32px;
+	display: inline-block;
+	box-shadow: 2px 2px 2px #ccc;
+    -webkit-box-shadow:2px 2px 2px #ccc;
+    -moz-box-shadow:2px 2px 2px #ccc;
+    margin: 0 4px;
+}
+.auth-guide-content .auth-links a.real-name{
+	border: 1px solid #660066;
+	background: #751a75;
+	color: #fff;
+}
+.auth-guide-content .auth-links a.real-name:hover{
+	background: #934e93;
+}
+.auth-guide-content .auth-links a.real-service{
+	border: 1px solid #d0d0d0;
+	background: #eeeeee;
+	color: #751a75;
+}
+.auth-guide-content .auth-links a.real-service:hover{
+	background: #ffffff;
+}
+/*
+ *认证管理列表页
+ */
+.auth-list-content{
+	padding: 18px 0;
+	color: #666;
+}
+.auth-grid{
+	border-collapse: collapse;
+	empty-cells : show;
+}
+.auth-grid th{
+	border: #dddddd solid 1px;
+	font-weight: normal;
+	background: #f1f1f1;
+	line-height: 30px;
+}
+.auth-grid td{
+	text-align: center;
+	border: #dddddd solid 1px;
+	padding: 3px;
+	height: 24px;
+}
+.auth-grid td span.notice{
+	color: #d14608;
+}
+/*
+ *认证表单
+ */
+.main-column{
+	min-height:540px;
+}
+.service-description{
+	width: 400px;
+    line-height:1.5em;
+	padding: 6px 0 12px;
+	height:auto;
+	word-wrap: break-word; 
+	word-break: normal;
+	font-size:16px;
+}
+.auth-form-content {
+	padding-top:40px;
+}
+.auth-form-content .col-bar{
+	height:30px;
+	background:#E0E0E0;
+	margin:10px 0;
+	font-weight:600;
+}
+.auth-form-content .col-bar .title{
+	float:left;
+	line-height:30px;
+	color:#888;
+	padding-left:12px;
+	font-size:14px;
+}
+.auth-form-content .col-bar .action{
+	float:right;
+}
+.auth-form-content .col-bar .action li{
+	float:left;
+	line-height:30px;
+}
+.auth-form-content .col-bar .action li a{
+	color:#888;
+}
+.auth-form-content .col-bar .action li.s1{
+	padding:0 10px;
+}
+.auth-form-content .col-bar .action li.s1.active{
+	display:none !important;
+}
+.auth-form-content .col-bar .action li.s2{
+	border-left:1px solid #fff;
+	cursor:pointer;
+	width:30px;
+	height:30px;
+}
+.auth-form-content .col-bar .action li.s2 a{
+	display:block;
+	width:30px;
+	height:30px;
+	background:url(../../images/ucenter/sprites_switch.gif) no-repeat;
+}
+.auth-form-content .col-bar .action li.s2 a.up{
+	background-position: 0 0;
+}
+.auth-form-content .col-bar .action li.s2 a.down{
+	background-position: 0 -30px;
+}
+.auth-form-content .info-form{
+	display:none;
+}
+.auth-form-content .control-group{
+	margin-bottom: 12px;
+	color:#666;
+}
+.auth-form-content .controls #sendmessage{
+	padding-left:95px;margin-top:15px;
+}
+.ta-c{text-align:center;}
+.auth-form-content .control-group .control-label{
+	float: left;
+	padding-top: 12px;
+	width: 150px;	/*modify liwu 2013-11-12*/
+	text-align: right;
+	font-size: 14px;
+	color: #999;
+}
+.btn-save{
+	background: none repeat scroll 0 0 #660066;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    text-align:center;
+    padding:8px 0;
+    width:100px;
+    display:inline-block;
+    font-size:14px;
+}
+.auth-form-content .control-group .control-label.secur{
+	width:300px;
+}
+.auth-form-content .controls{
+	margin-left: 160px;	/*modify liwu 2013-11-12*/
+}
+.show-info{
+	min-height:120px;
+}
+.auth-form-content .controls .picture{
+	padding:10px 0;
+}
+.auth-form-content .controls .selecter{
+	width:300px;
+}
+.auth-form-content .controls #cc-sel .selecter{
+	width:200px;
+}
+#cc-sel{
+	padding:0 !important;height:auto !important;
+}
+.auth-form-content .controls .upload-msg{
+	padding:10px 0 0;
+	color:#f00;
+}
+.auth-form-content .controls .checkbox-group, .auth-form-content .controls .result-text{
+	height:auto;
+	padding:12px 0;
+	color:#666;
+	line-height:16px;
+	font-size:14px;
+}
+.auth-form-content .controls .combo-arrow{
+	background:url(../../images/fs-selecter-arrow.png) no-repeat left 18px; 
+}
+.auth-form-content .controls.cl-data .combo-arrow{
+	background:url(../../images/fs-selecter-arrow.png) no-repeat left 5px; 
+}
+.auth-form-content .controls .combo .validatebox-text{
+	padding:0 2px;
+}
+.auth-form-content .controls .result-text2{
+	padding:10px 0 10px 0;
+	line-height:20px;
+	font-size:14px;
+}
+.auth-form-content .controls .result-text2 span{
+	margin-right: 10px;
+	display:inline-block;
+	font-size:14px;
+}
+.cl-data .validatebox-text{
+	height:38px !important;
+}
+.checkbox-group{
+	width:auto;
+}
+.separate-mini{
+	padding:0 4px;
+	font-size:12px;
+}
+.separate-guide{
+	color:#333;
+	padding-bottom:10px;
+	margin-bottom:20px;
+	border-bottom:1px solid #ccc;
+}
+.auth-form-content .controls .input-large{
+	color: #999;
+	font-size: 14px;
+	width: 280px;
+	padding: 0 10px;
+	height: 40px;
+	line-height:40px\9;
+	border:1px solid #cccccc;
+}
+.auth-form-content .controls .textarea-large{
+	color: #999;
+	font-size: 18px;
+	width: 280px;
+	padding: 10px;
+	height: 80px;
+	border:1px solid #cccccc;
+}
+.service-type{
+	width: 102px;
+	height: 32px;
+	background: #eeeeee;
+	border:1px solid #d0d0d0;
+	color: #660066;
+	cursor: pointer;
+}
+.service-type-my{
+	width: 102px;
+	height: 32px;
+	background: #eeeeee;
+	border:1px solid #d0d0d0;
+	color: #660066;
+	cursor: pointer;
+}
+.apply-submit{
+	width: 190px;
+	height: 40px;
+	border: 0;
+	background: #751a75;
+	color: #fff;
+	cursor: pointer;
+	font-size: 16px;
+}
+.file{
+	border: 1px solid #CCCCCC;
+	width:280px;
+	padding:8px 10px;
+	color:#999;
+}
+.controls .error, .controls .right{
+	font-size:12px;
+	height:20px;
+	display:inline-block;
+	padding-left:20px;
+	color:#666;
+	background:url(../../images/main/sprites_register_icons.png) no-repeat;
+	vertical-align:middle;
+}
+.controls .error{
+	background-position: 0 -26px;
+}
+.controls .right{
+	background-position: 0 0;	
+}
+.submit{
+	padding: 0 20px;
+	height: 40px;
+	border: 0;
+	background: #751a75;
+	color: #fff;
+	cursor: pointer;
+	font-size: 16px;
+}
+/*认证成功与否弹窗*/
+.auth-status-alert{
+	position:absolute;
+	top:50%;
+	left: 50%;
+	width:450px;
+	height:260px;
+	margin:-130px 0 0 -225px;
+	color:#666;
+	background:#fff;
+	box-shadow:0px 0px 5px #333;
+}
+.alert-icon, .auth-status-alert .close{
+	float:left;
+	width:50px;
+	height:50px;
+	background:url(../../images/ucenter/sprites_common.png) no-repeat;
+}
+.auth-status-alert .close{
+	position:absolute;
+	top:10px;
+	right:10px;
+	width:24px;
+	height:24px;
+	background-position:-200px 0;
+}
+.auth-status-content{
+	padding:80px 0 0 90px;
+}
+.auth-status-content .success{
+	background-position:0 6px;
+}
+.auth-status-content .error{
+	background-position:-100px 0;
+}
+.msg-box{
+	margin-left:80px;padding-top:10px;
+}
+.msg-box h2{
+	font-size:24px;
+	font-weight:normal;
+	font-family:"微软雅黑";
+}
+.msg-box .s1{
+	font-size:14px;
+	padding-top:16px;
+}
+.back-bar{
+	padding-top:60px;
+	text-align:center;
+}
+.back-bar a{
+	display:inline-block;
+	font-size:14px;
+	color:#fff;
+	padding:0 36px;
+	line-height:38px;
+	background:#606;
+}
+.auth-status-alert h2.title{
+	position:absolute;
+	left:10px;top:18px;
+	font-size:18px;
+}
+.modify_pwd{margin-bottom:10px;}
+.modify_pwd span{display:inline-block;width:80px;}
+.modify_pwd input{
+	height:40px; border: 1px solid #CCCCCC;
+    color: #999999;
+    font-size: 14px;
+    height: 38px;
+    padding: 0 10px;
+    width: 150px;
+}
+.bottom-bar{
+	padding-right:20px;
+	position:absolute;
+	bottom:20px;
+	right:0;
+	left:0;
+	text-align:right;
+}
+.bottom-bar a{
+	display:inline-block;line-height:40px;width:100px;text-align:center;
+}
+.bottom-bar a.submit.cancel{
+	background:#7d7d7d;
+	}
+/*
+ *弹出窗口
+ */
+.overlay{
+	position:fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+    background:rgba(0,0,0,0.7);
+    background:#000 7;/*CSS Hack,只能对ie9以下浏览器ie6,ie7,ie8有效，否侧ie10,FF,Cherome会失去透明效果*/
+	display : none;
+	z-index:9999;
+}
+.service-layout{
+	position: absolute;
+	top:50%;
+	left: 50%;
+	width: 820px;
+	height: 560px;
+	margin: -281px 0 0 -411px;
+	overflow-y: scroll;
+	background: #fff;
+	box-shadow: 0px 0px 2px #000;
+	border: 1px solid #a1a1a1;
+}
+.service-head{
+	height: 33px;
+	background: #ececec;
+	line-height: 33px;
+	border-bottom: 1px solid #ececec;
+	padding: 0 0 0 12px;
+	color: #666;
+	position: relative;
+}
+.service-head .close{
+	position: absolute;
+	top: 4px;
+	right: 5px;
+	display: block;
+	width: 23px;
+	height: 23px;
+	line-height: 23px;
+	text-align: center;
+	border: 1px solid #cbcbcb;
+	color: #c1c1c1;
+}
+.service-head .tip{
+	padding-left: 24px;
+}
+.service-head .tip i{
+	font-style: normal;
+	color: #f00;
+}
+.selected-items, .service-row{
+	padding:10px;
+	color: #666;
+	overflow: hidden;
+}
+.selected-items{
+	background: #751a75;
+	color: #eee;
+}
+.row-even{
+	background: #f1f1f1;
+}
+.selected-name, .service-name{
+	float: left;
+	width: 140px;
+	font-weight: bold;
+	padding: 10px 0;
+}
+.selected-list, .service-list{
+	float: left;
+	width: 640px;
+}
+.selected-list li, .service-list li{
+	float: left;
+	display: block;
+	width: 160px;
+	height: 12px;
+	padding:6px 0;
+	cursor: pointer;
+}
+.selected-list input, .service-list li input{
+	float: left;
+	margin-right: 6px;
+}
+/**
+*订单详情样式	xuwf  2013-9-27
+*/
+
+#orderInfo{
+	width:720px;
+	font-size:16px;
+	color: #666;
+	text-align:center;
+	padding-top:10px;
+}
+#orderInfo tr td{
+	color:#666;
+	padding-top:10px;
+}
+
+/*
+ *覆盖easyui默认样式
+ */
+.tabs-header, .tabs-scroller-left, .tabs-scroller-right, .tabs-tool, .tabs, .tabs-panels, .tabs li a.tabs-inner, .tabs li.tabs-selected a.tabs-inner, .tabs-header-bottom .tabs li.tabs-selected a.tabs-inner, .tabs-header-left .tabs li.tabs-selected a.tabs-inner, .tabs-header-right .tabs li.tabs-selected a.tabs-inner{
+	border-color: #ddd;
+}
+
+.tabs-header, .tabs-tool {
+    background-color: #f8f8f8;
+}
+
+.tabs li.tabs-selected a.tabs-inner{
+	color: #666;
+	background:#ccc;
+	font-weight:normal;
+}
+
+.tabs li a.tabs-inner {
+ 	color: #999;
+ 	border-radius:0px;
+	cursor:pointer;
+}
+.tabs li a.tabs-inner:hover{
+	background:#ccc;
+}
+.panel-header, .panel-body{
+	border-color:#ccc;
+}
+table.datagrid-htable th{
+	 background: #F1F1F1;
+    border: 1px solid #DDDDDD;
+    font-weight: normal;
+    line-height: 30px;
+}
+.datagrid-header td, .datagrid-body td, .datagrid-footer td {
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    margin: 0;
+    padding: 0;
+    height:30px;
+}
+ul.tabs{
+	padding-left:0;
+}
+.tabs-header, .tabs-tool{
+	border:0;background-color:transparent;
+}
+.easyui-combotree{
+	padding:0 10px;
+	width:280px;
+}
+.combo .combo-text{
+	padding: 0 10px;
+}
+.controls .combo{
+	border-color:#ccc;
+	height:40px !important;
+}
+.controls .combo .combo-text{
+	/*modify liwu 2013-11-12*/
+	font-size:14px;
+	color:#999;
+}
+.cl-data .datebox .combo-arrow{
+	margin-top:12px;
+}
+/*
+ *我的服务领域弹出窗口
+ */
+.service-layout-my{
+	position: absolute;
+	top:50%;
+	left: 50%;
+	width: 820px;
+	height: 560px;
+	margin: -281px 0 0 -411px;
+	overflow-y: scroll;
+	background: #fff;
+	box-shadow: 0px 0px 2px #000;
+	border: 1px solid #a1a1a1;
+}
+.service-head-my{
+	height: 33px;
+	background: #ececec;
+	line-height: 33px;
+	border-bottom: 1px solid #ececec;
+	padding: 0 0 0 12px;
+	color: #666;
+	position: relative;
+}
+.service-head-my .close{
+	position: absolute;
+	top: 4px;
+	right: 5px;
+	display: block;
+	width: 23px;
+	height: 23px;
+	line-height: 23px;
+	text-align: center;
+	border: 1px solid #cbcbcb;
+	color: #c1c1c1;
+}
+.service-head-my .tip{
+	padding-left: 24px;
+}
+.service-head-my .tip i{
+	font-style: normal;
+	color: #f00;
+}
+.selected-items-my, .service-row-my{
+	padding:10px;
+	color: #666;
+	overflow: hidden;
+}
+.selected-items-my{
+	background: #751a75;
+	color: #eee;
+}
+.row-even-my{
+	background: #f1f1f1;
+}
+.selected-name-my, .service-name-my{
+	float: left;
+	width: 140px;
+	font-weight: bold;
+	padding: 10px 0;
+}
+.selected-list-my, .service-list-my{
+	float: left;
+	width: 640px;
+}
+.selected-list-my li, .service-list-my li{
+	float: left;
+	display: block;
+	width: 160px;
+	height: 12px;
+	padding:6px 0;
+	cursor: pointer;
+}
+.selected-list-my input, .service-list-my li input{
+	float: left;
+	margin-right: 6px;
+}
+/*招标相关*/
+.zb-description{
+	position: relative;
+}
+.zb-description-all{
+	position: absolute;
+	top:-7px;
+	left:56px;
+	width: 200px;
+	min-height: 41px;
+	padding: 10px;
+	background: #eee;
+	z-index: 9999;
+	display: none;
+	border: 1px solid #ccc;
+	text-align: left !important;
+	word-wrap: break-word;
+	word-break: break-all;
+	white-space: normal;
+	overflow: hidden;
+}
+/*文件上传*/
+.upload-box .plupload-file b.del{
+	display:inline-block;width:16px;height:16px;
+	background:url(../../images/ucenter/delete.gif) no-repeat;
+	cursor:pointer;text-indent:-9999px;vertical-align:top;
+}
+.auth-form-content .upload-box .control-label{
+	padding-top:2px;
+	vertical-align:middle;
+}
+.upload-box{
+	margin-top:5px;
+}
+
+/*
+ * 账号管理
+ */
+.account-safe{
+	padding:20px 0;
+}
+.account-safe li{
+	float:left;width:45%;line-height:30px;
+}
+.account-safe li.s1{
+	border-right:1px dotted #ccc;
+	margin-right:4%;
+}
+.account-safe li .link-img{line-height:22px;}
+.account-safe li .link-img img{
+	vertical-align:middle;margin:-3px 5px 0 0
+}
+.account-safe li .link-img a{color:#606;}
+.account-safe li .link-img a:hover{text-decoration:underline;}
+
+/****UEditor与表单提示******/
+#procedure #myEditor{
+	float:left;
+}
+#procedure .info{
+	margin-top: 170px;
+	margin-left: 5px;
+}
+/*邮箱验证*/
+.mail-infomation{
+	margin:100px 0 0 0;border-top:1px solid #ddd;padding:20px;
+}
+.mail-infomation h3{
+	line-height:30px;color:#555;
+}
+.mail-infomation ul{
+	padding-left:40px;
+}
+.mail-infomation li{
+	list-style:square;line-height:25px;color:#666;
+}
+/**/
+.datagrid-body .datagrid-btable a{
+	color:#606 !important;
+}
+.datagrid-body .datagrid-btable a:hover{
+	text-decoration:underline;
+}
+.datagrid-body .datagrid-btable{
+	color:#666666 !important;
+}
+.datagrid-body .datagrid-btable span{
+	color:#D14608 !important;
+} 
+.service-fangsi .validatebox-text{
+	width:275px !important;
+}
+/**/
+#address-city select{
+	height: 28px;
+    line-height: 28px;
+    padding: 6px 2px;
+    width: 113px;
+}
+#address-city .input-large{
+	height:26px;
+}

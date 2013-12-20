@@ -1,0 +1,731 @@
+@charset "utf-8";
+.register-wrap{
+	width:960px;
+	margin:0 auto;	
+	background:#fff;
+	padding-bottom: 84px;
+}
+/*
+ *注册页面头部
+ */
+.register-header{
+	height:86px;
+	border-bottom:1px solid #e5e5e5;	
+}
+.register-logo {
+    float: left;
+    height: 45px;
+    width: 160px;
+	padding:30px 0 0 70px;
+}
+.register-logo h1{
+	background:url(../../images/main/logo.png) no-repeat;
+}
+.register-logo h1 a{
+	display:block;
+	width:160px;
+	height:45px;
+}
+.register-title{
+	float:left;
+	padding:44px 0 0 30px;
+	font-size:30px;
+	font-family:"微软雅黑";
+	color:#565656;
+}
+.register-link{
+	float:right;
+	padding:64px 82px 0 0;
+	color:#565656;
+}
+.type-tab{
+	margin:20px auto 0;
+	width: 810px;
+	height: 30px;
+	border-bottom: 1px solid #606;
+}
+.type-tab li{
+	float: left;
+	height: 30px;
+	overflow: hidden;
+}
+.type-tab li{
+	margin-right: 10px;
+}
+.type-tab li a{
+	display:block;
+	padding:0 20px;
+	height:30px;
+	line-height: 30px;
+	background:#f7f7f7;
+	color: #333;
+}
+.type-tab li.active a, .type-tab li a:hover{
+	background: #606;
+	color: #fff;
+}
+/*
+ *注册页面表单
+ */
+.selecter{
+	float: left;
+}
+.selecter-options .selecter-item:first-child {
+    display: none;
+}
+.register-content{
+	padding:60px 0 0 75px;
+	min-height:400px;
+}
+.control-group{
+	min-height: 48px;
+	clear:both;
+	margin-bottom:22px;
+}
+.control-group-mini{
+	min-height: 28px;
+	clear:both;
+	margin-bottom:22px;
+	color:#666;	
+}
+.control-group .control-label{
+	float:left;
+	width:120px;
+	padding-top: 5px;
+	font-size:14px;
+	color:#666666;
+	height:42px;
+	line-height:42px;
+}
+.control-group-mini .control-label{
+	float:left;
+	width:120px;
+	font-size:14px;
+	color:#666666;
+	height:22px;
+	line-height:22px;
+}
+.control-group .controls{
+	float: left;
+}
+.control-group-mini .controls{
+	float: left;
+	min-height:36px;
+}
+.control-group .error, .control-group .right{
+	font-size:12px;
+	height:20px;
+	display:inline-block;
+	padding-left:20px;
+	color:#666;
+	margin:10px 0 0 10px;
+	background: url(../../images/main/sprites_register_icons.png) no-repeat;
+}
+.control-group-mini .error, .control-group-mini .right{
+	font-size:12px;
+	height:16px;
+	display:inline-block;
+	padding-left:20px;
+	color:#666;
+	margin:0 0 0 10px;
+	background: url(../../images/main/sprites_register_icons.png) no-repeat;
+}
+.controls .error{
+	background-position: 0 -26px;
+}
+.controls .right{
+	background-position: 0 0;	
+}
+.controls .checkbox-error{
+	padding:0 10px;
+	color:#ff5400;
+}
+.controls a{
+	text-decoration: underline;
+}
+.connect-to{
+	float: left;
+	height: 42px;
+	line-height: 42px;
+	padding: 0 5px;
+}
+.control-group .controls .xxlarge, .control-group .controls .xlarge, .control-group .controls .large{
+	float: left;
+	display: block;
+	color:#666;
+	border:1px solid #bdbdbd;
+	height:40px;
+	line-height:40px;
+	padding:0 10px;
+	width:358px;
+	font-size:20px;	
+}
+.control-group .controls .xxlarge{
+	width:338px;
+}
+.control-group .controls .xlarge{
+	width:222px;
+}
+.control-group .controls .large{
+	width: 52px;
+}
+.control-group .controls input.files-large{
+	font-size:14px;cursor:pointer;
+}
+.control-group .custom-select{
+	width: 380px;
+	display:none;
+}
+.control-group .alert-message{
+	float: left;
+}
+.control-group .controls.gray{
+	color:#999;line-height:1.8;
+}
+.control-group.normal{
+	line-height:25px;
+	min-height:30px;
+	margin-bottom:10px;
+	
+}
+.control-group.normal .control-label{
+	height:30px;line-height:30px;padding-top:0;
+}
+.upload-file{
+	float: left;
+}
+.input-append .btn{
+	float: left;
+	display: block;
+	width: 70px;
+	height: 30px;
+	line-height: 30px;
+	background: #7d7d7d;
+	color: #fff;
+	text-align: center;
+	margin-top: 6px;
+	margin-left: 10px;
+	cursor: pointer;
+}
+.get-check-code{
+	float: left;
+	height: 20px;
+	margin-top: 10px;
+	width: 104px;
+	height: 24px;
+}
+.get-check-code a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	line-height: 24px;
+	text-align: center;
+	background: #7d7d7d;
+	color: #fff;
+}
+.passwordStrength{
+	clear: both;
+	margin-left: 120px;
+}
+.passwordStrength span{
+	display: inline-block;
+	width: 117px;
+	height: 10px;
+	background: #ccc;
+	margin-right: 4px;
+}
+.passwordStrength span.c1{
+	background: #d98e8e;
+}
+.passwordStrength span.c2{
+	background: #e4d487;
+}
+.passwordStrength span.c3{
+	background: #82d49d;
+}
+.resend{
+	float: left;
+	margin-top: 16px;
+}
+.register-btn{
+	border: 0;
+	width: 270px;
+	height: 40px;
+	background: #660066;
+	color: #fff;
+	font-size: 20px;
+	font-family: '微软雅黑';
+	cursor:pointer;
+}
+/*用户名提示*/
+.controls.name-controls{
+	position:relative;
+}
+.controls.name-controls .alert-guide{
+	position:absolute;
+	left:385px;
+	border:1px solid #333;
+	background:#fff;display:none;
+	width:200px;height:58px;
+	top:-10px;
+}
+ .alert-guide .panel-alert{
+ 	position:relative;
+ 	width:190px;height:48px;
+ 	padding:5px;
+ 	line-height:1.2;
+ 	
+ }
+ .alert-guide .panel-alert:before{
+	border:7px solid #E4E4E4;position:absolute;
+	border-radius:5px;
+	content:"";
+	display:block;
+	width:202px;
+	height:60px;;
+	top:-8px;left:-8px;
+}
+ .alert-guide .panel-alert:after{
+	position:absolute;
+	content:"";
+	display:block;
+	width:0px;
+	height:0px;;
+	top:15px;left:-28px;
+	border:10px solid #e4e4e4;
+	border-color:transparent #e4e4e4 transparent transparent
+}
+/*
+ *注册第二个步骤
+ */
+.success-panel{
+	color: #666;
+	font-family: "微软雅黑";
+	height: 101px;
+	margin-left: 54px;
+	margin-bottom: 60px;
+	padding-left: 126px;
+	background: url(../../images/main/ok_icon.png) no-repeat;
+}
+.success-panel h2{
+	font-size: 30px;
+}
+.success-panel h2 .name{
+	font-size: 36px;
+	color: #feaf04;
+	padding-right: 10px;
+	vertical-align: bottom;
+}
+.success-panel p{
+	padding-top: 20px;
+	font-size: 16px;
+}
+.second-form{
+	color: #666;
+}
+.second-form h6.notice{
+	font-size: 12px;
+	font-weight: normal;
+}
+.form-column .title{
+	font-size: 20px;
+	padding-top: 34px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e4e4e4;
+	margin-bottom: 24px;
+}
+.submit-form, .dont-submit{
+	font-size: 20px;
+	width: 180px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: #fff;
+}
+.submit-form{
+	border: 0;
+	cursor: pointer;
+	background: #660066;
+}
+.dont-submit{
+	display: inline-block;
+	vertical-align: bottom;
+	background: #7d7d7d;
+}
+.control-group .notice{
+	float: left;
+	color: #666;
+	margin-left: 10px;
+	margin-top: 6px;
+	width: 116px;
+	height: 32px;
+	line-height: 32px;
+	text-align: center;
+	background: #fff4c2;
+}
+.control-group .intro{
+	clear: both;
+	margin-left: 120px;
+}
+.control-group .intro .link{
+	color: #660066;
+	text-decoration: underline;
+}
+/*
+ *用户登陆
+ */
+.login-wrap{
+	width:960px;
+	margin:0 auto;	
+	background:#fff;
+	padding-bottom: 24px;
+}
+.login-content{
+	min-height: 450px;
+	background: url(../../images/main/login_bg.jpg) 20px 40px no-repeat;
+}
+.login-panel{
+	float: right;
+	margin-top: 40px;
+	margin-right: 80px;
+	width: 280px;
+	height: 310px;
+	background: #e9e9e9;
+}
+.login-form{
+	padding: 14px 0 0 32px;
+}
+.login-form .error{
+	font-weight: normal;
+	color: #ff5400;
+	height: 20px;
+	line-height: 16px;
+	padding-left: 24px;
+	margin-bottom: 4px;
+	background: url(../../images/main/sprites_register_icons.png) 0 -26px no-repeat;
+}
+.login-form .control-row{
+	min-height: 48px;
+	margin-bottom:16px;	
+}
+.login-form .control-row label.title{
+	line-height: 20px;
+	color: #666;
+}
+.control-row .input-large{
+	border: 1px solid #ccc;
+	width: 200px;
+	height: 26px;
+	line-height: 26px;
+	padding:0 10px;
+	color: #666;
+}
+.control-row .input-small{
+	border: 1px solid #ccc;
+	width: 86px;
+	height: 26px;
+	line-height: 26px;
+	padding:0 10px;
+	color: #666;
+}
+.control-row img.checkcode{
+	margin-left: 10px;
+	width: 100px;
+	height: 26px;
+	border:1px solid #ccc;
+	vertical-align: bottom;
+}
+.control-login .login-button{
+	border: 0;
+	width: 222px;
+	height: 35px;
+	background: #660066;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+}
+.control-link p{
+	font-size: 12px;
+	color: #666;
+	padding-top: 8px;
+}
+.forgot-password{
+	float: right;
+	margin-right: 20px;
+	color: #666;
+}
+/*
+ *注册成功
+ */
+.register-success{
+	margin: 84px auto;
+	width: 664px;
+	height: 238px;
+	background: url(../../images/main/reg_success.jpg) no-repeat;
+}
+.register-success.org{
+	background: url(../../images/approval.png) no-repeat 0px 5px;
+}
+.success-content{
+	padding-left: 150px;
+}
+.register-success.org p{
+	font-size:16px;font-weight:600;color:#434343;
+	font-family:microsoft yahei;
+}
+.register-success.org .success-content{
+	padding:0 50px;
+}
+.register-success.org .next-do{
+	text-align:center;margin-top:50px;
+}
+.register-success.org .next-do a{
+	background:#660066;padding:8px 20px;color:#fff;
+}
+.register-success.org .next-do a:hover{
+	background:#6F056F
+}
+.register-success.org img{
+	vertical-align:middle;
+}
+.success-content h2{
+	font-size: 30px;
+	color: #666;
+}
+.success-content .username{
+	color: #feaf04;
+	font-size: 36px;
+	font-family: arial;
+	padding-right: 10px;
+}
+.success-content .tip{
+	padding:10px 0 24px;
+	font-size: 16px;
+	color: #666;
+	font-family: "微软雅黑";
+}
+.suggest-panel .text{
+	color: #660066;
+	line-height: 22px;
+}
+.suggest-panel .links{
+	height: 24px;
+	padding-top:22px;
+}
+.suggest-panel .links .cer-v, .suggest-panel .links .email-v{
+	display: inline-block;
+	width: 100px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	color: #fff;
+}
+.suggest-panel .links .cer-v{
+	background: #660066;
+}
+.suggest-panel .links .email-v{
+	margin-left: 10px;
+	background: #808080;
+}
+.next-do{
+	color: #565656;
+	padding-top: 48px;
+}
+.next-do a{
+	color: #660066;
+}
+/*
+ *页脚
+ */
+.user-footer{
+	clear: both;
+	border-top: 1px solid #e4e4e4;
+	padding-top: 20px;
+}
+.user-footer p{
+	text-align: center;
+}
+.user-footer p.s1 {
+    color: #666666;
+}
+.user-footer p.s2 {
+    color: #999999;
+}
+/*
+* xie:9-27 注册成功
+*/
+.reg-success{
+	height:155px;
+}
+.reg-success-content{
+	margin:75px 0 0 275px;
+	background: url(../../images/main/cup.png) no-repeat left top;
+	padding-left: 60px;
+	height: 70px;
+}
+.reg-success-content h2{
+	font-size: 16px;
+	color:#666;
+	line-height: 30px;
+}
+.reg-success-content h2 span.username{
+	color:#FEAF04;
+	font-family: arial;
+	padding-right: 10px;
+}
+.reg-success-content p.tip{
+	font-size: 14px;
+	font-family: 'microsoft yahei';
+	line-height: 30px;
+	color:#666;
+}
+.reg-success p.text{
+	text-align: center;
+	margin-top: 40px;
+	color:#666;
+}
+.attest-panel{
+	background: #CFE7DE;
+	height: 180px;
+	padding:60px 110px 80px 155px ;
+	color:#666666;
+}
+.attest-personalpanel{
+	height: 180px;
+	padding:60px 110px 80px 155px ;
+	color:#666666;
+}
+.attest-panel .photo{
+	width:145px;
+	height:180px;
+	float: left;
+	margin-right: 40px;
+}
+.attest-panel .photo img{
+	width:145px;
+	height:180px;
+}
+.attest-right{
+	margin-left: 186px;
+}
+.attest-panel strong.attest-name{
+	color:#660066;
+	display: block;
+	font-size: 24px;
+	font-family: 'microsoft yahei';
+	font-weight: normal;
+}
+.attest-panel .attest-info{
+	margin: 20px 0 25px 0;
+	font-size: 14px;
+	line-height: 24px;
+	color:#404040;
+	font-family: 'microsoft yahei';
+}
+.attest-panel .attest-now{
+	display: inline-block;
+	height: 33px;
+	line-height:33px;
+	width:138px;
+	text-align: center;
+	font-size: 14px;
+	background: #660066;
+	color:#fff;
+}
+.attest-panel .attest-now:hover{
+	background: #6F056F;
+}
+.attest-panel .next-work{
+	margin-top: 20px;
+}
+.attest-panel .next-work a,.attest-panel a.links{
+	color:#660066;
+}
+.attest-panel .next-work a:hover,.attest-panel a.links:hover{
+	text-decoration: underline;
+}
+/*注册*/
+.table-reg{
+	border-collapse: collapse;
+    width:800px;
+    
+}
+.table-reg td{
+    position:relative;
+    color: #000000;
+    height: 40px;
+    padding-left: 8px;
+    color:#666;
+    font-size:12px;
+}
+table.table-reg td em{
+	color:#f00;float:right;
+}
+.table-reg td.one{
+	width:80px;
+}
+.table-reg td.two{
+	width:300px;
+}
+.table-reg td.three{
+	width:80px;text-align:right;
+}
+.table-reg td input{
+	position:relative;
+	box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	-moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	width:150px;
+}
+
+.table-reg td input.large{
+	width:300px;
+}
+.table-reg td input.short{
+	width:300px;
+}
+.table-reg td.no-border{border:none;}
+.table-reg input{
+	height:20px;line-height:20px;
+	padding:3px;
+	border:1px solid #ddd;
+}
+.table-reg td input.combo-text:focus{
+	border:none;
+}
+.table-reg td .combo{
+	width:155px !important;
+	padding-top:2px;
+	padding-bottom:2px;
+	border:1px solid #DDDDDD;
+}
+.table-reg textarea#profile{
+	width:550px;height:100px;
+}
+.table-reg input:focus{
+	border:1px solid #ddd;
+}
+#register3 .register-btn{
+	margin:20px 0 30px 200px;
+	display:block;
+}
+.table-reg td .selecter{
+	width:310px;
+}
+.table-reg .selecter .selecter-selected{
+	  padding: 8px 10px !important;
+}
+.table-reg.table-reg td .info{
+	
+    color: #666666;
+    display: inline-block;
+    font-size: 12px;
+    height: 20px;
+    margin: 10px 0 0 5px;
+    padding-left:20px;
+}
+.table-reg td .info.right{
+	background: url("../../images/main/sprites_register_icons.png") no-repeat 0 0;
+}
+.table-reg td .info.error{
+	background: url("../../images/main/sprites_register_icons.png") no-repeat 0 -26px;
+}

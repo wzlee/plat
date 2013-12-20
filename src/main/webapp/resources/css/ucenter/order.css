@@ -1,0 +1,174 @@
+/**
+*订单管理css xuwf 2013-9-7
+*/
+div{
+	color:#666666;
+}
+#serach_form{
+		width:750px;
+		height:70px;
+	}
+	#serach_form div{
+		margin-top:5px;
+	}
+	.c_serviceName{
+		float:left;
+		width:240px;
+	}
+	.c_orderNo{
+		float:left;
+		width:240px;
+	}
+	.c_orderStatus{
+		float:left;
+		width:240px;
+	}
+	.c_orderTime{
+		float:left;
+		width:240px;
+	}
+	.c_endTime{
+		float:left;
+		width:240px;
+	}
+	.c_submit{
+		float:left;
+		width:215px;
+	}
+	.c_appeal_serch{
+		margin:10px 0px 0px 75px;
+		padding-top:10px;
+	}
+	#win #confirm{
+		width:320px;
+		height:300px;
+		text-algin:center;
+		align:center;
+		margin-top:10px;
+		margin-left:32px;
+	}
+	#win table{
+		width:320px;
+		height:280px;
+		text-align:center;	
+		line-height:25px;	
+	}
+	#win table th{
+		text-align:right;
+	}
+	#win #confirm content{
+		width:250px;
+		height:20px;
+		line-height:25px;
+	}
+	#confirm .t_price{
+		height:20px;
+		width:160px;
+		border:1px solid green;
+		margin:5px;
+	}
+	#confirm .t_buyerRemark{
+		height:60px;
+		width:250px;
+		margin:3px 0px;
+	}
+	#confirm .t_remark{
+		width:250px;
+		height:160px;
+		margin:3px 0px;
+	}
+	
+	#close{
+		width:320px;
+		height:300px;
+		text-algin:center;
+		align:center;
+		margin-top:10px;
+		margin-left:32px;
+	}
+	#dealEndWin table{
+		width:320px;
+		height:280px;
+		text-align:center;	
+		line-height:25px;	
+	}
+	#dealEndWin table th{
+		text-align:right;
+	}
+	#close content{
+		width:250px;
+		height:20px;
+		line-height:25px;
+	}
+	#close .t_remark{
+		width:250px;
+		height:160px;
+		margin:3px 0px;
+	}
+	
+	
+	#appealWin #appeal{
+		width:340px;
+		height:300px;
+		text-algin:center;
+		align:center;
+		margin:10px 0px 0px 32px;
+	}
+	#appealWin table{
+		width:340px;
+		height:280px;
+		text-align:center;	
+		line-height:25px;	
+	}
+	#appealWin table th{
+		text-align:right;
+	}
+	#appealWin #appeal content{
+		width:250px;
+		line-height:20px;
+	}
+	
+	#appeal .t_remark{
+		width:250px;
+		height:160px;
+		margin:3px 0px;
+	}
+	
+	#appealWin #order{
+		width:340px;
+		height:250px;
+		text-algin:center;
+		align:center;
+		margin:10px 0px 0px 32px;
+	}
+	#orderDetailWin #order .orderDetail{
+		width:340px;
+		height:220px;
+		text-align:center;	
+		line-height:25px;	
+	}
+	
+	#orderDetailWin #order .orderDetail th{
+		text-align:right;
+		width:110px;
+	}
+	#orderDetailWin #order .orderDetail content{
+		width:250px;
+		line-height:20px;
+	}
+
+	#orderDetailWin .orderInfo{
+		width:340px;
+		height:150px;
+		text-align:center;	
+		line-height:25px;
+	}
+	.c_leng{
+	width:350px;
+	}
+	.c_leng2{
+	width:120px;
+	}
+	.c_leng2 input{
+	margin-top:0 !important;cursor:pointer;
+	}

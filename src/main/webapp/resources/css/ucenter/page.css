@@ -1,0 +1,96 @@
+.crumb-nav{
+	margin-top: 12px;
+	height: 32px;
+	line-height: 32px;
+	color: #999;
+}
+.crumb-nav .current{
+	color: #666;
+}
+.banner{
+	width: 100%;
+	height: 288px;
+	overflow: hidden;
+	margin: 0 0 20px 0;
+}
+.main-container{
+	padding-bottom: 20px;
+}
+.sidebar{
+	float: left;
+	width: 190px;
+	border: 1px solid #dbdbdb;
+	background: #fff;
+}
+.sidebar li{
+	height: 30px;
+	line-height: 30px;
+	border-bottom: 1px dashed #cdcdcd;
+	color: #666;
+}
+.sidebar li:last-child{
+	border-bottom: none;
+}
+.sidebar li a{
+	display: block;
+	color: #666;
+	padding: 0 10px;
+}
+.sidebar li a:hover, .sidebar li.current a{
+	background: #dbdbdb;
+}
+.main-column{
+	margin-left: 228px;
+}
+.summary{
+	color: #666;
+	font-family: "微软雅黑";
+	font-weight: normal;
+	font-size: 16px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #dbdbdb;
+}
+.article{
+	color: #666;
+}
+.article p{
+	margin: 1em 0;
+	line-height: 2em;
+	text-indent: 2em;
+	font-size: 14px;
+}
+/*
+ *联系我们
+ */
+.company-name{
+	padding:20px 0;
+	font-size: 14px;
+}
+.grid{
+	width: 100%;
+}
+.grid td{
+	padding: 15px 0;
+	border-top: 1px dashed #cdcdcd;
+	border-bottom: 1px dashed #cdcdcd;
+}
+.company-name{
+}
+/*
+ *平台目标
+ */
+.target p{
+	margin:2px;
+	text-indent: 0em;
+}
+.target h3{
+	padding-bottom:6px;
+}
+.target ol{
+	margin-left:2em;
+}
+.target ol li{
+	list-style:decimal;
+	font-size:14px;
+	line-height: 2em;
+}

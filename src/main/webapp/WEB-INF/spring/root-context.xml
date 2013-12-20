@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+ 		http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd
+ 		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+ 		default-autowire="byName" default-lazy-init="true">
+	
+	<beans:bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+        <beans:property name="maxUploadSize">
+        	<beans:value>55242880
+        	</beans:value>
+       	</beans:property>
+    </beans:bean>
+    
+	<beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="locations">
+			<beans:list>
+				<beans:value>classpath:config.properties</beans:value>
+				<beans:value>classpath:sync-config.properties</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<beans:bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${jdbc.url}" />
+	    <beans:property name="username" value="${jdbc.username}" />
+	    <beans:property name="password" value="${jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="60000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+	
+	<!-- 完整sql拦截器   陈胜添加 -->
+	<beans:bean id="dataSourceSpied" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<beans:constructor-arg ref="dataSource" />
+	</beans:bean>
+<!-- 	<beans:bean id="dao" class="com.eaglec.plat.utils.Dao">
+		<beans:property name="dataSourceSpied" ref="dataSourceSpied" />
+	</beans:bean> -->
+	
+	<beans:bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource" />
+		
+		<beans:property name="hibernateProperties">
+			<beans:props>
+				<beans:prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</beans:prop>
+				<beans:prop key="hibernate.show_sql">false</beans:prop>
+				<beans:prop key="hibernate.format_sql">false</beans:prop>
+				<beans:prop key="hibernate.hbm2ddl.auto">update</beans:prop>
+				<beans:prop key="javax.persistence.validation.mode">none</beans:prop>
+				<beans:prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</beans:prop>  
+                <beans:prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.ehcache_config_file}</beans:prop>  
+                <beans:prop key="hibernate.cache.use_query_cache">false</beans:prop>  
+                <beans:prop key="hibernate.cache.use_second_level_cache">true</beans:prop>
+			</beans:props>
+		</beans:property>
+		
+		<beans:property name="packagesToScan">
+			<beans:list>
+				<beans:value>com.eaglec.plat.domain</beans:value>
+			</beans:list> 
+		</beans:property>
+	</beans:bean>
+		
+	<!-- hibernate事务管理 -->
+    <beans:bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <beans:property name="sessionFactory" ref="sessionFactory" />  
+    </beans:bean>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="merge*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="put*" propagation="REQUIRED" />
+			<tx:method name="use*" propagation="REQUIRED" />
+			<tx:method name="ucenter*" propagation="REQUIRED" />
+			<!--hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到 -->
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="count*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="list*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="search*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- <tx:advice id="controllerAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="registerStep2" propagation="NESTED" rollback-for="Exception" />
+			<tx:method name="approve" propagation="NESTED" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice> -->
+	<aop:config expose-proxy="true" proxy-target-class="true">
+		<!-- 只对业务逻辑层实施事务 -->
+		<aop:pointcut expression="execution(* com.eaglec.plat.biz..*Impl.*(..))" id="txPointcut" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+	</aop:config> 
+	<!-- <aop:config expose-proxy="true" proxy-target-class="true">
+		注册添加事务
+		<aop:pointcut expression="execution(* com.eaglec.plat.controller..*.*(..))" id="controllerPointcut"/>
+		<aop:advisor advice-ref="controllerAdvice" pointcut-ref="controllerPointcut" />
+	</aop:config>  -->
+	
+	<!-- <beans:bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
+		<beans:property name="driverClassName" value="${jdbc.driverClassName}" />
+		<beans:property name="url" value="${jdbc.url}" />
+		<beans:property name="username" value="${jdbc.username}" />
+		<beans:property name="password" value="${jdbc.password}" />
+	</beans:bean> -->
+	
+	
+	<!-- <ehcache:annotation-driven cache-manager="ehCacheManager" />
+	
+	<beans:bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">    
+       <beans:property name="configLocation" value="classpath:ehcache.xml" />    
+   	</beans:bean> -->
+   	
+   	<beans:import resource="sync-context.xml"/>
+</beans:beans>

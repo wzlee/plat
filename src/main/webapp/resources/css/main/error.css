@@ -1,0 +1,60 @@
+body{
+	background: #c3ddf3;
+}
+.error-404, .error-500{
+	width: 100%;
+	min-height: 635px;
+}
+.error-404-title{
+	width: 404px;
+	height: 230px;
+	padding-top:92px;
+	background: url(../../images/main/404.png) 0 92px no-repeat;
+	margin: 0 auto;
+}
+.error-404-message{
+	font-size: 18px;
+	font-family: "微软雅黑";
+	margin: 60px auto 0;
+	color: #666;
+	width: 376px;
+	height: 30px;
+	line-height: 28px;
+	padding-left: 40px;
+	background: url(../../images/main/sprites_error.png) 0 0 no-repeat;
+}
+.error-404-message a, .error-500-message a{
+	color: #660066;
+	text-decoration: underline ;
+}
+.error-500-title{
+	padding-top: 110px;
+	width: 328px;
+	height: 196px;
+	margin: 0 auto;
+	background: url(../../images/main/500.png) 0 110px no-repeat;
+}
+.error-500-message{
+	font-size: 18px;
+	font-family: "微软雅黑";
+	margin: 42px auto 0;
+	color: #666;
+	width: 434px;
+	height: 36px;
+	line-height: 36px;
+	padding-left: 46px;
+	background: url(../../images/main/sprites_error.png) 0 -40px no-repeat;
+}
+.error-coming{
+	margin:100px auto 0;
+}
+.error-coming h2{
+	text-align:center;font-size:80px;
+	color:#ccc;color:#666;font-family: 'Monotype Corsiva', 'Comic Sans MS', cursive;
+}
+.error-coming-message{
+	text-align:center;
+	font-size:25px;
+	margin:50px auto;
+	color:#E08117;
+}

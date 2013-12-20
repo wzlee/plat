@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:oauth="http://www.springframework.org/schema/security/oauth2" 
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/data/mongo
+        http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+        http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+ 		http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd
+ 		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/security/oauth2 
+		http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-3.1.xsd"
+ 		default-autowire="byName" default-lazy-init="true">
+
+	<!-- **************服装******************** -->
+	<beans:bean id="fzSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${fz.jdbc.url}" />
+	    <beans:property name="username" value="${fz.jdbc.username}" />
+	    <beans:property name="password" value="${fz.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+	
+	<beans:bean id="fzDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="fzSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************工业设计******************** -->
+	<beans:bean id="gysjSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${gysj.jdbc.url}" />
+	    <beans:property name="username" value="${gysj.jdbc.username}" />
+	    <beans:property name="password" value="${gysj.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="gysjDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="gysjSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************电子装备******************** -->
+	<beans:bean id="dzzbSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${dzzb.jdbc.url}" />
+	    <beans:property name="username" value="${dzzb.jdbc.username}" />
+	    <beans:property name="password" value="${dzzb.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="dzzbDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="dzzbSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************港澳资源******************** -->
+	<beans:bean id="gazySource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${gazy.jdbc.url}" />
+	    <beans:property name="username" value="${gazy.jdbc.username}" />
+	    <beans:property name="password" value="${gazy.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="gazyDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="gazySource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************家具******************** -->
+	<beans:bean id="jjSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${jj.jdbc.url}" />
+	    <beans:property name="username" value="${jj.jdbc.username}" />
+	    <beans:property name="password" value="${jj.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="jjDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="jjSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************机械******************** -->
+	<beans:bean id="jxSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${jx.jdbc.url}" />
+	    <beans:property name="username" value="${jx.jdbc.username}" />
+	    <beans:property name="password" value="${jx.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="jxDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="jxSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************LED******************** -->
+	<beans:bean id="ledSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${led.jdbc.url}" />
+	    <beans:property name="username" value="${led.jdbc.username}" />
+	    <beans:property name="password" value="${led.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="ledDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="ledSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************软件******************** -->
+	<beans:bean id="rjSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${rj.jdbc.url}" />
+	    <beans:property name="username" value="${rj.jdbc.username}" />
+	    <beans:property name="password" value="${rj.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="rjDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="rjSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************物流******************** -->
+	<beans:bean id="wlSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${wl.jdbc.url}" />
+	    <beans:property name="username" value="${wl.jdbc.username}" />
+	    <beans:property name="password" value="${wl.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="wlDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="wlSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************物联网******************** -->
+	<beans:bean id="wlwSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${wlw.jdbc.url}" />
+	    <beans:property name="username" value="${wlw.jdbc.username}" />
+	    <beans:property name="password" value="${wlw.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="wlwDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="wlwSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************新材料******************** -->
+	<beans:bean id="xclSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${xcl.jdbc.url}" />
+	    <beans:property name="username" value="${xcl.jdbc.username}" />
+	    <beans:property name="password" value="${xcl.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="xclDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="xclSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************钟表******************** -->
+	<beans:bean id="zbSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${zb.jdbc.url}" />
+	    <beans:property name="username" value="${zb.jdbc.username}" />
+	    <beans:property name="password" value="${zb.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="zbDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="zbSource"></beans:property>
+	</beans:bean>
+	
+	<!-- **************珠宝******************** -->
+	<beans:bean id="zbaoSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+	    <!-- 基本属性 url、user、password -->
+	    <beans:property name="url" value="${zbao.jdbc.url}" />
+	    <beans:property name="username" value="${zbao.jdbc.username}" />
+	    <beans:property name="password" value="${zbao.jdbc.password}" />
+	      
+	    <!-- 配置初始化大小、最小、最大 -->
+	    <beans:property name="initialSize" value="1" />
+	    <beans:property name="minIdle" value="1" />
+	    <beans:property name="maxActive" value="20" />
+	 
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <beans:property name="maxWait" value="10000" />
+	 
+	    <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <beans:property name="timeBetweenEvictionRunsMillis" value="60000" />
+	 
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <beans:property name="minEvictableIdleTimeMillis" value="300000" />
+	  
+	    <beans:property name="validationQuery" value="SELECT 'x'" />
+	    <beans:property name="testWhileIdle" value="true" />
+	    <beans:property name="testOnBorrow" value="false" />
+	    <beans:property name="testOnReturn" value="false" />
+	 
+	    <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	    <beans:property name="poolPreparedStatements" value="true" />
+	    <beans:property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+	 
+	    <!-- 配置监控统计拦截的filters -->
+	    <beans:property name="filters" value="stat" />
+	</beans:bean>
+   	
+   	<beans:bean id="zbaoDao" class="com.eaglec.plat.sync.WindowDao">
+		<beans:property name="dataSourceSpied" ref="zbaoSource"></beans:property>
+	</beans:bean>
+	
+</beans:beans>
