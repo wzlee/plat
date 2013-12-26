@@ -215,7 +215,7 @@
 		                   	<div class="controls">
 						        <button class="submit" onclick="appealSubmit();" type="button">提交申诉</button>
 					               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					            <button class="submit" type="button" onclick="window.location.href='ucenter/seller_order?op=11'">返回</button>
+					            <button class="submit" type="button" onclick="window.location.href='/ucenter/seller_order?op=11'">返回</button>
 				           	
 		                   	</div>
             			</div>

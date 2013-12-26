@@ -10,7 +10,7 @@ Ext.define('plat.controller.wx.AutoMessageController', {
     	selector: 'automessagegrid'
     }, {
     	ref: 'automessagewindow',
-    	selector: 'automessagewindow'
+    	selector: 'automessagewindow[name=automessage]'
     }, {
     	ref: 'automessageform',
     	selector: 'automessageform'
@@ -42,7 +42,7 @@ Ext.define('plat.controller.wx.AutoMessageController', {
             	}
 			},
 			
-			"automessagewindow" : {
+			"automessagewindow[name=automessage]" : {
 				afterrender : function (window, opts) {
             		var mask = new Ext.LoadMask(window.getEl(), {msg:"请求中,请稍等..."});
             		var options = {
@@ -98,10 +98,11 @@ Ext.define('plat.controller.wx.AutoMessageController', {
 	 * 添加响应消息
 	 * */
 	addAutoMessage : function() {
-		var automessageWindows = Ext.ComponentQuery.query('automessagewindow')[0];
+		var automessageWindows = Ext.ComponentQuery.query('automessagewindow[name=automessage]')[0];
     	if (!automessageWindows) {
     		automessageWindows = Ext.widget('automessagewindow',{
-    			title:'添加响应消息'
+    			title:'添加响应消息',
+    			name : 'automessage'
     		}).show();
     	} else {
     		automessageWindows.setTitle('添加响应消息');
@@ -115,9 +116,11 @@ Ext.define('plat.controller.wx.AutoMessageController', {
 	 * 响应信息
 	 * */
 	showAutoMessageWin : function() {
+		var _window = Ext.ComponentQuery.query('automessagewindow[name=automessage]')[0];
 		var _window = this.getAutomessagewindow();
 		if(!_window) {
 			_window = Ext.widget('automessagewindow',{
+				name : 'automessage',
     			title:'响应消息'
     		});
 		} 
@@ -128,9 +131,12 @@ Ext.define('plat.controller.wx.AutoMessageController', {
 	 * 修改
 	 * */
 	modifyMessage : function() {
-		var _win = this.getAutomessagewindow();
+		var _win = Ext.ComponentQuery.query('automessagewindow[name=automessage]')[0];
 		if(!_win) {
-			_win = Ext.widget('automessagewindow');
+			_win = Ext.widget('automessagewindow',{
+				name : 'automessage',
+    			title:'响应消息'
+    		});
 		}
 		_win.show();
 		var records = this.getAutomessagegrid().getSelectionModel().getSelection();

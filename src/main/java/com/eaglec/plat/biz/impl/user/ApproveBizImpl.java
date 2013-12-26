@@ -105,6 +105,14 @@ public class ApproveBizImpl implements ApproveBiz {
 	}
 
 	@Override
+	public List<OrgRegisterApproval> findOrgApprListByOrgName(Integer enterpriseId){
+		String hql = "from OrgRegisterApproval o where o.enterprise.id = :enterpriseId";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("enterpriseId", enterpriseId);
+		return orgRegisterApprovalDao.findList(hql, params);
+	}
+	
+	@Override
 	public boolean addApply(ApprovedDetail approvedDetail) {
 		// TODO Auto-generated method stub
 		// STEP 1 查询是否有该用户未处理的申请
@@ -211,6 +219,9 @@ public class ApproveBizImpl implements ApproveBiz {
 			enterprise.setOrgWebsite(orgRegisterApproval.getOrgWebsite());	//公司网址
 			
 			enterpriseDao.save(enterprise);
+			
+			orgRegisterApproval.setEnterprise(enterprise);//xuwf 20131219通过的服务机构注册审核关联企业
+			
 			user.setEnterprise(enterprise);
 			userDao.save(user);
 			
@@ -224,7 +235,7 @@ public class ApproveBizImpl implements ApproveBiz {
 			userDao.executeSql(tsgroupsql);
 			return user;
 		}
-		orgRegisterApprovalDao.saveOrUpdate(orgRegisterApproval);
+		orgRegisterApprovalDao.update(orgRegisterApproval);
 		return null;
 	}
 

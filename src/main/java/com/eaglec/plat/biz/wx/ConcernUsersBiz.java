@@ -23,9 +23,23 @@ public interface ConcernUsersBiz {
 	/**
 	 * @date: 2013-12-17
 	 * @author：lwch
+	 * @description：根据id获取微信帐号和平台帐号绑定的信息
+	 */
+	public ConcernUsers getWeixinBoundInfoById(Integer id);
+	
+	/**
+	 * @date: 2013-12-17
+	 * @author：lwch
 	 * @description：根据微信帐号加密后的ID或者是平台帐号，获取绑定
 	 */
-	public ConcernUsers getWeixinBoundInfo(String openid, String username);
+	public List<ConcernUsers> getWeixinBoundInfoByWPuser(String username, Integer status, String starttime, String endtime);
+	
+	/**
+	 * @date: 2013-12-23
+	 * @author：lwch
+	 * @description：根据平台帐号，获取该用户的变更记录
+	 */
+	public List<ConcernUsers> getBoundUserList(String username);
 	
 	/**
 	 * @date: 2013-12-16

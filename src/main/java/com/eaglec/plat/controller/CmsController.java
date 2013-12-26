@@ -191,7 +191,8 @@ public class CmsController extends BaseController {
 	@RequestMapping(value = "/deleteModule")
 	public void deleteModule(Module module, HttpServletRequest request, HttpServletResponse response){
 		try {
-			moduleBiz.delete(module);
+//			moduleBiz.delete(module);
+			moduleBiz.deleteModule(module);
 			logger.info("删除模块成功！");
 			this.outJson(response, new JSONResult(true, "删除模块成功！"));
 		} catch (Exception e) {

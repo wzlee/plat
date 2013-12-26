@@ -13,7 +13,7 @@ import javax.persistence.Table;
  * @description：从微信端关注了平台的用户
  */
 @Entity
-@Table(name = "concern_users")
+@Table(name = "wx_bound_users")
 public class ConcernUsers implements Serializable{
 	
 	private static final long serialVersionUID = 3655157235142772839L;
@@ -44,11 +44,9 @@ public class ConcernUsers implements Serializable{
 	
 	private String wx_user_city;		//微信用户所在的城市
 	
-	private String wx_scan_token;	//微信用户扫描二维码后生成的token号
-	
 	private String subscribe_time;	//微信用户扫描二维码时间
 	
-	private Boolean concern_status;	//微信用户关注的状态
+	private Integer concern_status;	//微信用户关注的状态（0：已关注，1：已绑定，2：已解绑，3：取消关注）
 
 	public Integer getId() {
 		return id;
@@ -82,19 +80,11 @@ public class ConcernUsers implements Serializable{
 		this.wxUserToken = wxUserToken;
 	}
 
-	public String getWx_scan_token() {
-		return wx_scan_token;
-	}
-
-	public void setWx_scan_token(String wx_scan_token) {
-		this.wx_scan_token = wx_scan_token;
-	}
-
-	public Boolean getConcern_status() {
+	public Integer getConcern_status() {
 		return concern_status;
 	}
 
-	public void setConcern_status(Boolean concern_status) {
+	public void setConcern_status(Integer concern_status) {
 		this.concern_status = concern_status;
 	}
 
@@ -180,8 +170,7 @@ public class ConcernUsers implements Serializable{
 				+ ", wx_user_language=" + wx_user_language
 				+ ", wx_user_country=" + wx_user_country
 				+ ", wx_user_province=" + wx_user_province + ", wx_user_city="
-				+ wx_user_city + ", wx_scan_token=" + wx_scan_token
-				+ ", subscribe_time=" + subscribe_time + ", concern_status="
-				+ concern_status + "]";
+				+ wx_user_city + ", subscribe_time=" + subscribe_time
+				+ ", concern_status=" + concern_status + "]";
 	}
 }

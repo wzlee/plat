@@ -50,8 +50,8 @@
                     <td>${fn:substring(appr.approveTime, 0, 10)}</td>
                     <td>${appr.approvedContext }</td>
                     <td>
-                    	<p><a href="ucenter/auth_form?op=2"></a></p>
-                    	<p><a href="ucenter/auth_form2?op=2"></a></p>
+                    	<p><a href="ucenter/auth_form?op=2" style="color:#800080;"></a></p>
+                    	<p><a href="ucenter/auth_form2?op=2" style="color:#800080;"></a></p>
                     </td>
                   </tr>
                 </c:forEach>

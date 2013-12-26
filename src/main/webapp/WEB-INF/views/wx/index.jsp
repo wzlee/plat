@@ -2,18 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%
-	String path = request.getContextPath();
-	String basePath = "";
- 	basePath =request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
- 	basePath ="http://wx.smemall.net/";
-	
+	//request.getSession().getServletContext().setAttribute("basePath", "http://192.168.0.73/");
+ 	request.getSession().getServletContext().setAttribute("basePath", "http://wx.smemall.net/");
 %>
 <!DOCTYPE>
 <html>
 <head>
 <meta charset="UTF-8">
-<base href="<%=basePath%>">
-<title>深圳中小企业服务平台-手机版</title>
+<base href="${basePath}">
+<title>深圳中小企业服务平台</title>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -21,8 +18,7 @@
 </head>
 <body>
 <div id="header">
-	<h1>深圳中小企业服务平台</h1>
-	<a href="wx/index" class="home-icon"></a>
+	<img src="resources/images/wx-logo.png" alt="">
 </div>
 <!-- 头部 -->
 <div class="container">
@@ -74,14 +70,14 @@
 			</li>
 		</ul>
 		<div class="title">
-			<h3>&raquo;热门推荐<span class="sub-span">(推荐的消息)</span></h3>
+			<h3>&raquo;热门推荐<span class="sub-span"></span></h3>
 		</div>
 		<div class="push-news">
 			<c:forEach items="${articleList }" var="articleItem">
 				<div class="clearfix">
 				<a href="wx/index" class="thumb"><img src="upload/${articleItem.picUrl }" alt=""></a>
 				<div class="bfc">
-					<h3><a href="">${articleItem.title }</a></h3>
+					<h3><a href="javascript:void(0);">${articleItem.title }</a></h3>
 					<p>${articleItem.description }</p>
 					<span class="pubdata">${articleItem.pubdate }</span>
 				</div>
@@ -120,6 +116,14 @@
 		</div>
 	</div>
 </div>
-<jsp:include page="footer.jsp" flush="true" />
+	<div id="footer">
+		<div class="copyright">
+Copyright &copy;2013
+		</div>
+	</div>
+	<a href="#header" id="gotop">返回顶部</a>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="jsLib/jquery/jquery-1.7.1.min.js"><\/script>')</script>	
+  <script type="text/javascript" src="resources/js/web-docs.js"></script>
 </body>
 </html>

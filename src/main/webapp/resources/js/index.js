@@ -1,13 +1,16 @@
 $(function(){
 	$('.check-code').click();
 	/*新闻滚动*/
-	$(".scroll-panel").jCarouselLite({
-		vertical: true,
-		hoverPause:true,
-		visible: 1,
-		auto:5000,
-		speed:1000
-	});
+	if($(".scroll-panel > ul > li").length !=0 ){
+		$(".scroll-panel").jCarouselLite({
+			vertical: true,
+			hoverPause:true,
+			visible: 1,
+			auto:5000,
+			speed:1000
+		});	
+	}
+
 	/*
 	 * Banner
 	 */

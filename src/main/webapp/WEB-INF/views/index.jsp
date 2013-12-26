@@ -86,7 +86,7 @@
     		<li><a href="news/getOneNewsDetails?id=${news.id}" target="_blank">${news.title}</a></li>
     	</c:forEach>
     </ul>
-    <div class="wheel-link"><img src="/resources/images/main/round-shape.gif" alt="" /><a href="/test/lunpan" target="_blank">服务导航轮盘</a></div>
+    <div class="wheel-link"><img src="/resources/images/main/round-shape.gif" alt="" /><a href="/test/xinlunpan" target="_blank">服务导航轮盘</a></div>
   </div>
 </div>
 <!-- /scroll-news -->

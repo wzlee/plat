@@ -1167,4 +1167,29 @@ public class ServiceBizImpl implements ServiceBiz, ServletContextAware {
 		hql.append(" order by registerTime desc");
 		return serviceDao.findList(hql.toString(),0,4);
 	}
+
+	@Override
+	public List<Service> findMoreService(String title,String eid,String status,Integer start,Integer limit) {
+		StringBuffer hql = new StringBuffer("from Service where 1=1 ");
+		if(!StringUtils.isEmpty(title)){
+			hql.append(" AND serviceName like '%"+title+"%'");
+		}
+		if(!StringUtils.isEmpty(eid)){
+			hql.append(" AND enterprise.id = "+eid);
+		}
+		if(StringUtils.equals("0", status)){
+			hql.append(" AND currentStatus in(")
+		.append(Constant.SERVICE_STATUS_ADDED).append(",")
+		.append(Constant.SERVICE_STATUS_CHANGE_AUDIT).append(",")
+		.append(Constant.SERVICE_STATUS_DOWN_AUDIT).append(")");;
+		}else if(StringUtils.equals("1", status)){
+			hql.append(" AND currentStatus in (")
+		.append(Constant.SERVICE_STATUS_NEW).append(",")
+		.append(Constant.SERVICE_STATUS_ADDED_AUDIT).append(",")
+		.append(Constant.SERVICE_STATUS_DOWN).append(",")
+		.append(Constant.SERVICE_STATUS_DELETEED).append(")");
+		}
+		hql.append(" order by registerTime desc");
+		return serviceDao.findList(hql.toString(),start,limit);
+	}
 }

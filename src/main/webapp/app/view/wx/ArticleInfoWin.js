@@ -1,8 +1,8 @@
 Ext.define('plat.view.wx.ArticleInfoWin', {
 	extend : 'Ext.window.Window',
 	xtype : 'articleinfowindow',
-    height : 305,
-    width: 480,
+    height : 460,
+    width: 680,
     frame : true,
     layout : 'fit',
     closeAction : 'hide',

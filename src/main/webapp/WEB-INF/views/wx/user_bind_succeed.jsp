@@ -1,16 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-	String path = request.getContextPath();
-	String basePath = "";
-	basePath =request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-	basePath ="http://wx.smemall.net/";
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<base href="<%=basePath%>">
-	<title>账号绑定反馈-深圳中小企业服务平台</title>
+	<base href="${basePath}">
+	<title>账号绑定反馈</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
@@ -19,14 +15,14 @@
 <body>
 	<div id="header">
 		<a href="javascript:history.go(-1)" class="up-data"></a>
-		<h1>账号绑定反馈</h1>
+		<<img src="resources/images/wx-logo.png" alt="">
 		<a href="/wx/index" class="home-icon"></a>
 	</div>
 	<!-- 头部 -->
 	<div class="container">
 		<div class="panel user-page">
 			<div class="clearfix">
-				<img src="http://dummyimage.com/100x100/660066/ffffff&text=logo" alt="" class="fl">
+				<img src="${weixinUser.headimgurl}" alt="" class="fl">
 				<div class="bfc">
 					<h2>深圳中小企业公共服务平台</h2>
 					<p>找的着,用的起,有保障 <br>企业成长孵化器</p>

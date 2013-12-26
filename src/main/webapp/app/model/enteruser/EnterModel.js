@@ -6,7 +6,7 @@ Ext.define('plat.model.enteruser.EnterModel', {
     fields: [
     		{name:'id',type:'int'},
     		{name:'userName',type:'String'},
-    		{name:'sex',type:'int'},
+    		{name:'sex',type:'String'},
     		{name:'checkcode',type:'String'},
     		{name:'userStatus',type:'int'},
     		{name:'regTime',type:'String'},

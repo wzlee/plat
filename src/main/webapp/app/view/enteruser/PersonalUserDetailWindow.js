@@ -54,12 +54,12 @@ Ext.define('plat.view.enteruser.PersonalUserDetailWindow', {
 					    			if(val == null || val == ''){
 					    				return '暂无';
 					    			}else if(val == 'default_logo.jpg'){
-					    				return "<a href='resources/images/ucenter/default_logo.jpg' class='fancybox'>点击查看</a>";
+					    				return "<a target='_blank' href='resources/images/ucenter/default_logo.jpg'>点击查看</a>";
 					    			}else{
 					    				if(val.indexOf('http') > -1){
-					    					return "<a href='" + val + "' class='fancybox'>点击查看</a>";
+					    					return "<a target='_blank' href='" + val + "'>点击查看</a>";
 					    				}else {
-					    					return "<a href='upload/" + val + "' class='fancybox'>点击查看</a>";
+					    					return "<a target='_blank' href='upload/" + val + "'>点击查看</a>";
 					    				}					    				
 					    			}
 					    		}
@@ -84,9 +84,13 @@ Ext.define('plat.view.enteruser.PersonalUserDetailWindow', {
 					    	},
 					    	{fieldLabel: '性别', columnWidth:0.5, name:'sex',
 					    		renderer:function(val){
-					    			if(val == 0) return '男';
-					    			if(val == 1) return '女';
-					    			return '暂无';
+					    			if(val == '' || val == null){
+					    				return '暂无';
+					    			}else if(val == 0) {
+					    				return '男';
+					    			}else if(val == 1){
+					    				return '女';
+					    			}
 					    		}
 					    	},
 					    	{fieldLabel: '个人近照',columnWidth:0.5,name:'personalPhoto', renderer : function(val){
@@ -94,9 +98,9 @@ Ext.define('plat.view.enteruser.PersonalUserDetailWindow', {
 					    				return '暂无';
 					    			}
 					    			if(val.indexOf('http') > -1){
-					    				return "<a href='" + val + "' class='fancybox'>点击查看</a>";
+					    				return "<a target='_blank' href='" + val + "'>点击查看</a>";
 					    			}else {
-					    				return "<a href='upload/" + val + "' class='fancybox'>点击查看</a>";
+					    				return "<a target='_blank' href='upload/" + val + "'>点击查看</a>";
 					    			}					    			
 					    		}
 					    	},
@@ -105,9 +109,9 @@ Ext.define('plat.view.enteruser.PersonalUserDetailWindow', {
 					    				return '暂无';
 					    			}
 					    			if(val.indexOf('http') > -1){
-					    				return "<a href='" + val + "' class='fancybox'>点击查看</a>";
+					    				return "<a target='_blank' href='" + val + "'>点击查看</a>";
 					    			}else {
-					    				return "<a href='upload/" + val + "' class='fancybox'>点击查看</a>";
+					    				return "<a target='_blank' href='upload/" + val + "'>点击查看</a>";
 					    			}					    			
 					    		} 
 					    	},

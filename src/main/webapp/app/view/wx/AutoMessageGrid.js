@@ -7,6 +7,7 @@ Ext.define('plat.view.wx.AutoMessageGrid', {
         stripeRows: true,
         enableTextSelection: true
     },
+    closable : true,
 	id : 'xyxx',
 	initComponent : function () {
 		console.log('AutoMessageGrid was initialized!!!');
@@ -30,10 +31,11 @@ Ext.define('plat.view.wx.AutoMessageGrid', {
 			            iconCls:'icon-edit',
 			            tooltip: '修改',
 			            handler: function(grid, rowIndex, colIndex, item, e, record, row) {
-					    	var articleinfowindow = Ext.ComponentQuery.query('automessagewindow')[0];
+					    	var articleinfowindow = Ext.ComponentQuery.query('automessagewindow[name=automessage]')[0];
 					    	if (!articleinfowindow) {
 					    		articleinfowindow = Ext.widget('automessagewindow',{
-					    			title:'响应消息修改'
+					    			title:'响应消息修改',
+					    			name : 'automessage'
 					    		}).show();
 					    	} else {
 					    		articleinfowindow.setTitle('响应消息修改');

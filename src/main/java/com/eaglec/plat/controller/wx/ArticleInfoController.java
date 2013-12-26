@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.eaglec.plat.biz.wx.ArticleBiz;
 import com.eaglec.plat.biz.wx.ArticleInfoBiz;
 import com.eaglec.plat.biz.wx.AutoMessageBiz;
 import com.eaglec.plat.controller.BaseController;
@@ -52,21 +53,44 @@ public class ArticleInfoController extends BaseController{
 	public void addOrUpdate(ArticleInfo articleInfo, Integer autoMessageId, HttpServletRequest request,
 			HttpServletResponse response) {
 		JSONResult jr = new JSONResult(false, null);
+//		String[] receivers = request.getParameterValues("receiver");
+//		if(receivers != null) {
+//			articleInfo.setReceiver(receivers.toString());
+//		}
 		try {
 			articleInfo.setPubdate(DateFormatUtils.format(new Date(),	//设置发布时间
 					"yyyy-MM-dd HH:mm:ss"));
-			if(autoMessageId != null) {    //响应消息不为空,表示该推送消息对象有配置响应
-				AutoMessage autoMessage = autoMessageBiz.get(autoMessageId);
-				if(autoMessage.getNewsList().size() > 1) {    //超过数量限制,则返回提示
-					jr.setMessage("响应消息限制关联10条推送消息");
-					return;
-				}
-				articleInfo.setAutoMessage(autoMessage);
-			}
 			if((articleInfo.getId() == null) || (articleInfo.getId() == 0)) {    // 添加
+				if(autoMessageId != null) {    //响应消息不为空,表示该推送消息对象有配置响应
+					AutoMessage autoMessage = autoMessageBiz.get(autoMessageId);
+					if(autoMessage.getNewsList().size() > 9) {    //超过数量限制,则返回提示
+						jr.setMessage("响应消息限制关联10条推送消息");
+						return;
+					}
+					articleInfo.setAutoMessage(autoMessage);
+				}
 				articleInfoBiz.add(articleInfo);
 			} else {    // 修改
-				articleInfoBiz.update(articleInfo);
+				if(autoMessageId != null) {    //响应消息不为空,表示该推送消息对象有配置响应
+					
+					AutoMessage autoMessage = autoMessageBiz.get(autoMessageId);
+					ArticleInfo entityArticleInfo = articleInfoBiz.get(articleInfo.getId());
+					if(entityArticleInfo.getAutoMessage() != null) {
+						Integer oldId = entityArticleInfo.getAutoMessage().getId();
+						if(autoMessageId.equals(oldId)) {    // 更新的推送消息没有更改原来对应的响应消息,
+							articleInfo.setAutoMessage(autoMessage);
+						} else if(autoMessage.getNewsList().size() > 9){
+							jr.setMessage("响应消息限制关联10条推送消息");
+							return;
+						}
+					} else if(autoMessage.getNewsList().size() > 9) {    //超过数量限制,则返回提示
+						jr.setMessage("响应消息限制关联10条推送消息");
+						return;
+					} else {    // 没有超过数量限制
+						articleInfo.setAutoMessage(autoMessage);
+					}
+				}
+				articleInfoBiz.merge(articleInfo);    //更新对象
 			}
 			jr.setSuccess(true);
 		} catch (Exception e) {

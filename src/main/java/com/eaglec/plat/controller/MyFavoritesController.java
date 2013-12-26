@@ -16,6 +16,7 @@ import com.eaglec.plat.aop.SessionType;
 import com.eaglec.plat.biz.service.MyFavoritesBiz;
 import com.eaglec.plat.domain.base.MyFavorites;
 import com.eaglec.plat.domain.base.User;
+import com.eaglec.plat.domain.wx.ConcernUsers;
 import com.eaglec.plat.view.JSONResult;
 import com.eaglec.plat.view.JSONRows;
 
@@ -58,7 +59,86 @@ public class MyFavoritesController extends BaseController {
 	}
 	
 	/**
-	 * 新增/修改服务收藏
+	 * 微信端新增服务收藏
+	 *@author liuliping
+	 *@param serviceId 服务id
+	 *@since 2013-11-02 
+	 */
+//	@NeedSession(SessionType.USER)
+	@RequestMapping(value = "/addFromWX")
+	public String addFromWX(Integer serviceId, 
+			HttpServletRequest request,HttpServletResponse response, Model model){
+		User user = (User)request.getSession().getAttribute("user");
+		String url = null;
+		if(user == null) {    // 用户未登录
+			ConcernUsers cu = (ConcernUsers)request.getSession().getAttribute("concernUsers");
+			if(cu == null){
+				url = "wx/user_bind";
+			} else {
+				url = "wx/user_bind_autho";
+			}
+		} else if(myFavoritesBiz.isExisted(user.getId(), serviceId)) {    
+//			url = "wx/collect_service_success";    //服务已收藏, 返回信息提示
+			url = "wx/response";    //跳转成功页面
+			model.addAttribute("title", "操作成功");
+			model.addAttribute("content", "恭喜您，您已经成功收藏该服务");
+		} else {    //服务未收藏
+			try {
+				myFavoritesBiz.addOrUpdate(user.getId(), serviceId, getCurrentUserType(request));
+				url = "wx/response";    //跳转成功页面
+				model.addAttribute("title", "操作成功");
+				model.addAttribute("content", "恭喜您，您已经成功收藏该服务");
+			} catch (Exception e) {
+				e.printStackTrace();
+				StringBuilder sb = new StringBuilder();
+				logger.info(sb.append("用户Id[").append(user.getId()).
+						append("]收藏服务Id[").append(serviceId).append("]失败").toString());
+				url = "wx/response";    //跳转失败页面
+				model.addAttribute("title", "操作失败");
+				model.addAttribute("content", "啊呀,不好意思,出了点意外");
+			}
+		}
+		return url;
+	}
+	
+	/**
+	 * 微信端取消服务收藏
+	 *@author liuliping
+	 *@param serviceId 服务id
+	 *@since 2013-11-02 
+	 */
+	@RequestMapping(value = "/deleteFromWX")
+	public String deleteFromWX(Integer id, HttpServletRequest request, HttpServletResponse response,
+			Model model){
+		User user = (User)request.getSession().getAttribute("user");
+		String url = null;
+		if(user == null) {    // 用户未登录
+			ConcernUsers cu = (ConcernUsers)request.getSession().getAttribute("concernUsers");
+			if(cu == null){
+				url = "wx/user_bind";
+			} else {
+				url = "wx/user_bind_autho";
+			}
+		} else {    
+			try {
+				myFavoritesBiz.delete(id);
+				url = "wx/response";    //跳转成功页面
+				model.addAttribute("title", "操作成功");
+				model.addAttribute("content", "您已经取消收藏该服务");
+			} catch (Exception e) {
+				e.printStackTrace();
+				StringBuilder sb = new StringBuilder();
+				logger.info(sb.append("删除服务收藏Id[").append(id).append("]").append("]失败").toString());
+				url = "wx/response";    //跳转失败页面
+				model.addAttribute("title", "操作失败");
+				model.addAttribute("content", "啊呀,不好意思,出了点意外");
+			}
+		}
+		return url;
+	}
+	
+	/**
+	 * 删除服务收藏
 	 *@author liuliping
 	 *@param userId 用户id
 	 *@param serviceId 服务id

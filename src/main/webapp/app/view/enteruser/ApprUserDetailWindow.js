@@ -45,9 +45,9 @@ Ext.define('plat.view.enteruser.ApprUserDetailWindow', {
 				        			if(record && record.raw.enterprise.isApproved) val = record.raw.enterprise.licenceDuplicate;
 					    			if(val == '') return '暂无';
 					    			if(val.indexOf('http') > -1){
-					    				return "<a href='" + val + "' class='fancybox'>点击查看</a>";
+					    				return "<a target='_blank' href='" + val + "'>点击查看</a>";
 					    			}else {
-					    				return "<a href='upload/" + val + "' class='fancybox'>点击查看</a>";
+					    				return "<a target='_blank' href='upload/" + val + "'>点击查看</a>";
 					    			}					    			
 					    		}
 					    	},
@@ -56,9 +56,9 @@ Ext.define('plat.view.enteruser.ApprUserDetailWindow', {
 				        			if(record && record.raw.enterprise.isApproved) val = record.raw.enterprise.businessLetter;
 					    			if(val == '') return '暂无';
 					    			if(val.indexOf('http') > -1){
-					    				return "<a href='" + val + "' class='fancybox'>点击查看</a>";
+					    				return "<a target='_blank' href='" + val + "'>点击查看</a>";
 					    			}else {
-					    				return "<a href='upload/" + val + "' class='fancybox'>点击查看</a>";
+					    				return "<a target='_blank' href='upload/" + val + "'>点击查看</a>";
 					    			}					    			
 					    		} 
 					    	},

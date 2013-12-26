@@ -1,17 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%
-	String path = request.getContextPath();
-	String basePath = "";
-	basePath =request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-	basePath ="http://wx.smemall.net/";
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<base href="<%=basePath%>">
-	<title>用户绑定-深圳中小企业服务平台</title>
+	<base href="${basePath}">
+	<title>用户绑定</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
@@ -21,7 +16,7 @@
 <body>
 	<div id="header">
 		<a href="javascript:history.go(-1)" class="up-data"></a>
-		<h1>用户绑定</h1>
+		<img src="resources/images/wx-logo.png" alt="">
 		<a href="/wx/index" class="home-icon"></a>
 	</div>
 	<!-- 头部 -->
@@ -39,14 +34,14 @@
 							<input type="password" id="password" /><br />
 							<div class="alert" id="w-pwd"></div><!-- 验证错误后，在alert 后加上类名error -->
 							<input class="scode" type="text" id="authcode" placeholder="验证码" /> 
-							<img class="check-code" alt="点击刷新" src="public/authcode" onclick="this.src='public/authcode?'+new Date();" width="55" height="20" />
+							<img class="check-code" alt="点击刷新" src="public/authcode" onclick="this.src='public/authcode?'+new Date();" width="55" height="20" /><br />
 							<div class="alert" id="w-check"></div><!-- 验证错误后，在alert 后加上类名error -->
 							<input id="bindUserBut" type="button" value="绑定账号" class="btn-button" /> 
 							<input id="resetBind" type="reset" value="取消" class="btn-button" />
 						</form>
 					</div>
 					<div class="bfc">
-						<img src="http://dummyimage.com/65x65/660066/ffffff" alt="" class="user-face">
+						<img src="${weixinUser.headimgurl}" alt="" class="user-face">
 						<span class="user-name">${weixinUser.nickname }</span>-${weixinUser.city }
 						<!-- ${weixinUser.sex }-->
 						

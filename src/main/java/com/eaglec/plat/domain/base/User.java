@@ -61,6 +61,8 @@ public class User implements Serializable {
 	 */
 	@Column(length = 2)
 	private Integer userStatus; // 帐号状态
+	
+	private String ip; // 注册时候的ip
 
 	/**
 	 * 长度100个字符
@@ -380,22 +382,28 @@ public class User implements Serializable {
 		this.userServices = userServices;
 	}
 
+	public String getIp() {
+		return ip;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + userName + ", password="
 				+ password + ", sex=" + sex + ", checkcode=" + checkcode
-				+ ", userStatus=" + userStatus + ", regTime=" + regTime
-				+ ", isPersonal=" + isPersonal + ", email=" + email
+				+ ", userStatus=" + userStatus + ", ip=" + ip + ", regTime="
+				+ regTime + ", isPersonal=" + isPersonal + ", email=" + email
 				+ ", isApproved=" + isApproved + ", sourceId=" + sourceId
 				+ ", remark=" + remark + ", enterprise=" + enterprise
 				+ ", sendEmail=" + sendEmail + ", interestServices="
-				+ interestServices + ", status=" + status
-				+ ", nickName=" + nickName
-				+ ", headPortraint=" + headPortraint + ", personalPhoto="
-				+ personalPhoto + ", idCardPhoto=" + idCardPhoto
-				+ ", realName=" + realName + ", mobile=" + mobile
+				+ interestServices + ", status=" + status + ", nickName="
+				+ nickName + ", headPortraint=" + headPortraint
+				+ ", personalPhoto=" + personalPhoto + ", idCardPhoto="
+				+ idCardPhoto + ", realName=" + realName + ", mobile=" + mobile
 				+ ", address=" + address + ", certSign=" + certSign
-				+ ", userServices=" + userServices + "]";
+				+ ", userServices=" + userServices + ", uid=" + uid
+				+ ", modifyTime=" + modifyTime + "]";
 	}
 	
 }

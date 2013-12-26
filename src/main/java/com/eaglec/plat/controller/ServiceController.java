@@ -79,6 +79,8 @@ public class ServiceController extends BaseController {
 	private Dao dao;
 	@Autowired
 	ServiceDetailBiz serviceDetailBiz;
+	@Autowired
+	private GoodsOrderController goodsOrderController;
 	
 	/**
 	 * 为运营平台自己添加服务
@@ -92,16 +94,16 @@ public class ServiceController extends BaseController {
 	@RequestMapping(value = "/save")
 	public void add(Service service,HttpServletRequest request,HttpServletResponse response) {
 		try {
-			//得到运营支撑系统的工商注册号
-			String icRegNumber = Common.icRegNumber;	
-			service.setServiceNo(service.getCategory().getCode()+"-"+Long.toString(new Date().getTime()));
-			List<Enterprise> list = enterpriseBiz.findEnterpriseByIcRegNumber(icRegNumber);			
-			Enterprise enterprise = list.get(0);
-			service.setEnterprise(enterprise);
-			serviceBiz.add(service);
-			//serviceBiz.saveService(service);
-			this.outJson(response,new JSONResult(true,"服务添加成功!"));
-			logger.info("[ "+service.getServiceName()+" ]添加成功!");
+//			//得到运营支撑系统的工商注册号
+//			String icRegNumber = Common.icRegNumber;	
+//			service.setServiceNo(service.getCategory().getCode()+"-"+Long.toString(new Date().getTime()));
+//			List<Enterprise> list = enterpriseBiz.findEnterpriseByIcRegNumber(icRegNumber);			
+//			Enterprise enterprise = list.get(0);
+//			service.setEnterprise(enterprise);
+//			serviceBiz.add(service);
+//			//serviceBiz.saveService(service);
+//			this.outJson(response,new JSONResult(true,"服务添加成功!"));
+//			logger.info("[ "+service.getServiceName()+" ]添加成功!");
 		} catch (Exception e) {
 			this.outJson(response,new JSONResult(false,"服务保存失败!异常信息:"+e.getLocalizedMessage()));
 			logger.info("服务保存失败!异常信息:"+e.getLocalizedMessage());
@@ -341,7 +343,7 @@ public class ServiceController extends BaseController {
 	 */
 	@RequestMapping(value = "/detail")
 	public String toDetail(Integer id,String op,HttpServletRequest request, HttpServletResponse response, Model model) {
-		
+		String ret = "module/service/detail";
 		if ((id != null) && (id.intValue() > 0)) {
 			Service service = serviceBiz.findServiceById(id);
 			model.addAttribute("service", service);
@@ -382,7 +384,7 @@ public class ServiceController extends BaseController {
 						model.addAttribute("pmcategory", pmcategory);
 					}
 				}
-				return "mall/mall_detail";
+				ret =  "mall/mall_detail";
 			}
 			//查询该服务所属类别
 			Category category = service.getCategory();
@@ -392,6 +394,10 @@ public class ServiceController extends BaseController {
 				model.addAttribute("pcategory", pcategory);
 			}
 			model.addAttribute("category",category);
+			
+			if("enter".equals(op)){//服务机构频道进入服务详情页
+				ret = "enterprise/enter_service_info";
+			}
 			/**
 			 * @date: 2013-11-11
 			 * @author：lwch
@@ -420,14 +426,8 @@ public class ServiceController extends BaseController {
 			 * ==========================================================================================
 			 */
 		}
-		if("node".equals(op)){//子窗口平台进入服务详情页
-			return "module/service/nodedetail";
-		}
-		if("enter".equals(op)){//服务机构频道进入服务详情页
-			return "enterprise/enter_service_info";
-		}
 		
-		return "module/service/detail";
+		return ret;
 	}
 	
 	/**
@@ -448,11 +448,200 @@ public class ServiceController extends BaseController {
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			dao.update("INSERT INTO ts_user_follow (uid,fid) VALUES("+attentionid+","+beattentionid+")");
-			outJson(response, new JSONResult(true, "关注成功"));
+			if(dao.count("SELECT COUNT(*) from ts_user WHERE uid ="+attentionid,null)>0&&dao.count("SELECT COUNT(*) from ts_user WHERE uid ="+beattentionid,null)>0	){
+				dao.update("INSERT INTO ts_user_follow (uid,fid) VALUES("+attentionid+","+beattentionid+")");
+				outJson(response, new JSONResult(true, "关注成功"));
+			}else{
+				outJson(response, new JSONResult(false, "关注失败"));
+			}
 		} catch (SQLException e) {
 			outJson(response, new JSONResult(false, "关注失败"));
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * window跨域取消关注
+	 * 
+	 * @author cs
+	 * @since 2013-08-24
+	 * 
+	 * @param 
+	 * @return
+	 * @eg
+	 */
+	@RequestMapping(value = "/cancelAddattentionJsonP")
+	public void cancelAddattentionJsonP(
+			@RequestParam("beattentionid")Integer beattentionid,
+			String sm_login,
+			String jsoncallback, HttpServletRequest request, HttpServletResponse response) {
+		Integer attentionid;
+		JSONResult jr = new JSONResult(false, null);
+		if(StringUtils.isEmpty(sm_login)) {
+			jr.setMessage("校验码不能为空");
+			outJsonP(response, jsoncallback, jr);
+			return;
+		}
+		// 通过解析字符串sm_login,来检验请求合法性,获取用户类型和用户对象
+		Map<String, Object> map = goodsOrderController.checkLogin(sm_login);
+		boolean success = (Boolean) map.get("success"); 
+		if(!success) {
+			jr.setMessage((String)map.get("message"));
+			outJsonP(response, jsoncallback, jr);
+			return;
+		}
+		
+		//登录用户(主账号登录即操作者)
+		if("user".equals(map.get("userType"))){
+			User user = (User)map.get("userOrStaff");
+			attentionid = user.getId();
+		//子账号登录
+		}else{
+			Staff staff = (Staff) map.get("userOrStaff");
+			attentionid = staff.getParent().getId();
+		}
+		
+		try {
+			dao.update("DELETE FROM ts_user_follow  WHERE uid ="+attentionid +" AND fid = "+beattentionid);
+			jr.setSuccess(true);
+			jr.setMessage("取消关注成功");
+			outJsonP(response, jsoncallback, jr);
+			return;
+		} catch (Exception e) {
+			jr.setSuccess(true);
+			jr.setMessage("取消关注失败");
+			outJsonP(response, jsoncallback, jr);
+			jr.setMessage("取消关注失败!异常信息:" + e.getLocalizedMessage());
+			return;
+		} finally {
+			outJsonP(response, jsoncallback, jr);
+		}
+	}
+	
+	/**
+	 * window跨域添加关注
+	 * 
+	 * @author cs
+	 * @since 2013-08-24
+	 * 
+	 * @param 
+	 * @return
+	 * @eg
+	 */
+	@RequestMapping(value = "/addattentionJsonP")
+	public void addattentionJsonP(
+			@RequestParam("beattentionid")Integer beattentionid,
+			String sm_login,
+			String jsoncallback, HttpServletRequest request, HttpServletResponse response) {
+		Integer attentionid;
+		JSONResult jr = new JSONResult(false, null);
+		if(StringUtils.isEmpty(sm_login)) {
+			jr.setMessage("校验码不能为空");
+			outJsonP(response, jsoncallback, jr);
+			return;
+		}
+		// 通过解析字符串sm_login,来检验请求合法性,获取用户类型和用户对象
+		Map<String, Object> map = goodsOrderController.checkLogin(sm_login);
+		boolean success = (Boolean) map.get("success"); 
+		if(!success) {
+			jr.setMessage((String)map.get("message"));
+			outJsonP(response, jsoncallback, jr);
+			return;
+		}
+		
+		//登录用户(主账号登录即操作者)
+		if("user".equals(map.get("userType"))){
+			User user = (User)map.get("userOrStaff");
+			attentionid = user.getId();
+			//子账号登录
+		}else{
+			Staff staff = (Staff) map.get("userOrStaff");
+			attentionid = staff.getParent().getId();
+		}
+		
+		try {
+			if(attentionid == beattentionid){
+				jr.setSuccess(false);
+				jr.setMessage("不能关注自己的服务");
+				outJsonP(response, jsoncallback, jr);
+				return;
+			}else{
+				if(dao.count("SELECT COUNT(*) from ts_user WHERE uid ="+attentionid,null)>0&&dao.count("SELECT COUNT(*) from ts_user WHERE uid ="+beattentionid,null)>0	){
+					dao.update("INSERT INTO ts_user_follow (uid,fid) VALUES("+attentionid+","+beattentionid+")");
+					jr.setSuccess(true);
+					jr.setMessage("关注成功");
+					outJsonP(response, jsoncallback, jr);
+					return;
+				}else{
+					jr.setSuccess(false);
+					jr.setMessage("关注失败");
+					outJsonP(response, jsoncallback, jr);
+					return;
+				}
+			}
+		} catch (Exception e) {
+			jr.setMessage("关注失败!异常信息:" + e.getLocalizedMessage());
+		} finally {
+			outJsonP(response, jsoncallback, jr);
+		}
+	}
+	
+	/**
+	 * window跨域验证是否关注
+	 * 
+	 * @author cs
+	 * @since 2013-08-24
+	 * 
+	 * @param 
+	 * @return
+	 * @eg
+	 */
+	@RequestMapping(value = "/valdateAddattentionJsonP")
+	public void valdateAddattentionJsonP(
+			@RequestParam("beattentionid")Integer beattentionid,
+			String sm_login,
+			String jsoncallback, HttpServletRequest request, HttpServletResponse response) {
+		Integer attentionid;
+		JSONResult jr = new JSONResult(false, null);
+		if(StringUtils.isEmpty(sm_login)) {
+			jr.setMessage("校验码不能为空");
+			outJsonP(response, jsoncallback, jr);
+			return;
+		}
+		// 通过解析字符串sm_login,来检验请求合法性,获取用户类型和用户对象
+		Map<String, Object> map = goodsOrderController.checkLogin(sm_login);
+		boolean success = (Boolean) map.get("success"); 
+		if(!success) {
+			jr.setMessage((String)map.get("message"));
+			outJsonP(response, jsoncallback, jr);
+			return;
+		}
+		
+		//登录用户(主账号登录即操作者)
+		if("user".equals(map.get("userType"))){
+			User user = (User)map.get("userOrStaff");
+			attentionid = user.getId();
+			//子账号登录
+		}else{
+			Staff staff = (Staff) map.get("userOrStaff");
+			attentionid = staff.getParent().getId();
+		}
+		try {
+			if(dao.count("SELECT COUNT(*) from ts_user_follow WHERE uid ="+attentionid +" AND fid ="+beattentionid,null)>0){
+				jr.setSuccess(true);
+				jr.setMessage("已经成功");
+				outJsonP(response, jsoncallback, jr);
+				return;
+			}else{
+				jr.setSuccess(false);
+				jr.setMessage("没有关注");
+				outJsonP(response, jsoncallback, jr);
+				return;
+			}
+		} catch (Exception e) {
+			jr.setMessage("关注失败!异常信息:" + e.getLocalizedMessage());
+		} finally {
+			outJsonP(response, jsoncallback, jr);
 		}
 	}
 	

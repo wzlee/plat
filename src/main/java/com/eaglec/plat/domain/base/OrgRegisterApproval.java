@@ -224,7 +224,10 @@ public class OrgRegisterApproval implements Serializable {
 
 	@ManyToOne
 	private Manager manager; // 审核人
-
+	
+	@ManyToOne
+	private Enterprise enterprise;	//审核通过之后关联企业xuwf2013-12-19
+	
 	@Column(unique = true)
 	private String oraid = MD5.toMD5(UUID.randomUUID().toString()); // 同步唯一标识
 
@@ -548,6 +551,12 @@ public class OrgRegisterApproval implements Serializable {
 		this.openedTime = openedTime;
 	}
 
+	public Enterprise getEnterprise() {
+		return enterprise;
+	}
+	public void setEnterprise(Enterprise enterprise) {
+		this.enterprise = enterprise;
+	}
 	@Override
 	public String toString() {
 		return "OrgRegisterApproval [id=" + id + ", userName=" + userName
@@ -573,7 +582,8 @@ public class OrgRegisterApproval implements Serializable {
 				+ orgAddress + ", orgPhone=" + orgPhone + ", orgFax=" + orgFax
 				+ ", orgWebsite=" + orgWebsite + ", profile=" + profile
 				+ ", approveStatus=" + approveStatus + ", approveTime="
-				+ approveTime + ", manager=" + manager + "]";
+				+ approveTime + ", manager=" + manager + ", enterprise="
+				+ enterprise + ", oraid=" + oraid + ", modifyTime="
+				+ modifyTime + "]";
 	}
-	
 }

@@ -88,6 +88,17 @@ public interface BaseDao<T> {
 	public abstract T update(T o);
 
 	/**
+	 * 更新对象
+	 *@author liuliping
+	 *@since 2013-12-19 
+	 *
+	 *@param o 目标对象
+	 *@return T
+	 */
+	public abstract T merge(T o);
+
+	
+	/**
 	 * 保存或更新对象
 	 *@author Xiadi
 	 *@since 2013-8-12 

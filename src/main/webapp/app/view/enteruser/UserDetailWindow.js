@@ -89,12 +89,12 @@ Ext.define('plat.view.enteruser.UserDetailWindow', {
 						    			if(value == ''){
 						    				return '暂无';
 						    			}else if(value == 'enterprise_logo.jpg'){
-					    					return "<a href='resources/images/ucenter/enterprise_logo.jpg' class='fancybox'>点击查看</a>";
+					    					return "<a target='_blank' href='resources/images/ucenter/enterprise_logo.jpg'>点击查看</a>";
 						    			}else {
 						    				if(value.indexOf('http') > -1){
-						    					return "<a href='" + value + "' class='fancybox'>点击查看</a>";
+						    					return "<a target='_blank' href='" + value + "'>点击查看</a>";
 						    				}else {
-						    					return "<a href='upload/" + value + "' class='fancybox'>点击查看</a>";
+						    					return "<a target='_blank' href='upload/" + value + "'>点击查看</a>";
 						    				}						    				
 						    			}
 					    			}
@@ -127,9 +127,9 @@ Ext.define('plat.view.enteruser.UserDetailWindow', {
                                     renderer : function(value){
 						    			if(value == '') return '暂无';
 						    			if(value.indexOf('http') > -1){
-						    				return "<a href='" + value + "' class='fancybox'>点击查看</a>";
+						    				return "<a target='_blank' href='" + value + "'>点击查看</a>";
 						    			}else {
-						    				return "<a href='upload/" + value + "' class='fancybox'>点击查看</a>";
+						    				return "<a target='_blank' href='upload/" + value + "'>点击查看</a>";
 						    			}						    			
 					    			}
                                 },
@@ -147,9 +147,9 @@ Ext.define('plat.view.enteruser.UserDetailWindow', {
                                     renderer : function(value){
 						    			if(value == '') return '暂无';
 						    			if(value.indexOf('http') > -1){
-						    				return "<a href='" + value + "' class='fancybox'>点击查看</a>";
+						    				return "<a target='_blank' href='" + value + "'>点击查看</a>";
 						    			}else {
-						    				return "<a href='upload/" + value + "' class='fancybox'>点击查看</a>";
+						    				return "<a target='_blank' href='upload/" + value + "'>点击查看</a>";
 						    			}						    			
 					    			}
                                 },

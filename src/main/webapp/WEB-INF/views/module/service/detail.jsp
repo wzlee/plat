@@ -49,7 +49,7 @@
 	      			<li class="s1"><a href="javascript:void(0);" onclick="collect(this, ${service.id})">收藏</a></li>
 	      		</c:otherwise>
 		    </c:choose>	
-	      	<li class="s2"><a href="javascript:void(0);" onclick="share();">分享</a></li>
+	      	<!-- <li class="s2"><a href="javascript:void(0);" onclick="share();">分享</a></li> -->
       </ul>
     <div class="column-company-l">
   	  <div class="company-info">

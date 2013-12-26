@@ -22,7 +22,7 @@ public class ConcernUsersBizImpl implements ConcernUsersBiz{
 	 */
 	@Override
 	public List<ConcernUsers> getConcernUsers(Integer page, Integer limit){
-		return null;
+		return concernUsersDao.findList("from ConcernUsers", page, limit);
 	}
 	
 	/**
@@ -38,11 +38,56 @@ public class ConcernUsersBizImpl implements ConcernUsersBiz{
 	/**
 	 * @date: 2013-12-17
 	 * @author：lwch
+	 * @description：根据id获取微信帐号和平台帐号绑定的信息
+	 */
+	@Override
+	public ConcernUsers getWeixinBoundInfoById(Integer id){
+		return concernUsersDao.get(id);
+	}
+	
+	/**
+	 * @date: 2013-12-17
+	 * @author：lwch
 	 * @description：根据微信帐号加密后的ID或者是平台帐号，获取绑定
 	 */
 	@Override
-	public ConcernUsers getWeixinBoundInfo(String openid, String username){
-		return concernUsersDao.get("from ConcernUsers where username='"+ username +"' or wxUserToken='"+ openid +"'");
+	public List<ConcernUsers> getWeixinBoundInfoByWPuser(String username, Integer status, String starttime, String endtime){
+		StringBuffer hql = new StringBuffer("from ConcernUsers where");
+		String and = " ";
+		//如果用户名不为空
+		if (!"".equals(username)) {
+			hql.append(" (username like '%"+ username +"%' or wxUserToken like '%"+ username +"%')");
+			and = " and ";
+		}
+		//如果状态不为空
+		if (status != null) {
+			hql.append(and +"concern_status="+ status);
+			and = " and ";
+		}
+		//如果开始时间和结束时间都不为空
+		if (!"".equals(starttime) && !"".equals(endtime)) {
+			hql.append(and +"subscribe_time between '"+ starttime +"' and '"+ endtime +"'");
+			and = " and ";
+		}
+		//开始时间不为空   结束时间为空
+		if (!"".equals(starttime) && "".equals(endtime)) {
+			hql.append(and +"subscribe_time >= '"+ starttime +"'");
+			and = " and ";
+		}
+		//开始时间为空  结束时间不为空
+		if ("".equals(starttime) && !"".equals(endtime)) {
+			hql.append(and +"subscribe_time <= '"+ endtime +"'");
+		}
+		return concernUsersDao.findList(hql.toString());
+	}
+	
+	/**
+	 * @date: 2013-12-23
+	 * @author：lwch
+	 * @description：根据平台帐号，获取该用户的变更记录
+	 */
+	public List<ConcernUsers> getBoundUserList(String username){
+		return concernUsersDao.findList("from ConcernUsers where username = '"+ username +"'");
 	}
 	
 	/**

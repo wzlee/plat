@@ -1,20 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-	String path = request.getContextPath();
-	String basePath = "";
-	basePath =request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-	basePath ="http://wx.smemall.net/";
-	
-%>
 <!DOCTYPE>
 <html>
 <head>
 <meta charset="UTF-8">
-<base href="<%=basePath%>">
-<title>平台概况-深圳中小企业服务平台</title>
+<base href="${basePath}">
+<title>平台概况</title>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -23,7 +15,7 @@
 <body>
 <div id="header">
 	<a href="javascript:history.go(-1)" class="up-data"></a>
-	<h1>平台概况</h1>
+	<img src="resources/images/wx-logo.png" alt="">
 	<a href="/wx/index" class="home-icon"></a>
 </div>
 <!-- 头部 -->
@@ -36,6 +28,7 @@
 		</ul>
 			<div id="tabs-content">
 				<div class="hide" style="display:block">
+				<img src="resources/images/wx-banner-about.jpg" alt="smemall" />
 <p>			
 深圳市中小企业公共服务平台（英文名称为Shenzhen Small and Medium Enterprises Public Service mall，简写为“SMEmall”）是根据工信部中小企业公共服务平台网络的建设要求，按照深圳市政府关于促进中小企业发展的政策精神，开发的一个颇具“创新精神”的建设理念，为深圳市中小企业提供优质公共服务的平台。</p>
 <p>	

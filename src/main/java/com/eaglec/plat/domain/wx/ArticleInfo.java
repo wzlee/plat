@@ -2,6 +2,7 @@ package com.eaglec.plat.domain.wx;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -35,6 +36,10 @@ public class ArticleInfo implements Serializable {
 	
 	private String pubdate;	//发布时间
 	
+	private String content;    // 内容
+	
+	private String receiver;	//消息接受对象(未绑定用户     绑定：服务机构 认证企业 普通企业 个人用户)
+	
 	public ArticleInfo() {
 	}
 
@@ -49,6 +54,8 @@ public class ArticleInfo implements Serializable {
 		this.picUrl = articleInfo.getPicUrl();
 		this.url = articleInfo.getUrl();
 		this.pubdate = articleInfo.getPubdate();
+		this.content = articleInfo.getContent();
+		this.receiver = articleInfo.getReceiver();
 		if(articleInfo.getAutoMessage() != null) {
 			this.autoMessage = articleInfo.getAutoMessage();
 			this.autoMessage.setNewsList(null);
@@ -117,6 +124,22 @@ public class ArticleInfo implements Serializable {
 		this.url = url;
 	}
 
+	@Column(length=1000000)
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
 
 	@Override
 	public String toString() {

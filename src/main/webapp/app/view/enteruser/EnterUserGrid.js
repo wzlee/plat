@@ -217,11 +217,11 @@ Ext.define('plat.view.enteruser.EnterUserGrid',{
 	                renderer:function(value,metaData ,record){
 	                	if(record.data.isPersonal){ 
 		               		if(record.data.email){
-		                		return record.data.isApproved?record.data.email+'<img src="resources/images/drop-yes.gif" title="邮箱已验证">':record.data.email+'<img title="邮箱未验证" src="resources/images/exclamation.png">';
+		                		return record.data.isApproved?record.data.email+'<img src="resources/images/drop-yes.gif" title="邮箱已激活">':record.data.email+'<img title="邮箱未激活" src="resources/images/exclamation.png">';
 		                	}
 		               	}
 	                	if(value){
-	                		return record.data.isApproved?value+'<img src="resources/images/drop-yes.gif" title="邮箱已验证">':value+'<img title="邮箱未验证" src="resources/images/exclamation.png">';
+	                		return record.data.isApproved?value+'<img src="resources/images/drop-yes.gif" title="邮箱已激活">':value+'<img title="邮箱未激活" src="resources/images/exclamation.png">';
 	                	}
 	                }
                 },

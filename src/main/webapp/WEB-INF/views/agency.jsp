@@ -138,7 +138,7 @@
 								<div class="photo"><a href="#"><img src="resources/images/main/show_pic_1.jpg" width="130" height="100" /></a></div>
 								<div class="title"><a href="#">服务加工</a></div>
 							</li>
-							 -->
+						 	 -->
 						</ul>
 					</div>
 				</c:forEach>

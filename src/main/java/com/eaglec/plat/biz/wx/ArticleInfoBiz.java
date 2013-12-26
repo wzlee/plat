@@ -16,6 +16,8 @@ public interface ArticleInfoBiz {
 	List<ArticleInfo> findList(String title, int start, int limit);
 	
 	ArticleInfo update(ArticleInfo articleInfo);
+	
+	ArticleInfo merge(ArticleInfo articleInfo);
 
 	void delete(String idStr);
 

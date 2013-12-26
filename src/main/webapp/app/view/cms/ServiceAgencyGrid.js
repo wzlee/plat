@@ -36,7 +36,7 @@ Ext.define('plat.view.cms.ServiceAgencyGrid', {
 		flex : 1, 
 		align : 'center'
 	}, {
-		header : '行业', 
+		header : '所属窗口', 
 		dataIndex : 'industryType', 
 		flex : 1, 
 		align : 'center',

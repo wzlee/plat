@@ -25,7 +25,13 @@ public interface MobileAppBiz {
 	 * 预约购买服务 typeCode:12
 	 * * 
 	 * @param jsonObject */
-	Map<String, Object> addServiceConsumer(JSONObject jsonObject);		
+	Map<String, Object> addServiceConsumer(JSONObject jsonObject);
+	
+	/**
+	 * 申请服务 typeCode:12 
+	 * * 
+	 * @param jsonObject */
+	Map<String, Object> saveApplyService(JSONObject jsonObject);
 	
 	/**
 	 * 获取机构列表  typeCode:13

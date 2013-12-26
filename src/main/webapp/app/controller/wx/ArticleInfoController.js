@@ -20,10 +20,7 @@ Ext.define('plat.controller.wx.ArticleInfoController', {
     	selector: 'automessage4readgrid'
     }, {
     	ref: 'automessagewindow',
-    	selector: 'automessagewindow'
-    }, {
-    	ref: 'automessageform',
-    	selector: 'automessageform'
+    	selector: 'automessagewindow[name=articleinfo]'
     }],
 	init : function () {
 		this.control({
@@ -114,6 +111,7 @@ Ext.define('plat.controller.wx.ArticleInfoController', {
         			};
             		window.down('button[name=submit]').on('click', function () {
             			var form = Ext.ComponentQuery.query('articleinfoform')[0];
+            			form.getKindeditor().sync();    //同步kindeditor的内容到textarea中
             			mask.show(form.getEl());
             			options.url = 'articleinfo/addOrUpdate';
             			form.getForm().submit(options);
@@ -122,6 +120,7 @@ Ext.define('plat.controller.wx.ArticleInfoController', {
             		window.down('button[name=cancel]').on('click', function () {
             			var Eform = window.query('articleinfoform')[0];
             			Eform.getForm().reset();
+						Eform.getKindeditor().html('');
             			window.hide();
             			mask.hide();
             		});
@@ -143,7 +142,7 @@ Ext.define('plat.controller.wx.ArticleInfoController', {
 				}
 			},
 			
-			"automessagewindow" : {
+			"automessagewindow[name=articleinfo]" : {
 				afterrender : function (window, opts) {
             		
             		window.down('button[name=ok]').on('click', function () {
@@ -163,10 +162,11 @@ Ext.define('plat.controller.wx.ArticleInfoController', {
 	 * 添加响应消息
 	 * */
 	addAutoMessage : function() {
-		var automessageWindows = Ext.ComponentQuery.query('automessagewindow')[0];
+		var automessageWindows = Ext.ComponentQuery.query('automessagewindow[name=articleinfo]')[0];
     	if (!automessageWindows) {
     		automessageWindows = Ext.widget('automessagewindow',{
-    			title:'添加响应消息'
+    			title:'添加响应消息',
+    			name : 'articleinfo'
     		}).show();
     	} else {
     		automessageWindows.setTitle('添加响应消息');
@@ -188,6 +188,10 @@ Ext.define('plat.controller.wx.ArticleInfoController', {
     	}
     	
     	this.getArticleinfoform().getForm().reset();
+    	var editor = this.getArticleinfoform().getKindeditor();    //清空kindeditor中的内容
+		if (editor) {
+			editor.html('');
+		}
     },
     modifyNews : function () {	//修改新闻表单
 //    	var grid = Ext.ComponentQuery.query('newsgrid')[0];
@@ -219,6 +223,14 @@ Ext.define('plat.controller.wx.ArticleInfoController', {
     	var EoriginalPic = Eform.query('textfield[name=originalPic]')[0];
 		if (records[0].data.picUrl) {	//当新闻图片存在时，隐藏输入框做标记
 			EoriginalPic.setValue(records[0].data.picUrl);
+		}
+		
+		if (Eform.getKindeditor()) {
+			Eform.getKindeditor().html(records[0].data.content);
+		} else {
+			setTimeout(function () {
+				Eform.getKindeditor().html(records[0].data.content);
+			}, 1000);
 		}
     },
 	selectPic : function () {
@@ -292,10 +304,11 @@ Ext.define('plat.controller.wx.ArticleInfoController', {
 	 * 选择响应信息
 	 * */
 	showAutoMessageWin : function() {
-		var _window = this.getAutomessagewindow();
+		var _window = Ext.ComponentQuery.query('automessagewindow[name=articleinfo]')[0];
 		if(!_window) {
     		_window = Ext.widget({
     			xtype : 'automessagewindow',
+    			name : 'articleinfo',
     			width : 600,
     			height : 320,
     			title : '选择响应信息',
@@ -322,9 +335,9 @@ Ext.define('plat.controller.wx.ArticleInfoController', {
 		var records = this.getAutomessage4readgrid().getSelectionModel().getSelection();
 		if(records.length > 0) {
 			_form.getForm().findField('autoMessageId').setValue(records[0].data.id);
-			_form.getForm().findField('reqKey').setValue(records[0].data.reqKey);
-			_form.getForm().findField('clickKey').setValue(records[0].data.clickKey);
-			_form.getForm().findField('content').setValue(records[0].data.content);
+			/*_form.getForm().findField('reqKey').setValue(records[0].data.reqKey);
+			_form.getForm().findField('clickKey').setValue(records[0].data.clickKey);*/
+			_form.getForm().findField('autoMessageContent').setValue(records[0].data.content);
 		}
 		this.getAutomessagewindow().hide();
 	}	

@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.xml.crypto.Data;
+
 public class StrUtils {
 
 	public StrUtils() {
@@ -115,7 +117,33 @@ public class StrUtils {
 		}
 		return flag;
 	}
-
+	
+	/**
+	 * @date: 2013-12-20
+	 * @author：lwch
+	 * @param date：需要转换的时间戳
+	 * @param type：为true的时候是将时间戳转换为时间，精确到秒，为false的时候就只转换为日期
+	 * @description：将时间撮数据转换为日期类型
+	 * 比如date=1387330435000
+	 * 转换后为2013-12-18 09:33:55
+	 */
+	public static String timestampToDate(String date, Boolean type){
+		String dateFormat = "yyyy-MM-dd";
+		if (type) {
+			dateFormat = "yyyy-MM-dd HH:mm:ss";
+			int dl = date.length();
+			for (int i = 0; i <= 13; i++) {
+				if (dl < i) {
+					date += "0";
+				}
+			}
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+		Date d = new Date(Long.parseLong(date));
+		String sd = sdf.format(d);
+		return sd;
+	}
+	
 	/**
 	 * 格式化string为Date
 	 * 
@@ -279,7 +307,7 @@ public class StrUtils {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(StrUtils.subTime("2013/12/19"));
+		System.out.println(StrUtils.timestampToDate("1387330435000", true));
 	}
 
 	/**

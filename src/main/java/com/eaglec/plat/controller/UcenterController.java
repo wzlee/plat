@@ -57,6 +57,7 @@ import com.eaglec.plat.domain.base.ApprovedDetail;
 import com.eaglec.plat.domain.base.Category;
 import com.eaglec.plat.domain.base.Enterprise;
 import com.eaglec.plat.domain.base.Flat;
+import com.eaglec.plat.domain.base.OrgRegisterApproval;
 import com.eaglec.plat.domain.base.SendEmail;
 import com.eaglec.plat.domain.base.Staff;
 import com.eaglec.plat.domain.base.StaffRole;
@@ -70,6 +71,7 @@ import com.eaglec.plat.domain.info.ReceiverMessageRelationship;
 import com.eaglec.plat.domain.info.SenderMessageRelationship;
 import com.eaglec.plat.domain.service.Service;
 import com.eaglec.plat.sync.SyncFactory;
+import com.eaglec.plat.sync.SyncType;
 import com.eaglec.plat.sync.bean.ApprovedDetailSyncBean;
 import com.eaglec.plat.sync.bean.EnterpriseSyncBean;
 import com.eaglec.plat.sync.bean.UserSyncBean;
@@ -659,7 +661,12 @@ public class UcenterController extends BaseController{
 			if(user.getEnterprise().getType() != Constant.ENTERPRISE_TYPE_ORG
 					&& list.size() < 1)
 				return "ucenter/auth_guide";
-			
+			if(list == null || list.size() == 0){//服务机构注册审核的服务机构的用户中心的认证管理页面 xuwf 20131219
+				List<OrgRegisterApproval> orgRegList = approveBiz.
+					findOrgApprListByOrgName(user.getEnterprise().getId());
+				request.setAttribute("apprlist", orgRegList);
+				return "ucenter/auth_list2";
+			}
 			return "ucenter/auth_list"; 	//有认证流水记录
 		}	
 	}
@@ -1021,7 +1028,7 @@ public class UcenterController extends BaseController{
 				SyncFactory.executeTask(new SaveOrUpdateToWinImpl<Enterprise>(new 
 						EnterpriseSyncBean(ret.getEnterprise(), SyncFactory.getSyncType(ret.getEnterprise()))),true);
 				SyncFactory.executeTask(new SaveOrUpdateToWinImpl<ApprovedDetail>(new 
-						ApprovedDetailSyncBean(approvedDetail, SyncFactory.getSyncType(approvedDetail.getEnterprise()))));
+						ApprovedDetailSyncBean(approvedDetail, SyncType.ONE)));
 			}
 		} catch (Exception e) {
 			this.outJson( response, new JSONResult(false, 

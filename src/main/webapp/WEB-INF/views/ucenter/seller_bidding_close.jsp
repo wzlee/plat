@@ -205,7 +205,7 @@
 		                   		<div class="controls">
 						           	<button class="submit" onclick="closeDeal();" type="button">关闭交易</button>
 					                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					               	<button class="submit" type="button" onclick="window.location.href='ucenter/seller_order?op=11'">返回</button>
+					               	<button class="submit" type="button" onclick="window.location.href='/ucenter/seller_order?op=11'">返回</button>
 				           	
 		                   		</div>
             			</div>

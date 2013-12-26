@@ -5,10 +5,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.URL;
+import java.util.ResourceBundle;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -279,6 +282,10 @@ public class WeixinUtil{
 		}
 		String getUserInfoUrl = Constants.GET_USER_INFO_URL.replace("ACCESS_TOKEN",access_token).replace("OPENID", openid);
 		JSONObject userJsonObj = WeixinUtil.httpRequest(getUserInfoUrl, "GET", null);
+		if(userJsonObj.toString().contains("errcode")){
+			access_token = WeixinUtil.getAccess_token(request,Common.WXAPPID,Common.WXAPPSECRET).getToken();
+			servletContext.setAttribute("wx_access_token", access_token);
+		}
 		System.out.println("---WeiXinUser-------getWXUserInfo-------userJsonObj---------"+ userJsonObj);
 		String subscribe = userJsonObj.getString("subscribe");
 		String useropenid = userJsonObj.getString("openid");
@@ -301,12 +308,30 @@ public class WeixinUtil{
 //		return user;
 	}
 	
+	/**
+	 * @date: 2013-12-24
+	 * @author：lwch
+	 * @description：清空用户的session相关信息
+	 */
 	public static void clearUserSession(HttpServletRequest request){
 		//如果发现用户还为绑定微信帐号，那么就初始化用户的一些session数据
 		request.getSession().setAttribute("concernUsers", null);
 		request.getSession().setAttribute("user", null);
 		request.getSession().setAttribute("usertype", null);
 		request.getSession().setAttribute("loginEnterprise", null);
-		request.getSession().setAttribute("staffmenu", null);
+	}
+	
+	/**
+	 * @date: 2013-12-24
+	 * @author：lwch
+	 * @description：设置登录用户cookie值
+	 */
+	public static void cookieSetup(String params, HttpServletResponse response){
+		response.addHeader("P3P","CP=\"CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR\"");
+		int $cookietime = 31536000;
+		Cookie cookie = new Cookie(ResourceBundle.getBundle("config").getString("ucenter.cookie.pre"), params);
+		cookie.setMaxAge($cookietime);
+		cookie.setPath("/");
+		response.addCookie(cookie);
 	}
 }

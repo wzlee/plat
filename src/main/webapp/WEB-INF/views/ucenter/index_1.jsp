@@ -66,8 +66,8 @@
 	                    <td>${fn:substring(lastappr.approveTime, 0, 10)}</td>
 	                    <td>${lastappr.approvedContext }</td>
 	                    <td>
-	                    	<p><a href="ucenter/auth_form"></a></p>
-	                    	<p><a href="ucenter/auth_form2"></a></p>
+	                    	<p><a href="ucenter/auth_form" style="color:#800080;"></a></p>
+	                    	<p><a href="ucenter/auth_form2" style="color:#800080;"></a></p>
 	                    </td>
 	                  </tr>
 	                </tbody>

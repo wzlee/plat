@@ -33,9 +33,9 @@
 		<div class="control-group"><label class="control-label">新密码：</label><div class="controls"><input class="input-large" type="password" id="newPwd"/></div></div>
 		<div class="control-group"><label class="control-label">确认新密码：</label><div class="controls"><input class="input-large" type="password" id="verifyNewPwd"/></div></div>
 		<div class="control-group"><label class="control-label"></label></label><div class="controls"><button class="submit" id="submit" data-loading-text="处理中...">保存</button>
-		<button class="submit" id="cannel" onclick="location.href='ucenter/security?op=88'">取消</button></div></div>
-		<div style="display:none" id="success">
-		密码已经修改成功，<a href="ucenter/security">返回安全中心</a>
+		<button class="submit" id="cannel" onclick="location.href='/ucenter/security?op=88'">取消</button></div></div>
+		<div style="display:none" id="success" style="padding-left:160px;">
+		密码已经修改成功，<a href="/ucenter/security">返回安全中心</a>
 		</div>
         </div>
 

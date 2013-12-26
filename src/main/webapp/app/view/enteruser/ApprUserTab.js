@@ -111,41 +111,74 @@ Ext.define('plat.view.enteruser.ApprUserTab', {
 	        { text: '申请实名',align:'center',width:200, dataIndex: 'name'},
 	        { text: '组织机构号',align:'center',width:120, dataIndex: 'icRegNumber'},
 	        { text: '申请时间',align:'center',width:150, dataIndex: 'applyTime'},
-	        {
-        		header : '执照副本',
-	       		dataIndex : 'licenceDuplicate',
-	       		width : 100,
-	       		toolTip : '查看执照副本',
-	       		align : 'center',
-	       		renderer : function (value) {
-	       			if (value) {
-	       				if(value.indexOf('http') > -1){
-	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}else {
-	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}		       			
-	       			} else {
-	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
-	       			}
-	       		}
-            },{
-				header : '企业公函',
-				dataIndex : 'businessLetter',
-	       		width : 100,
-	       		toolTip : '查看企业公函',
-	       		align : 'center',
-	       		renderer : function (value) {
-	       			if (value) {
-	       				if(value.indexOf('http') > -1){
-	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}else {
-	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}		       			
-	       			} else {
-	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
-	       			}
-	       		}
-            },{
+//	        {
+//        		header : '执照副本',
+//	       		dataIndex : 'licenceDuplicate',
+//	       		width : 100,
+//	       		toolTip : '查看执照副本',
+//	       		align : 'center',
+//	       		renderer : function (value) {
+//	       			if (value) {
+//	       				if(value.indexOf('http') > -1){
+//	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}else {
+//	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}		       			
+//	       			} else {
+//	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
+//	       			}
+//	       		}
+//            },{
+//				header : '企业公函',
+//				dataIndex : 'businessLetter',
+//	       		width : 100,
+//	       		toolTip : '查看企业公函',
+//	       		align : 'center',
+//	       		renderer : function (value) {
+//	       			if (value) {
+//	       				if(value.indexOf('http') > -1){
+//	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}else {
+//	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}		       			
+//	       			} else {
+//	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
+//	       			}
+//	       		}
+//            },
+	         {
+				    xtype : 'actioncolumn',
+					text : '执照副本',
+					align : 'center',
+					sortable : false,
+					width : 100,
+					items : [{
+						icon : 'jsLib/extjs/resources/themes/icons/scan.png',
+						tooltip : '查看执照副本',
+						handler : function(grid, rowIndex, colIndex, node, e,
+								record, rowEl) {
+							this.fireEvent('pictureclick', this, grid,
+									rowIndex, colIndex, node, e, record, rowEl);
+						}
+					}]
+			},
+			{
+				    xtype : 'actioncolumn',
+					text : '企业公函',
+					align : 'center',
+					sortable : false,
+					width : 100,
+					items : [{
+						icon : 'jsLib/extjs/resources/themes/icons/scan.png',
+						tooltip : '查看企业公函',
+						handler : function(grid, rowIndex, colIndex, node, e,
+								record, rowEl) {
+							this.fireEvent('pictureclick1', this, grid,
+									rowIndex, colIndex, node, e, record, rowEl);
+						}
+					}]
+			},
+            {
 				xtype : 'actioncolumn',
 				text : '通过',
 				align : 'center',
@@ -225,43 +258,77 @@ Ext.define('plat.view.enteruser.ApprUserTab', {
 	        	}
 	        },
 	        { text: '申请时间',align:'center',width:150, dataIndex: 'applyTime'},
-        	{
-        		header : '执照副本',
-	       		dataIndex : 'licenceDuplicate',
-	       		width : 80,
-	       		toolTip : '查看执照副本',
-	       		align : 'center',
-	       		renderer : function (value, metaData, record) {
-	       			if(record.raw.enterprise.isApproved) value = record.raw.enterprise.licenceDuplicate;
-	       			if (value) {
-	       				if(value.indexOf('http') > -1){
-	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}else {
-	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}		       			
-	       			} else {
-	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
-	       			}
-	       		}
-            },{
-				header : '企业公函',
-				dataIndex : 'businessLetter',
-	       		width : 80,
-	       		toolTip : '查看企业公函',
-	       		align : 'center',
-	       		renderer : function (value, metaData, record) {
-	       			if(record.raw.enterprise.isApproved) value = record.raw.enterprise.businessLetter;
-	       			if (value) {
-	       				if(value.indexOf('http') > -1){
-	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}else {
-	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}		       			
-	       			} else {
-	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
-	       			}
-	       		}
-            },{
+//        	{
+//        		header : '执照副本',
+//	       		dataIndex : 'licenceDuplicate',
+//	       		width : 80,
+//	       		toolTip : '查看执照副本',
+//	       		align : 'center',
+//	       		renderer : function (value, metaData, record) {
+//	       			if(record.raw.enterprise.isApproved) value = record.raw.enterprise.licenceDuplicate;
+//	       			if (value) {
+//	       				if(value.indexOf('http') > -1){
+//	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}else {
+//	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}		       			
+//	       			} else {
+//	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
+//	       			}
+//	       		}
+//            },
+//            {
+//				header : '企业公函',
+//				dataIndex : 'businessLetter',
+//	       		width : 80,
+//	       		toolTip : '查看企业公函',
+//	       		align : 'center',
+//	       		renderer : function (value, metaData, record) {
+//	       			if(record.raw.enterprise.isApproved) value = record.raw.enterprise.businessLetter;
+//	       			if (value) {
+//	       				if(value.indexOf('http') > -1){
+//	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}else {
+//	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}		       			
+//	       			} else {
+//	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
+//	       			}
+//	       		}
+//            },
+	         {
+				    xtype : 'actioncolumn',
+					text : '执照副本',
+					align : 'center',
+					sortable : false,
+					width : 100,
+					items : [{
+						icon : 'jsLib/extjs/resources/themes/icons/scan.png',
+						tooltip : '查看执照副本',
+						handler : function(grid, rowIndex, colIndex, node, e,
+								record, rowEl) {
+							this.fireEvent('pictureclick2', this, grid,
+									rowIndex, colIndex, node, e, record, rowEl);
+						}
+					}]
+			},
+			{
+				    xtype : 'actioncolumn',
+					text : '企业公函',
+					align : 'center',
+					sortable : false,
+					width : 100,
+					items : [{
+						icon : 'jsLib/extjs/resources/themes/icons/scan.png',
+						tooltip : '查看企业公函',
+						handler : function(grid, rowIndex, colIndex, node, e,
+								record, rowEl) {
+							this.fireEvent('pictureclick3', this, grid,
+									rowIndex, colIndex, node, e, record, rowEl);
+						}
+					}]
+			},
+            {
 				xtype : 'actioncolumn',
 				text : '通过',
 				align : 'center',
@@ -325,41 +392,74 @@ Ext.define('plat.view.enteruser.ApprUserTab', {
 	        { text: '申请会员名',align:'center',width:100,dataIndex: 'user.userName'},
 	        { text: '申请实名',align:'center',width:200, dataIndex: 'name'},
 	        { text: '申请时间',align:'center',width:150, dataIndex: 'applyTime'},
-        	{
-        		header : '个人近照',
-	       		dataIndex : 'personalPhoto',
-	       		width : 80,
-	       		tooltip : '查看个人近照',
-	       		align : 'center',
-	       		renderer : function (value, metaData, record) {
-	       			if (value) {
-	       				if(value.indexOf('http') > -1){
-	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}else {
-	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}		       			
-	       			} else {
-	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
-	       			}
-	       		}
-            },{
-				header : '身份证附件照',
-				dataIndex : 'idCardPhoto',
-	       		width : 110,
-	       		tooltip : '查看身份证附件照',
-	       		align : 'center',
-	       		renderer : function (value, metaData, record) {
-	       			if (value) {
-	       				if(value.indexOf('http') > -1){
-	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}else {
-	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
-	       				}		       			
-	       			} else {
-	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
-	       			}
-	       		}
-            },{
+//        	{
+//        		header : '个人近照',
+//	       		dataIndex : 'personalPhoto',
+//	       		width : 80,
+//	       		tooltip : '查看个人近照',
+//	       		align : 'center',
+//	       		renderer : function (value, metaData, record) {
+//	       			if (value) {
+//	       				if(value.indexOf('http') > -1){
+//	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}else {
+//	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}		       			
+//	       			} else {
+//	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
+//	       			}
+//	       		}
+//            },{
+//				header : '身份证附件照',
+//				dataIndex : 'idCardPhoto',
+//	       		width : 110,
+//	       		tooltip : '查看身份证附件照',
+//	       		align : 'center',
+//	       		renderer : function (value, metaData, record) {
+//	       			if (value) {
+//	       				if(value.indexOf('http') > -1){
+//	       					return "<a href='" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}else {
+//	       					return "<a href='upload/" + value + "' class='fancybox'>"+ lookIcon +"</a>";
+//	       				}		       			
+//	       			} else {
+//	       				return "<a href='resources/images/nopic.gif' class='fancybox'>"+ lookIcon +"</a>";
+//	       			}
+//	       		}
+//            },
+	        {
+				    xtype : 'actioncolumn',
+					text : '个人近照',
+					align : 'center',
+					sortable : false,
+					width : 80,
+					items : [{
+						icon : 'jsLib/extjs/resources/themes/icons/scan.png',
+						tooltip : '查看个人近照',
+						handler : function(grid, rowIndex, colIndex, node, e,
+								record, rowEl) {
+							this.fireEvent('pictureclick4', this, grid,
+									rowIndex, colIndex, node, e, record, rowEl);
+						}
+					}]
+			},
+			{
+				    xtype : 'actioncolumn',
+					text : '身份证附件照',
+					align : 'center',
+					sortable : false,
+					width : 110,
+					items : [{
+						icon : 'jsLib/extjs/resources/themes/icons/scan.png',
+						tooltip : '查看身份证附件照',
+						handler : function(grid, rowIndex, colIndex, node, e,
+								record, rowEl) {
+							this.fireEvent('pictureclick5', this, grid,
+									rowIndex, colIndex, node, e, record, rowEl);
+						}
+					}]
+			},
+	        {
 				xtype : 'actioncolumn',
 				text : '通过',
 				align : 'center',

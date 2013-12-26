@@ -26,7 +26,7 @@
    <!-- 左边菜单 -->
    	<jsp:include page="left.jsp" flush="true" />
     <div class="main-column">
-    	<div><h3 class="top-title">买家管理中心 >关闭订单<input onclick="window.location.href='ucenter/buyer_order?op=8'" type="submit" value="返回" style="height: 25px;width: 100px;float:right;font-size:13px;color: #800080;"></h3></div>
+    	<div><h3 class="top-title">买家管理中心 >关闭订单<input onclick="window.location.href='/ucenter/buyer_order?op=8'" type="submit" value="返回" style="height: 25px;width: 100px;float:right;font-size:13px;color: #800080;"></h3></div>
     	<div id="close" class="auth-form-content" style="display:block;">
     		<form id="close" class="close" action="order/closedeal" method="post">  
     			<input type="hidden" name="orderId" value="${goodsorder.id }" />
@@ -93,7 +93,7 @@
                 <div class="control-group">
                     <div class="controls">
                      	<button class="submit" onclick="closeDeal();"  type="button">关闭交易</button>
-		                <button onclick="window.location.href='ucenter/buyer_order?op=8'" class="submit" type="button">返回</button>        
+		                <button onclick="window.location.href='/ucenter/buyer_order?op=8'" class="submit" type="button">返回</button>        
                     </div>
                 </div>
        		</form>

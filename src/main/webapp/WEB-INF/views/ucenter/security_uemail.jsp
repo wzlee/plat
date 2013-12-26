@@ -54,7 +54,7 @@
  					</div>
  				</div>
 			</div>
-			<c:if test="${user.email != null }">
+			<c:if test="${user.email != null and user.email != ''}">
 				<div class="control-group"><label class="control-label secur"></label><div class="controls"><button class="submit" id="sendemail" data-loading-text="发送中...">发送邮箱验证码</button><div id="sendmessage"></div></div></div>
 			</c:if>
 			<div id="follow"></div>

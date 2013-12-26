@@ -1,7 +1,7 @@
 Ext.define('plat.controller.cms.NewsController', {
 	extend : 'Ext.app.Controller',
 	views : ['cms.NewsGrid', 'cms.NewsWin', 'cms.NewsForm',
-		'public.UploadWin', 'public.UploadForm'
+		'public.UploadWin', 'public.UploadForm','service.PictureWindow'
 	],
 	stores : ['cms.NewsStore'],
 	models : ['cms.NewsModel'],
@@ -14,6 +14,9 @@ Ext.define('plat.controller.cms.NewsController', {
     }, {
     	ref: 'newsform',
     	selector: 'newsform'
+    },{
+    	ref:'picturewindow',
+    	selector:'picturewindow'
     }],
 	init : function () {
 		this.control({
@@ -39,6 +42,30 @@ Ext.define('plat.controller.cms.NewsController', {
             		this.modifyNews();
             	}
 			},
+			'newsgrid actioncolumn':{
+            	pictureclick:function(column,grid, rowIndex, colIndex, node, e, record, rowEl){
+            		  var record = grid.getStore().getAt(rowIndex);
+					  var src = record.data.picture;
+					  if (src) {
+						 if(src.indexOf('http') > -1){
+						     src = record.data.picture;
+						 }else {
+						     src = 'upload/'+record.data.picture;
+						 }					       			
+					  } else {
+						 src = 'resources/images/service/default_service_pic.gif';
+					  }
+					  var pictureWindows = this.getPicturewindow();
+				      if(!pictureWindows){
+				    	  pictureWindows = Ext.widget('picturewindow',{
+				    		title:'查看图片['+record.data.title+']'
+				          });    		
+				      }
+					  pictureWindows.update({src:src});
+					  pictureWindows.show();
+					  pictureWindows.setTitle('查看图片['+record.data.title+']');
+            	}
+            },
 			"newsform" : {
 				afterrender : function (form) {
             		form.down('button[name=select]').on('click', function () {

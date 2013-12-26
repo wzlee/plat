@@ -462,66 +462,71 @@ public class HomeController extends BaseController {
 	public void userVerify(@RequestParam String username, @RequestParam String password,@RequestParam String authcode,@RequestParam String redirect_url,HttpServletRequest request, HttpServletResponse response,Model model) throws UnsupportedEncodingException {
 		if (authcode.equals(request.getSession().getAttribute("authcode").toString())) {
 			Flat flat = flatBiz.queryByClient_id(ResourceBundle.getBundle("config").getString("oauth.client_id"));
-			List<User> list = userBiz.findUserByName(username);
-			if (list != null && list.size() != 0) {
-				User user = list.get(0);
-				if (user.getPassword().equals(password)) {
-					if(user.getUserStatus()== Constant.EFFECTIVE){
-						user.setStatus(new Date().getTime());
-						userBiz.update(user);
-						request.getSession().setAttribute("user", user);
-						request.getSession().setAttribute("usertype", Constant.LOGIN_USER);
-						//保存user登录情况下的user对象(目的：区分个人用户和企业用户)
-						request.getSession().setAttribute("loginUser", user);
-						if(!user.getIsPersonal()){
-							//保存登录者企业信息
-							request.getSession().setAttribute("loginEnterprise", user.getEnterprise());
-							//得到登录者企业的信誉评价并保存
-							EnterpriseCredit ec = ecBiz.queryByEnterprise(user.getEnterprise().getId());
-							request.getSession().setAttribute("enterpriseCredit", ec);
-						}
-						Long time = System.currentTimeMillis();
-						String params = MD5.toMD5(flat.getClient_secret())+"&user|"+user.getUid()+"|"+MD5.toMD5(user.getUserName()+user.getPassword())+"&"+redirect_url;
-						String code = new String(Base64.encode(params.getBytes("utf-8")));
-						this.outJson(response, new JSONResult(true,flat.getRedirect_url()+"?time="+time+"&code="+URLEncoder.encode(code,"utf-8")));
-					}else if(user.getUserStatus()== Constant.DISABLED){
-						this.outJson(response, new JSONResult(false, "账号被禁用！"));
-					}else{
-						this.outJson(response, new JSONResult(false, "账号被删除！"));
-					}
-				} else {
-					this.outJson(response, new JSONResult(false, "密码输入有误!"));
-				}
-			} else if (staffBiz.findByUserName(username) != null) {
-				Staff staff = staffBiz.findByUserName(username);
-				if (staff.getPassword().equals(password)) {
-					if(staff.getStaffStatus() == Constant.EFFECTIVE){
-						request.getSession().setAttribute("user", staff);
-						request.getSession().setAttribute("usertype", Constant.LOGIN_STAFF);
-						//保存登录者企业信息
-						request.getSession().setAttribute("loginEnterprise", staff.getParent().getEnterprise());
-						//得到登录者企业的信誉评价并保存
-						EnterpriseCredit ec = ecBiz.queryByEnterprise(staff.getParent().getEnterprise().getId());
-						request.getSession().setAttribute("enterpriseCredit", ec);
-						
-						List<StaffMenu> staffmenu = staffMenuBiz.findMenus(staff.getStaffRole().getMenuIds());
-						request.getSession().setAttribute("staffmenu", StaffTree.getResult(staffmenu));
-						staff.setStatus(new Date().getTime());
-						staffBiz.update(staff);
-						Long time = System.currentTimeMillis();
-						String params = MD5.toMD5(flat.getClient_secret())+"&staff|"+staff.getStid()+"|"+MD5.toMD5(staff.getUserName()+staff.getPassword())+"&"+redirect_url;
-						String code = new String(Base64.encode(params.getBytes("utf-8")));
-						this.outJson(response, new JSONResult(true,flat.getRedirect_url()+"?time="+time+"&code="+URLEncoder.encode(code,"utf-8")));
-					}else if(staff.getStaffStatus() == Constant.DISABLED){
-						this.outJson(response, new JSONResult(false, "账号被禁用！"));
-					}else{
-						this.outJson(response, new JSONResult(false, "账号被删除！"));
-					}
-				} else {
-					this.outJson(response, new JSONResult(false, "密码输入有误!"));
-				}
+			if (flat == null) {
+				logger.info("oauth.client_id 没有找到与其匹配的信息！");
+				this.outJson(response, new JSONResult(false, "同步登录异常！"));
 			} else {
-				this.outJson(response, new JSONResult(false, "用户名不存在!"));
+				List<User> list = userBiz.findUserByName(username);
+				if (list != null && list.size() != 0) {
+					User user = list.get(0);
+					if (user.getPassword().equals(password)) {
+						if(user.getUserStatus()== Constant.EFFECTIVE){
+							user.setStatus(new Date().getTime());
+							userBiz.update(user);
+							request.getSession().setAttribute("user", user);
+							request.getSession().setAttribute("usertype", Constant.LOGIN_USER);
+							//保存user登录情况下的user对象(目的：区分个人用户和企业用户)
+							request.getSession().setAttribute("loginUser", user);
+							if(!user.getIsPersonal()){
+								//保存登录者企业信息
+								request.getSession().setAttribute("loginEnterprise", user.getEnterprise());
+								//得到登录者企业的信誉评价并保存
+								EnterpriseCredit ec = ecBiz.queryByEnterprise(user.getEnterprise().getId());
+								request.getSession().setAttribute("enterpriseCredit", ec);
+							}
+							Long time = System.currentTimeMillis();
+							String params = MD5.toMD5(flat.getClient_secret())+"&user|"+user.getUid()+"|"+MD5.toMD5(user.getUserName()+user.getPassword())+"&"+redirect_url;
+							String code = new String(Base64.encode(params.getBytes("utf-8")));
+							this.outJson(response, new JSONResult(true,flat.getRedirect_url()+"?time="+time+"&code="+URLEncoder.encode(code,"utf-8")));
+						}else if(user.getUserStatus()== Constant.DISABLED){
+							this.outJson(response, new JSONResult(false, "账号被禁用！"));
+						}else{
+							this.outJson(response, new JSONResult(false, "账号被删除！"));
+						}
+					} else {
+						this.outJson(response, new JSONResult(false, "密码输入有误!"));
+					}
+				} else if (staffBiz.findByUserName(username) != null) {
+					Staff staff = staffBiz.findByUserName(username);
+					if (staff.getPassword().equals(password)) {
+						if(staff.getStaffStatus() == Constant.EFFECTIVE){
+							request.getSession().setAttribute("user", staff);
+							request.getSession().setAttribute("usertype", Constant.LOGIN_STAFF);
+							//保存登录者企业信息
+							request.getSession().setAttribute("loginEnterprise", staff.getParent().getEnterprise());
+							//得到登录者企业的信誉评价并保存
+							EnterpriseCredit ec = ecBiz.queryByEnterprise(staff.getParent().getEnterprise().getId());
+							request.getSession().setAttribute("enterpriseCredit", ec);
+							
+							List<StaffMenu> staffmenu = staffMenuBiz.findMenus(staff.getStaffRole().getMenuIds());
+							request.getSession().setAttribute("staffmenu", StaffTree.getResult(staffmenu));
+							staff.setStatus(new Date().getTime());
+							staffBiz.update(staff);
+							Long time = System.currentTimeMillis();
+							String params = MD5.toMD5(flat.getClient_secret())+"&staff|"+staff.getStid()+"|"+MD5.toMD5(staff.getUserName()+staff.getPassword())+"&"+redirect_url;
+							String code = new String(Base64.encode(params.getBytes("utf-8")));
+							this.outJson(response, new JSONResult(true,flat.getRedirect_url()+"?time="+time+"&code="+URLEncoder.encode(code,"utf-8")));
+						}else if(staff.getStaffStatus() == Constant.DISABLED){
+							this.outJson(response, new JSONResult(false, "账号被禁用！"));
+						}else{
+							this.outJson(response, new JSONResult(false, "账号被删除！"));
+						}
+					} else {
+						this.outJson(response, new JSONResult(false, "密码输入有误!"));
+					}
+				} else {
+					this.outJson(response, new JSONResult(false, "用户名不存在!"));
+				}
 			}
 		} else {
 			this.outJson(response, new JSONResult(false, "验证码输入错误!"));

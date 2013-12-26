@@ -193,7 +193,7 @@ public class PublicController extends BaseController {
 	private void fileUpload(String contextPath, MultipartFile file, HttpServletResponse response){
 		File filepath = new File(contextPath);
 		FileManager fileManager = new FileManager();
-		
+		logger.info("上传文件名[" + file.getName() + "],文件大小[" + file.getSize() + "]");
 		if (!filepath.exists()) {
 			filepath.mkdir();
 			logger.info("[" + filepath.getAbsolutePath() + "]创建成功!");
@@ -210,6 +210,7 @@ public class PublicController extends BaseController {
 			fileManager.setFname(Common.CENTER_WEBSITE + "/" + Common.uploadPath + "/" + orgFileName);
 			fileManager.setDate(date);
 			fileManagerBiz.saveFileManager(fileManager);
+			logger.info("[" + orgFileName + "]上传成功!");
 			super.outJson(response, new JSONResult(true, Common.CENTER_WEBSITE + "/" + Common.uploadPath + "/" + orgFile.getName()));
 		} catch (Exception e) {
 			logger.info("Exception异常:" + e.getLocalizedMessage());
@@ -369,14 +370,13 @@ public class PublicController extends BaseController {
 	public void apiOauth(@RequestParam(required=true) String client_id,@RequestParam(required=true) String client_secret,HttpServletRequest request,HttpServletResponse response) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		String client_ip = request.getRemoteAddr();
 		String client_host = request.getRemoteHost();
-		Flat flat = flatBiz.queryByIpAndHost(client_ip,client_host);
+//		Flat flat = flatBiz.queryByIpAndHost(client_ip,client_host);
+		Flat flat = flatBiz.queryByClient_id(client_id);
 		if(flat == null){
-			this.outJson(response, new APIResult(false,-1,"请求地址或主机未通过授权!")); 
-			logger.info("客户端:"+client_host+"["+client_ip+"]请求api未授权或已过期!错误信息:请求地址或主机未通过授权!");
+			this.outJson(response, new APIResult(false,-1,"client_id不合法!")); 
+			logger.info("客户端:"+client_host+"["+client_ip+"]请求api未授权失败!错误信息:client_id不合法!");
 		}else{
-			if(!flat.getClient_id().equals(client_id)){
-				this.outJson(response, new APIResult(false,1,"client_id匹配失败!")); 
-			}else if(!flat.getClient_secret().equals(client_secret)){
+			if(!flat.getClient_secret().equals(client_secret)){
 				this.outJson(response, new APIResult(false,1,"client_secret匹配失败!")); 
 			}else{
 				Random rand = new Random();

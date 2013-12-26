@@ -29,10 +29,10 @@
     <div class="main-column">
     	<div>
     		<c:if test="${param.op == 3 }">
-    			<h3 class="top-title">买家管理中心 >订单详情<input onclick="window.location.href='ucenter/buyer_order?op=3'" type="submit" value="返回" style="height: 25px;width: 100px;float:right;font-size:13px;color: #800080;" /></h3>
+    			<h3 class="top-title">买家管理中心 >订单详情<input onclick="window.location.href='/ucenter/buyer_order?op=3'" type="submit" value="返回" style="height: 25px;width: 100px;float:right;font-size:13px;color: #800080;" /></h3>
     		</c:if>
     		<c:if test="${param.op == 4 }">
-    			<h3 class="top-title">卖家管理中心 >订单详情<input onclick="window.location.href='ucenter/seller_order?op=4'" type="submit" value="返回" style="height: 25px;width: 100px;float:right;font-size:13px;color: #800080;" /></h3>
+    			<h3 class="top-title">卖家管理中心 >订单详情<input onclick="window.location.href='/ucenter/seller_order?op=4'" type="submit" value="返回" style="height: 25px;width: 100px;float:right;font-size:13px;color: #800080;" /></h3>
     		</c:if>
     	</div>
     	<div id="appeal" class="auth-form-content" style="display:block;">

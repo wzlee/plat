@@ -205,7 +205,7 @@ public abstract class AbstractSyncBean<T> {
 	 * @since 2013-12-2 
 	 *
 	 */
-	private String getInsertSql(){
+	protected String getInsertSql(){
 		StringBuffer updateSql = new StringBuffer();
 		StringBuffer values = new StringBuffer();
 		for (String field : syncFields.split(",")) {
@@ -234,7 +234,7 @@ public abstract class AbstractSyncBean<T> {
 	 * @since 2013-12-2 
 	 *
 	 */
-	private String getUpdateSql(){
+	protected String getUpdateSql(){
 		StringBuffer updateSql = new StringBuffer();
 		StringBuffer values = new StringBuffer();
 		for (String field : syncFields.split(",")) {
@@ -276,7 +276,7 @@ public abstract class AbstractSyncBean<T> {
 	 * @param wdao
 	 * @throws SQLException 
 	 */
-	private void reloadWinForeignKeyValue(WindowDao wdao) throws SQLException{
+	protected void reloadWinForeignKeyValue(WindowDao wdao) throws SQLException{
 		if (foreignKeyMap != null && foreignKeyMap.size() > 0) {
 			win_foreignkey_value = new HashMap<String, Object>();
 			for(String foreignkey : foreignKeyMap.keySet()){

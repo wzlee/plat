@@ -102,13 +102,13 @@ border:1px solid #D9D9D9;
 	font-family:microsoft yahei;color:#333;position:relative;
 }
 .p-search-form{
-	height:30px;line-height:30px;position:absolute;right:0;top:5px;
+	height:30px;width:310px;line-height:30px;position:absolute;right:0;top:5px;
 }
 .p-search-form label{
 	font-size:14px; vertical-align:middle;
 }
 .p-search-form .key-text{
-	width:165px;background:#F0F0F0;border:none;float:right;padding-right:32px;
+	width:197px;background:#F0F0F0;border:none;position:absolute;right:30px;top:0;
 }
 .p-search-form .search-go{
 	height:28px;line-height:28px;border:none;width:30px;
@@ -249,9 +249,11 @@ h1.policy-h1{
 }
 .policy-list td em{colo}
 .policy-list a.q-link{
-	display:line-block;padding:4px 8px;
+	display:line-block;
+	padding:4px 8px;
 	background:#939393;
 	color:#fff;
+	line-height:20px;
 	margin-right:10px;
 }
 .policy-list a.q-link.l-1{
@@ -299,14 +301,14 @@ ul.policy-c li .selects{
 }
 ul.policy-c li .entery{margin-left:-3px;}
 .apply-result{
-	border-top:5px solid #6C3078;
+	border-top:5px solid #6C3078;overflow:hidden;
 }
 .result-con{
 	width:715px;
 	margin:20px auto;
 }
 .result-con strong.title{
-	font-size:14px;
+	font-size:14px;line-height:1.5;
 }
 .policy-detail{
 	background: #F0F0F0;border-radius: 8px;
@@ -389,3 +391,10 @@ ul.policy-c li .entery{margin-left:-3px;}
 .nextMonth{ font-size:14px; font-weight:bold; cursor:pointer; margin-left:18px;color:#0080FF;}
 .mh_date{width:249px; height:20px; line-height:20px; padding:5px; border:2px #AA9FFF solid; cursor:pointer; background:url(dateIco.png) no-repeat right center;}
 .zhezhao{width:100%; height:100%; position:fixed; z-index:998;	background:#fff;filter:alpha(opacity=10);opacity:0.1; display:none; }
+/*政策资金搜索*/
+.list-policy-search{
+	border-bottom:1px solid #ddd;margin-bottom:10px;padding-bottom:10px;
+}
+.list-policy-search h2{
+	margin-bottom:15px;font-size:16px;
+}

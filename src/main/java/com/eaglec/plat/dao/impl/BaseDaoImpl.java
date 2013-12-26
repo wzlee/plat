@@ -103,6 +103,12 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 
 	@Override
+	public T merge(T o) {
+		this.getCurrentSession().merge(o);
+		return o;
+	}
+	
+	@Override
 	public T saveOrUpdate(T o) {
 		this.getCurrentSession().saveOrUpdate(o);
 		return o;
@@ -354,5 +360,4 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 				.addEntity(entityClass).list();
 		return list.size();
 	}
-
 }

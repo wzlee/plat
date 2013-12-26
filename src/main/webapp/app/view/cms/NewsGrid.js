@@ -41,35 +41,53 @@ Ext.define('plat.view.cms.NewsGrid', {
 //					}
 //					return value;
 //				}}, 
+//				{
+//					xtype : 'actioncolumn',
+//					text : '配图',
+//					align : 'center',
+//					sortable : false,
+//					menuDisabled : true,
+//					width : 50,
+//					items : [{
+//						iconCls : 'icon-scan',
+//						tooltip : '查看新闻配图',
+//						handler : function(grid, rowIndex, colIndex, item, e, record, row) {
+//							var picture = record.data.picture;
+//							var $scanImage = $("#scan-image a");
+//							if (picture) {
+//								if(picture.indexOf('http') > -1){
+//									$scanImage.attr("href", picture);
+//								}else {
+//									$scanImage.attr("href", "upload/" + picture);
+//								}								
+//							} else {
+//								$scanImage.attr("href", "resources/images/nopic.gif");
+//							}
+//							$("#scan-image a").trigger("click");
+//							var clone = $(".fancybox-wrap").clone();
+//							$("body > .fancybox-wrap").remove();
+//							$(".fancybox-overlay").append(clone);
+//						}
+//					}]
+//				}, 
 				{
-					xtype : 'actioncolumn',
-					text : '配图',
-					align : 'center',
-					sortable : false,
-					menuDisabled : true,
-					width : 50,
-					items : [{
-						iconCls : 'icon-scan',
-						tooltip : '查看新闻配图',
-						handler : function(grid, rowIndex, colIndex, item, e, record, row) {
-							var picture = record.data.picture;
-							var $scanImage = $("#scan-image a");
-							if (picture) {
-								if(picture.indexOf('http') > -1){
-									$scanImage.attr("href", picture);
-								}else {
-									$scanImage.attr("href", "upload/" + picture);
-								}								
-							} else {
-								$scanImage.attr("href", "resources/images/nopic.gif");
+						xtype : 'actioncolumn',
+						text : '配图',
+						align : 'center',
+						sortable : false,
+						width : 50,
+						items : [{
+							icon : 'jsLib/extjs/resources/themes/icons/scan.png',
+							tooltip : '查看新闻配图',
+							handler : function(grid, rowIndex, colIndex, node,
+									e, record, rowEl) {
+								this.fireEvent('pictureclick', this, grid,
+										rowIndex, colIndex, node, e, record,
+										rowEl);
 							}
-							$("#scan-image a").trigger("click");
-							var clone = $(".fancybox-wrap").clone();
-							$("body > .fancybox-wrap").remove();
-							$(".fancybox-overlay").append(clone);
-						}
-					}]
-				}, {
+						}]
+				},
+				{
 			        xtype:'actioncolumn',
 			        text:'修改',
 			        align:'center',
@@ -89,7 +107,6 @@ Ext.define('plat.view.cms.NewsGrid', {
 					    		newsWindows.show();
 					    	}
 					    	var Eform = Ext.ComponentQuery.query('newsform')[0];
-					    	Eform.getForm().loadRecord(record);
 					    	if (Eform.getKindeditor()) {
 								Eform.loadRecord(record);
 								Eform.getKindeditor().html(record.data.content);

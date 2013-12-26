@@ -23,6 +23,20 @@ Ext.define('plat.view.wx.ArticleInfoGrid', {
 				{header : '发布人', dataIndex : 'author', width : 100, align : 'center' },
 				{header : '更新时间', dataIndex : 'pubdate', width : 140, align : 'center'},
 				{
+			        xtype:'actioncolumn',
+			        text: '推送',
+			        align:'center',
+			        menuDisabled : true,
+			        width: 50,
+			        items: [{
+			            iconCls:'icon-edit',
+			            tooltip: '推送此消息',
+			            handler: function(grid, rowIndex, colIndex, item, e, record, row) {
+					    	
+			            }
+			       }]
+		       },
+				{
 					xtype : 'actioncolumn',
 					text : '配图',
 					align : 'center',
@@ -66,7 +80,15 @@ Ext.define('plat.view.wx.ArticleInfoGrid', {
 					    		articleinfowindow.show();
 					    	}
 					    	var Eform = Ext.ComponentQuery.query('articleinfoform')[0];
-					    	Eform.getForm().loadRecord(record);
+					    	if (Eform.getKindeditor()) {
+								Eform.loadRecord(record);
+								Eform.getKindeditor().html(record.data.content);
+							} else {
+								setTimeout(function () {
+									Eform.loadRecord(record);
+									Eform.getKindeditor().html(record.data.content);
+								}, 1000);
+							}
 					    	
 					    	var EoriginalPic = Eform.query('textfield[name=originalPic]')[0];
 							if (record.data.picture) {	//当新闻图片存在时，隐藏输入框做标记

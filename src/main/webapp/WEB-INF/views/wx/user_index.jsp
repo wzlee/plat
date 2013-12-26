@@ -1,19 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-	String path = request.getContextPath();
-	String basePath = "";
-	basePath =request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-	basePath ="http://wx.smemall.net/";
-%>
 <!DOCTYPE>
 <html>
 <head>
 <meta charset="UTF-8">
-<base href="<%=basePath%>">
-<title>用户中心-深圳中小企业服务平台</title>
+<base href="${basePath}">
+<title>用户中心</title>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -22,7 +15,7 @@
 <body>
 <div id="header">
 	<a href="javascript:history.go(-1)" class="up-data"></a>
-	<h1>用户中心</h1>
+	<img src="resources/images/wx-logo.png" alt="">
 	<a href="/wx/index" class="home-icon"></a>
 </div>
 <!-- 头部 -->
@@ -50,8 +43,12 @@
 					<a href="wxpage/userService" class="a-link">我的服务</a>
 				</li>
 				<li>
-					<a href="wxpage/userBid"><img src="images/icon1.png" alt=""></a>
+					<a href="wxpage/userBid"><img src="resources/images/icon1.png" alt=""></a>
 					<a href="wxpage/userBid" class="a-link">我的招标</a>
+				</li>
+				<li>
+					<a href="concernusers/pageSkip?page=wx/user_unbound&openid=${concernUsers.wxUserToken}"><img src="resources/images/wx-unbound.png" alt=""></a>
+					<a href="concernusers/pageSkip?page=wx/user_unbound&openid=${concernUsers.wxUserToken}" class="a-link">解除绑定</a>
 				</li>
 			</c:if>
 			<c:if test="${user.enterprise.type==1 }">	
@@ -98,13 +95,14 @@
 							<div class="col one">收藏时间：</div>
 							<div class="col">${favortiesItem.time }</div>
 						</div>
-						<a href="" class="btn-button">取消收藏</a>
+						<a href="myFavorites/deleteFromWX?id=${favortiesItem.id}" class="btn-button">取消收藏</a>
 					</div>	
 				</c:forEach>
 			</div>
-			<a href="" class="load-more">点击加载更多</a>			
+			<a start="6" type="6" href="javascript:void(0);" class="load-more">点击加载更多</a>		
 	</div>		
 </div>
 <jsp:include page="footer.jsp" flush="true" />
+<script type="text/javascript" src="resources/js/wx/wx.js"></script>
 </body>
 </html>

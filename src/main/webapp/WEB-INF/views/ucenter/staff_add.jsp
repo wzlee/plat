@@ -27,7 +27,7 @@
    <!-- 左边菜单 -->
    	<jsp:include page="left.jsp" flush="true" />
     <div class="main-column">
-    	<div><h3 class="top-title">子账号管理>添加子账号<input onclick="window.location.href='ucenter/staff_list?op=88'" type="submit" value="返回" style="height: 25px;width: 100px;float:right;font-size:13px;color: #800080;"></h3></div>
+    	<div><h3 class="top-title">子账号管理>添加子账号<input onclick="window.location.href='/ucenter/staff_list?op=88'" type="submit" value="返回" style="height: 25px;width: 100px;float:right;font-size:13px;color: #800080;"></h3></div>
     	<div class="auth-form-content">
             <form class="real_name_auth" action="" method="post">
             	<input type="hidden" name="parentId" id="parentId" value="${user.id}" /> 
@@ -84,7 +84,7 @@
                 <div class="control-group">
                     <div class="controls">
 		                <button class="submit" id="save" type="button">添加</button>
-		                <button class="submit" onclick="window.location.href='ucenter/staff_list?op=88'" type="button">返回</button>
+		                <button class="submit" onclick="window.location.href='/ucenter/staff_list?op=88'" type="button">返回</button>
                     </div>
                 </div>
             </form>

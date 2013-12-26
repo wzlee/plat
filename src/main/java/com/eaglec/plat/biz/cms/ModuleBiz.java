@@ -32,6 +32,11 @@ public interface ModuleBiz {
 	 */
 	public void delete(Module m);
 	/**
+	 * 删除模块(位置不改动) xuwf 2013-12-20
+	 * @param m	
+	 */
+	public void deleteModule(Module m);
+	/**
 	 * @date: 2013-8-14
 	 * @author：lwch
 	 * @description：修改模块

@@ -67,6 +67,16 @@ public interface ApproveBiz {
 	public abstract List<ApprovedDetail> findApprListByUid(Integer uid);
 	
 	/**
+	 * 根据企业id查找服务机构注册审核流水
+	 * @author xuwf
+	 * @since 2013-12-19
+	 * 
+	 * @param enterpriseId
+	 * @return
+	 */
+	public List<OrgRegisterApproval> findOrgApprListByOrgName(Integer enterpriseId);
+	
+	/**
 	 * 添加用户认证申请，并返回该用户的申请列表
 	 *@author Xiadi
 	 *@since 2013-8-31 

@@ -3,6 +3,7 @@
  * 收藏服务
  * @author liuliping
  * @param id 服务id
+ * @param obj html对象
  * */
 function collect(obj, id) {
 	if ($(obj).text() == '已收藏') {
@@ -127,23 +128,20 @@ $(function(){
 						beforeSend:function(){					
 						},
 						success : function(data) {
-							if (data.success) {
-//								art.dialog({
-//									id : "attentionservice",
-//								    title: '提示',
-//								    ok : function () {},
-//								    okValue : '关闭',
-//								    content: data.message,
-//								    fixed : true
-//								});
-//								$fa.text('已关注');
-//								$fa.addClass("attentionservice");
-								location.reload()
-							}
+							art.dialog({
+							    title: '提示',
+							    beforeunload:function(){
+							    	if(data.success)
+							    		location.reload();
+							    },
+							    ok : function () {},
+							    okValue : '关闭',
+							    content: data.message,
+							    fixed : true
+							});
 						},
 						failure : function(response) {
 							art.dialog({
-								id : "attentionservice",
 							    title: '提示',
 							    ok : function () {},
 							    okValue : '关闭',
@@ -190,23 +188,20 @@ $(function(){
 							beforeSend:function(){					
 							},
 							success : function(data) {
-								if (data.success) {
-//									art.dialog({
-//										id : "attentionservice",
-//									    title: '提示',
-//									    ok : function () {},
-//									    okValue : '关闭',
-//									    content: data.message,
-//									    fixed : true
-//									});
-//									$fa.text('已关注');
-//									$fa.addClass("attentionservice");
-									location.reload();
-								}
+								art.dialog({
+								    title: '提示',
+								    beforeunload:function(){
+							    		if(data.success)
+							    			location.reload();
+							    	},
+								    ok : function () {},
+								    okValue : '关闭',
+								    content: data.message,
+								    fixed : true
+								});
 							},
 							failure : function(response) {
 								art.dialog({
-									id : "attentionservice",
 								    title: '提示',
 								    ok : function () {},
 								    okValue : '关闭',
@@ -229,7 +224,3 @@ $(function(){
 	
 	});
 })
-
-
-
-

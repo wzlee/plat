@@ -20,15 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.util.Base64;
-import com.eaglec.plat.aop.NeedSession;
-import com.eaglec.plat.aop.SessionType;
 import com.eaglec.plat.biz.app.mobile.MobileAppBiz;
 import com.eaglec.plat.biz.mobileApp.AppMessageBiz;
 import com.eaglec.plat.biz.service.ServiceConsumerBiz;
 import com.eaglec.plat.domain.mobileApp.AppMessage;
 import com.eaglec.plat.utils.Common;
 import com.eaglec.plat.utils.MD5;
-import com.eaglec.plat.view.JSONData;
 import com.eaglec.plat.view.JSONResult;
 
 @Controller
@@ -57,9 +54,9 @@ public class MoblieAppController extends BaseController {
 	@RequestMapping(value = "/handle")
 	public void handle(@RequestParam(required=true)String data, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> result = null;
-//		// 1.校验header
+		// 1.校验header
 		String decodedContent = verifyHeader(data);
-//		// 2.执行业务
+		// 2.执行业务
 		if (decodedContent == null) {
 			result = new HashMap<String, Object>();
 			result.put("statusCode", 1);
@@ -67,8 +64,8 @@ public class MoblieAppController extends BaseController {
 		} else {
 			JSONObject jsonObject = null;
 			try {
-//				jsonObject =  JSONObject.parseObject(decodedContent);
-				jsonObject =  JSONObject.parseObject(data);
+				jsonObject =  JSONObject.parseObject(decodedContent);
+//				jsonObject =  JSONObject.parseObject(data);
 			} catch (com.alibaba.fastjson.JSONException e) {
 				result = new HashMap<String, Object>();
 				result.put("statusCode", 1);
@@ -85,7 +82,7 @@ public class MoblieAppController extends BaseController {
 				result = mobileAppBiz.getServiceDetail(jsonObject);
 				break;
 			case 12:    //预约购买服务
-				result = mobileAppBiz.addServiceConsumer(jsonObject);
+				result = mobileAppBiz.saveApplyService(jsonObject);
 				break;
 			case 13:    //查看服务机构列表
 				result = mobileAppBiz.getEnterprises();
@@ -132,7 +129,7 @@ public class MoblieAppController extends BaseController {
         nvps.add(new BasicNameValuePair("push", "1"));    //发送推送, 0是不推送
         String picture = appMessage.getPicture();
         if(picture != null && !"".equals(picture)) {
-        	nvps.add(new BasicNameValuePair("pic_url", Common.PLAT_DOMAIN + "/upload/" + appMessage.getPicture()));
+        	nvps.add(new BasicNameValuePair("pic_url", appMessage.getPicture()));
         }
         AppMessage entity = appMessageBiz.get(id);
 		try {
@@ -216,7 +213,6 @@ public class MoblieAppController extends BaseController {
 	private String verifyHeader(String msgString) {
 		String header = msgString.substring(0, 16);
 		String msgContent = msgString.substring(16);
-		
 		String genHeader = MD5.toMD5UpperCase(Common.appMoblieToken + msgContent).substring(4, 20);
 		if (genHeader.equals(header)) {    //header和genHeader相同,返回base64解码后的msgContent
 			byte[] b = Base64.decodeFast(msgContent);

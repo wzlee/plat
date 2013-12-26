@@ -1,19 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-	String path = request.getContextPath();
-	String basePath = "";
-	basePath =request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-	basePath ="http://wx.smemall.net/";
-%>
 <!DOCTYPE>
 <html>
 <head>
 <meta charset="UTF-8">
-<base href="<%=basePath%>">
-<title>服务详情-深圳中小企业服务平台-手机版</title>
+<base href="${basePath}">
+<title>${service.serviceName }</title>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -22,7 +15,7 @@
 <body>
 <div id="header">
 	<a href="javascript:history.go(-1)" class="up-data"></a>
-	<h1>服务详情</h1>
+	<img src="resources/images/wx-logo.png" alt="">
 	<a href="/wx/index" class="home-icon"></a>
 </div>
 <!-- 头部 -->
@@ -41,8 +34,15 @@
 								</c:if>
 								<c:if test="${!service.picture.contains('http')}">
 									<img src="upload/${service.picture }" alt="">
-								</c:if>							
-								<a href="" class="collect">收藏该服务</a>
+								</c:if>	
+								<c:choose>
+						      		<c:when test="${collected == true}">
+						      			<a href="javascript:void(0);" class="collect">已收藏</a>
+						      		</c:when>
+						      		<c:otherwise>
+						      			<a href="myFavorites/addFromWX?serviceId=${service.id}" class="collect">收藏该服务</a>
+						      		</c:otherwise>
+							    </c:choose>	
 							</div>
 							<div class="info">
 								<h1 class="view-h1">${service.serviceName }</h1>
@@ -60,7 +60,7 @@
 								</div>
 								<div class="row">
 									<div class="col one">&nbsp;</div>
-									<div class="col"><a href="" class="btn-button">立即申请</a></div>
+									<div class="col"><a href="wxpage/userApply?id=${service.id }" class="btn-button">立即申请</a></div>
 								</div>
 								
 							</div>
@@ -135,5 +135,6 @@
 			</div>
 	</div>
 <jsp:include page="footer.jsp" flush="true" />
+<script type="text/javascript" src="resources/js/wx/wx_collect_service.js"></script>
 </body>
 </html>

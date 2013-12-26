@@ -69,6 +69,11 @@ public class ModuleBizImpl implements ModuleBiz {
 			moduelDao.update(module);
 		}
 	}
+	
+	@Override
+	public void deleteModule(Module m) {
+		moduelDao.delete(m);
+	}
 
 	@Override
 	public void update(Module m) {

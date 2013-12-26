@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
@@ -46,7 +47,6 @@ import com.eaglec.plat.sync.bean.EnterpriseSyncBean;
 import com.eaglec.plat.sync.bean.OrgRegisterSyncBean;
 import com.eaglec.plat.sync.bean.UserSyncBean;
 import com.eaglec.plat.sync.impl.SaveOrUpdateToWinImpl;
-import com.eaglec.plat.utils.Common;
 import com.eaglec.plat.utils.Constant;
 import com.eaglec.plat.utils.MD5;
 import com.eaglec.plat.utils.RandomUtils;
@@ -754,6 +754,31 @@ public class UserController extends BaseController{
 	}
 	
 	/**
+	 * 获取ip
+	 * @author cs
+	 * @param request
+	 * @return ip地址
+	 */
+    private String getIpAddr(HttpServletRequest request) {
+        String ip = request.getHeader("X-Real-IP");
+        if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
+            return ip;
+        }
+        ip = request.getHeader("X-Forwarded-For");
+        if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
+        // 多次反向代理后会有多个IP值，第一个为真实IP。
+        int index = ip.indexOf(',');
+            if (index != -1) {
+                return ip.substring(0, index);
+            } else {
+                return ip;
+            }
+        } else {
+             return request.getRemoteAddr();
+        }
+    }
+	
+	/**
 	 * @author cs
 	 * 注册第二步
 	 * @param enterprise_type 行业代码==所属窗口 1——15
@@ -772,6 +797,8 @@ public class UserController extends BaseController{
 			Integer type,
 			Integer enterpriseIndustry,	//xuwf 2013-11-23添加一个企业属性:企业所属行业
 			HttpServletRequest request, HttpServletResponse response){
+		String ip = getIpAddr(request);
+		
 		String s = RandomUtils.generateRandomNumber();
 		String check= s+"1|"+System.currentTimeMillis();
 		SendEmail sendEmail = new SendEmail();
@@ -791,6 +818,7 @@ public class UserController extends BaseController{
 				enterprise.setType(1);
 				enterprise.setEmail(user.getEmail());
 				
+				user.setIp(ip);
 				user.setApproved(false);
 				user.setPersonal(false);
 				user.setCheckcode(check);
@@ -828,6 +856,7 @@ public class UserController extends BaseController{
 				
 			//个人用户	
 			}else if(type == 2){
+				user.setIp(ip);
 				user.setApproved(false);
 				user.setPersonal(true);
 				user.setCheckcode(check);
@@ -1024,7 +1053,7 @@ public class UserController extends BaseController{
 			User user = approveBiz.addOrgRegisterApprove(orgRegisterApproval, status, manager);
 			if (user != null) {
 				// 同步至窗口
-				SyncFactory.executeTask(new SaveOrUpdateToWinImpl<Enterprise>(new EnterpriseSyncBean(user.getEnterprise(), SyncType.ALL)));
+				SyncFactory.executeTask(new SaveOrUpdateToWinImpl<Enterprise>(new EnterpriseSyncBean(user.getEnterprise(), SyncType.ALL)),true);
 				SyncFactory.executeTask(new SaveOrUpdateToWinImpl<User>(new UserSyncBean(user, SyncType.ALL)));
 			}
 			SyncFactory.executeTask(new SaveOrUpdateToWinImpl<OrgRegisterApproval>(new 

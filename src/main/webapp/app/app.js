@@ -42,7 +42,10 @@ var plat = new Ext.application({
     	'policy.PolicyController',
     	'info.InfoController',
     	'mobileapp.MobileAppController',
-    	'wx.WXNewsController'
+    	'wx.WXNewsController',
+    	'wx.ArticleInfoController',
+    	'wx.AutoMessageController',
+    	'wx.WeiXinUserController'
     ],
     launch: function() {
     	Ext.get('loading').remove();

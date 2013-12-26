@@ -30,6 +30,7 @@ import com.eaglec.plat.biz.wx.AutoMessageBiz;
 import com.eaglec.plat.biz.wx.ConcernUsersBiz;
 import com.eaglec.plat.biz.wx.ReceiveBiz;
 import com.eaglec.plat.biz.wx.ReplyBiz;
+import com.eaglec.plat.biz.wx.UserChangeBiz;
 import com.eaglec.plat.biz.wx.WXUserBiz;
 import com.eaglec.plat.domain.base.Enterprise;
 import com.eaglec.plat.domain.policy.Policy;
@@ -40,7 +41,9 @@ import com.eaglec.plat.domain.wx.ConcernUsers;
 import com.eaglec.plat.domain.wx.ReceiveInfo;
 import com.eaglec.plat.domain.wx.Reply;
 import com.eaglec.plat.domain.wx.ReplyInfo;
+import com.eaglec.plat.domain.wx.UserChange;
 import com.eaglec.plat.domain.wx.WeiXinUser;
+import com.eaglec.plat.utils.StrUtils;
 import com.eaglec.plat.utils.wx.Constants;
 import com.eaglec.plat.utils.wx.MessageUtil;
 import com.eaglec.plat.utils.wx.SignUtil;
@@ -89,6 +92,10 @@ public class MsgController {
 	
 	@Autowired
 	private ConcernUsersBiz concernUsersBiz;
+	
+	@Autowired
+	private UserChangeBiz userChangeBiz;
+	
 	@Autowired
 	private ArticleInfoBiz articleInfoBiz;
 
@@ -162,7 +169,7 @@ public class MsgController {
 		String openid = weiXinUser.getOpenid();
 		if (!"".equals(openid)) {
 			ConcernUsers cu = concernUsersBiz.getWeixinBoundInfo(openid);
-			if (cu != null) {
+			if (cu != null && cu.getConcern_status() == 1) {
 				request.getSession().setAttribute("concernUsers", cu);
 			} else {
 				WeixinUtil.clearUserSession(request);
@@ -207,8 +214,7 @@ public class MsgController {
 	 * @param response
 	 * @return
 	 */
-	public String sendMsg(HttpServletRequest request,
-			HttpServletResponse response) {
+	public String sendMsg(HttpServletRequest request, HttpServletResponse response) {
 		String respMessage = "请求处理异常，请稍候尝试！";
 		try {
 			Map<String, String> requestMap = MessageUtil.parseXml(request);// new
@@ -216,12 +222,11 @@ public class MsgController {
 			String toUserName = (String) requestMap.get("ToUserName");
 			String msgType = (String) requestMap.get("MsgType");
 			String msgContext = (String) requestMap.get("Content");// (String)
-
+			String createTime = (String) requestMap.get("CreateTime");
 			// 设置回复信息基本内容
 			Reply resMsg = new Reply();
 			// 想数据库添加一条接收的信息
 			ReceiveInfo receiveInfo = addReqMsg(requestMap);
-
 			// 设置基本信息
 			resMsg.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
 			resMsg.setCreateTime(new Date().getTime());
@@ -245,18 +250,49 @@ public class MsgController {
 			} else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_EVENT)) {
 				String event = requestMap.get(Constants.EVENT);
 				if (event.equals(Constants.SUBSCRIBE)) {
+					String time = StrUtils.timestampToDate(createTime, true);
+					ConcernUsers cu = concernUsersBiz.getWeixinBoundInfo(fromUserName);
+					UserChange ubc = new UserChange();
+					if (cu != null) {
+						cu.setConcern_status(0);
+						cu.setSubscribe_time(time);
+						concernUsersBiz.updateConcernUsers(cu);
+						ubc.setUsername(cu.getUsername());	//用户名
+						ubc.setEnterprise_id(cu.getEnterprise_id());	//企业ID
+						ubc.setEnterprise_name(cu.getEnterprise_name());	//企业名称
+					}
+					
+					//往用户变更表里面添加一条，微信用户关注平台的时间和微信帐号
+					ubc.setWxUserToken(fromUserName);	//加密后的微信帐号
+					ubc.setChange_status(0);	//已关注
+					ubc.setChange_time(time);	//关注时间
+					userChangeBiz.addConcernUsers(ubc);
+					
 					resMsg = buliderAutoMsg("clickKey", "subsrcibe", toUserName, fromUserName);
+					
 					if (resMsg.getMsgType().equals(MessageUtil.RESP_MESSAGE_TYPE_NEWS)) {
 						respMessage = MessageUtil.newsMessageToXml(resMsg);
 					} else {
 						respMessage = MessageUtil.textMessageToXml(resMsg);
 					}
 				} else if (event.equals(Constants.UNSUBSCRIBE)) {
-//					WXUser user = userBiz.get("name", fromUserName);
-//					user.setSubscribe(1);
-//					user.setDescription(new Date() + fromUserName + "取消了对您的关注了"
-//							+ toUserName);
-					//userBiz.update(user);
+					String time = StrUtils.getNow("yyyy-MM-dd HH:mm:ss");
+					ConcernUsers concernUsers = concernUsersBiz.getWeixinBoundInfo(fromUserName);
+					UserChange ubc = new UserChange();
+					if(null != concernUsers){
+						concernUsers.setConcern_status(3);	//取消关注
+						concernUsers.setSubscribe_time(time);
+						concernUsersBiz.updateConcernUsers(concernUsers);
+						ubc.setUsername(concernUsers.getUsername());	//用户名
+						ubc.setEnterprise_id(concernUsers.getEnterprise_id());	//企业ID
+						ubc.setEnterprise_name(concernUsers.getEnterprise_name());	//企业名称
+					}
+					
+					ubc.setWxUserToken(fromUserName);	//加密后的微信帐号
+					ubc.setChange_status(3);	//已关注
+					ubc.setChange_time(time);	//关注时间
+					userChangeBiz.addConcernUsers(ubc);
+					
 				} else if (event.equals(Constants.CLICK)) {
 					// 事件KEY值，与创建自定义菜单时指定的KEY值对应
 					String eventKey = requestMap.get("EventKey");
@@ -388,5 +424,8 @@ public class MsgController {
 			result = true;
 		}
 		return result;
+	}
+	public static void main(String[] args) {
+		System.out.println(new Object[0]);
 	}
 }

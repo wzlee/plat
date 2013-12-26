@@ -689,4 +689,16 @@ public interface ServiceBiz {
 	 * @return
 	 */
 	public abstract List<Service> findServiceByWX();
+	/**
+	 * 微信用户中心，我的服务加载更多
+	 * @author huyj
+	 * @sicen 2013-12-24
+	 * @param title 服务名称
+	 * @param eid 企业id
+	 * @param status 
+	 * @param start
+	 * @param limit
+	 * @return
+	 */
+	public abstract List<Service> findMoreService(String title,String eid,String status,Integer start,Integer limit);
 }

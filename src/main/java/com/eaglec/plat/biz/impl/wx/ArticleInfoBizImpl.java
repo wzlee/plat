@@ -44,8 +44,8 @@ public class ArticleInfoBizImpl implements ArticleInfoBiz {
 		return articleInfoDao.update(articleInfo);
 	}
 	
-	public ArticleInfo merge  (ArticleInfo articleInfo) {
-		return articleInfoDao.update(articleInfo);
+	public ArticleInfo merge(ArticleInfo articleInfo) {
+		return articleInfoDao.merge(articleInfo);
 	}
 
 	@Override
@@ -59,10 +59,11 @@ public class ArticleInfoBizImpl implements ArticleInfoBiz {
 
 	@Override
 	public JSONData<ArticleInfo> query(String title, int start, int limit) {
-		String hql = "SELECT NEW ArticleInfo(a) FROM ArticleInfo a WHERE 1 = 1";
+		StringBuilder sb = new StringBuilder().append("SELECT NEW ArticleInfo(a) FROM ArticleInfo a WHERE 1 = 1");
 		if(!StringUtils.isEmpty(title)) {
-			hql = hql + " AND title LIKE '%" + title + "%'";
+			sb.append(" AND a.title LIKE '%").append(title).append("%'");
 		}
-		return articleInfoDao.outJSONData(hql, start, limit);
+		sb.append("ORDER BY a.pubdate DESC");
+		return articleInfoDao.outJSONData(sb.toString(), start, limit);
 	}
 }

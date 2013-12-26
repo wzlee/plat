@@ -2,19 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-	String path = request.getContextPath();
-	String basePath = "";
-	basePath =request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-	basePath ="http://wx.smemall.net/";
-	
-%>
 <!DOCTYPE>
 <html>
 <head>
 <meta charset="UTF-8">
-<base href="<%=basePath%>">
-<title>平台动态</title>
+<base href="${basePath}">
+<title>${wxNews.title }</title>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 <meta name="keywords" content="" />
 <meta name="description" content="" />
@@ -23,7 +16,7 @@
 <body>
 <div id="header">
 	<a href="javascript:history.go(-1)" class="up-data"></a>
-	<h1>平台动态</h1>
+	<img src="resources/images/wx-logo.png" alt="">
 	<a href="/wx/index" class="home-icon"></a>
 </div>
 <!-- 头部 -->

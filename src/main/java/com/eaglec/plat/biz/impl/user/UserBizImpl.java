@@ -135,7 +135,7 @@ public class UserBizImpl implements UserBiz {
 
 	@Override
 	public List<User> findUserByEmail(String email) {
-		String hql = "from User where email = '" + email + "'";	
+		String hql = "from User where userStatus != "+Constant.DELETED+" AND email = '" + email + "'";	
 		return userDao.findList(hql);
 	}
 	@Override

@@ -9,13 +9,21 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.fastjson.JSONObject;
 import com.eaglec.plat.biz.app.mobile.MobileAppBiz;
 import com.eaglec.plat.biz.business.GoodsOrderBiz;
+import com.eaglec.plat.biz.business.OrderInfoBiz;
+import com.eaglec.plat.biz.business.OrderOperateLogBiz;
 import com.eaglec.plat.biz.flat.FlatBiz;
+import com.eaglec.plat.biz.info.MessageBiz;
+import com.eaglec.plat.biz.info.MessageClassBiz;
 import com.eaglec.plat.biz.info.ReceiverMessageRelationshipBiz;
+import com.eaglec.plat.biz.info.SenderGroupMessageRelationshipBiz;
+import com.eaglec.plat.biz.info.SenderMessageRelationshipBiz;
 import com.eaglec.plat.biz.policy.PolicyBiz;
 import com.eaglec.plat.biz.policy.PolicyCategoryBiz;
 import com.eaglec.plat.biz.service.ServiceBiz;
@@ -27,13 +35,32 @@ import com.eaglec.plat.biz.user.UserBiz;
 import com.eaglec.plat.domain.base.EnterpriseCredit;
 import com.eaglec.plat.domain.base.Staff;
 import com.eaglec.plat.domain.base.User;
+import com.eaglec.plat.domain.business.GoodsOrder;
+import com.eaglec.plat.domain.business.OrderInfo;
+import com.eaglec.plat.domain.business.OrderOperateLog;
+import com.eaglec.plat.domain.info.Message;
+import com.eaglec.plat.domain.info.MessageClass;
+import com.eaglec.plat.domain.info.ReceiverMessageRelationship;
+import com.eaglec.plat.domain.info.SenderGroupMessageRelationship;
+import com.eaglec.plat.domain.info.SenderMessageRelationship;
 import com.eaglec.plat.domain.policy.PolicyCategory;
+import com.eaglec.plat.domain.service.Service;
 import com.eaglec.plat.domain.service.ServiceConsumer;
+import com.eaglec.plat.sync.SyncFactory;
+import com.eaglec.plat.sync.SyncType;
+import com.eaglec.plat.sync.bean.business.GoodsOrderSyncBean;
+import com.eaglec.plat.sync.bean.business.OrderInfoSyncBean;
+import com.eaglec.plat.sync.impl.SaveOrUpdateToWinImpl;
 import com.eaglec.plat.utils.Common;
 import com.eaglec.plat.utils.Constant;
+import com.eaglec.plat.utils.Dao;
+import com.eaglec.plat.utils.StrUtils;
+import com.eaglec.plat.view.JSONResult;
 
 @org.springframework.stereotype.Service
 public class MobileAppBizImpl implements MobileAppBiz {
+	private static final Logger logger = LoggerFactory.getLogger(MobileAppBizImpl.class);
+	
 	@Autowired
 	private UserBiz userBiz;
 	@Autowired
@@ -56,7 +83,24 @@ public class MobileAppBizImpl implements MobileAppBiz {
 	private FlatBiz flatBiz;
 	@Autowired
 	private ServiceConsumerBiz serviceConsumerBiz;
-
+	@Autowired
+	private GoodsOrderBiz orderBiz;
+	@Autowired
+	private OrderInfoBiz orderInfoBiz;
+	@Autowired
+	private OrderOperateLogBiz orderOperLogBiz;
+	@Autowired
+	private MessageClassBiz messageClassBiz;
+	@Autowired
+	private MessageBiz messageBiz;
+	@Autowired
+	private Dao dao;
+	@Autowired
+	private SenderGroupMessageRelationshipBiz senderGroupMessageRelationshipBiz;
+	@Autowired
+	private SenderMessageRelationshipBiz senderMessageRelationshipBiz;
+	
+	
 	@Override
 	public Map<String, Object> getServices(JSONObject jsonObject) {
 		// TODO Auto-generated method stub
@@ -108,6 +152,155 @@ public class MobileAppBizImpl implements MobileAppBiz {
 		serviceConsumerBiz.save(sc);
 		result.put("statusCode", 0);
 		result.put("resData", "");
+		return result;
+	}
+	
+	/**
+	 * 平台APP服务申请功能
+	 * @author liuliping
+	 * @since 2013-12-23
+	 * @param jsonObject 内含(服务id,linkMan联系人,tel电话,email邮箱,authStr检验码)
+	 * @param request
+	 * @param response
+	 */
+	public Map<String, Object> saveApplyService(JSONObject jsonObject) {
+		Map<String, Object> result = new HashMap<String, Object>(); // 返回结果
+		JSONObject reqData = jsonObject.getJSONObject("reqData");
+		Integer id = reqData.getInteger("id");    // 服务id
+		String authStr = reqData.getString("authStr");    // 用户authStr
+		if(!StringUtils.isEmpty(authStr)) {
+			String[] array = authStr.split("\\|"); // auth的格式为"用户类型|时间戳|用户编码"
+			if(array.length == 3) { // auth授权码格式正确
+				Service service = serviceBiz.findServiceById(id);	//申请的服务
+				GoodsOrder order = null;					//申请服务产生一张订单
+				OrderInfo orderInfo = null;					//订单流水
+				OrderOperateLog orderOperateLog = null;		//订单操作日志
+				String tel = reqData.getString("tel");	//电话
+				String linkMan = reqData.getString("linkMan");	//联系人
+				String email = reqData.getString("email");	//邮箱
+				String remark = reqData.getString("remark");    //备注
+				//订单编号的生成规则
+				String orderNumber = "S"+StrUtils.formateDate("YYYYMMdd", new Date())+Common.random();
+				//当前时间作为订单下单时间
+				String currentTime = StrUtils.formateDate("yyyy-MM-dd HH:mm:ss", new Date());
+				 // auth授权码格式正确
+				if ("u".equals(array[0])) { // auth授权码内含的是主帐号用户
+					User user = userBiz.findUserByUidAndModifyTime(array[2],
+							array[1]); // 根据用户编码和时间戳查找用户
+					if (user != null) { // 授权码正确
+						if (user.getUserStatus() == Constant.EFFECTIVE) {
+							order = new GoodsOrder(orderNumber, Constant.WAIT_SELLER_CONFIRM, 
+									service.getCostPrice(), linkMan, tel, email, remark, currentTime, user, 
+									user.getEnterprise().getId(), service.getEnterprise().getId(),
+									service.getServiceName(), service, Constant.ORDER_SOURCE_S);
+								
+							//添加订单详细信息
+							orderInfo = new OrderInfo(order, order.getOrderStatus(), 
+									remark,user,currentTime,Constant.ACTION_BUYER_ORDER_SUBMIT);
+							try {
+								orderBiz.saveGoodsOrder(order);
+								orderInfoBiz.saveOrderInfo(orderInfo);
+								logger.info("通过平台app添加订单详细信息");	
+								
+								// 同步至窗口
+								SyncFactory.executeTask(new SaveOrUpdateToWinImpl<GoodsOrder>(new GoodsOrderSyncBean(order, SyncType.ONE)),true);
+								SyncFactory.executeTask(new SaveOrUpdateToWinImpl<OrderInfo>(new OrderInfoSyncBean(orderInfo, SyncType.ONE)));
+								
+								//添加订单操作日志
+								orderOperateLog = new OrderOperateLog(order.getOrderNumber(),
+										user.getUserName(),Constant.WAIT_SELLER_CONFIRM_STR,
+										StrUtils.formateDate("YYYY-MM-dd HH:mm:ss", new Date()));
+								
+								orderOperLogBiz.saveOrderOperLog(orderOperateLog);
+								logger.info("添加订单操作日志");
+								logger.info("[ "+order.getOrderNumber()+" ]添加成功!");
+								
+								//申请订单,给卖家发送消息
+								User seller = userBiz.findUserByEnterprise(order.getSeller_id());
+								Message message = getTransactionMessage();
+								sendTransactionMessage(Constant.LOGIN_USER, message,seller.getId(), seller.getUserName(), true, orderNumber, 1);
+								
+								result.put("statusCode", 0); // 成功
+							} catch (Exception e) {
+								e.printStackTrace();
+								logger.info("申请服务失败!异常信息:" + e.getLocalizedMessage());
+								result.put("statusCode", 1); 
+								result.put("resData", "系统发生异常");
+							}
+						} else if (user.getUserStatus() == Constant.DISABLED) {
+							result.put("statusCode", 1); // 帐号被禁用
+							result.put("resData", "帐号被禁用");
+						} else {
+							result.put("statusCode", 1); // 账号被删除
+							result.put("resData", "账号被删除");
+						}
+					} else { // 授权码已失效
+						result.put("statusCode", 1);
+						result.put("resData", "授权码已失效");
+					}
+				} else if ("s".equals(array[0])) { // auth授权码内含的是子帐号用户
+					Staff staff = staffBiz.findByCodeAndStatus(array[2],
+							array[1]);
+					if (staff != null) { // 授权码正确
+						if (staff.getStaffStatus() == Constant.EFFECTIVE) {
+							if(staff.getStaffRole().isApply()){//可以申请服务
+								order = new GoodsOrder(orderNumber, Constant.WAIT_SELLER_CONFIRM, 
+										service.getCostPrice(), linkMan, tel, email, remark, currentTime, staff, 
+										staff.getParent().getEnterprise().getId(), service.getEnterprise().getId(),
+										service.getServiceName(), service, Constant.ORDER_SOURCE_S);
+								//添加订单详细信息
+								orderInfo = new OrderInfo(order, order.getOrderStatus(), 
+										remark,staff,currentTime,Constant.ACTION_BUYER_ORDER_SUBMIT);
+								//添加订单操作日志
+								orderOperateLog = new OrderOperateLog(order.getOrderNumber(),
+										staff.getUserName(),Constant.WAIT_SELLER_CONFIRM_STR,
+										StrUtils.formateDate("YYYY-MM-dd HH:mm:ss", new Date()));
+								try {
+									orderBiz.saveGoodsOrder(order);
+									orderInfoBiz.saveOrderInfo(orderInfo);
+									orderOperLogBiz.saveOrderOperLog(orderOperateLog);
+									logger.info("添加订单操作日志");
+									logger.info("[ "+order.getOrderNumber()+" ]添加成功!");
+									
+									//申请订单,给卖家发送消息
+									User seller = userBiz.findUserByEnterprise(order.getSeller_id());
+									Message message = getTransactionMessage();
+									sendTransactionMessage(Constant.LOGIN_USER, message,seller.getId(), seller.getUserName(), true, orderNumber, 1);
+									
+									result.put("statusCode", 0); // 成功
+								} catch (Exception e) {
+									e.printStackTrace();
+									logger.info("申请服务失败!异常信息:" + e.getLocalizedMessage());
+									result.put("statusCode", 1); 
+									result.put("resData", "系统发生异常");
+								}
+							}else{
+								result.put("statusCode", 1); // 子账号无权限
+								result.put("resData", "帐号被禁用");
+							}
+						} else if (staff.getStaffStatus() == Constant.DISABLED) {
+							result.put("statusCode", 1); // 帐号被禁用
+							result.put("resData", "帐号被禁用");
+						} else {
+							result.put("statusCode", 1); // 账号被删除
+							result.put("resData", "账号被删除");
+						}
+					} else {
+						result.put("statusCode", 1);
+						result.put("resData", "授权码错误,请重新登录");
+					}
+				} else { // auth授权码格式错误
+					result.put("statusCode", 1);
+					result.put("resData", "授权码错误,请重新登录");
+				}
+			} else {
+				result.put("statusCode", 1);
+				result.put("resData", "授权码错误,请重新登录");
+			}
+		} else {    // 验证码为空
+			result.put("statusCode", 1);
+			result.put("resData", "请重新登录");
+		}
 		return result;
 	}
 
@@ -186,12 +379,8 @@ public class MobileAppBizImpl implements MobileAppBiz {
 							resData.put("certified", u.getEnterprise()
 									.getIsApproved() == true ? 1 : 0); // 被认证
 							if (ec != null) {
-								resData.put(
-										"star",
-										Common.round(
-												ec.getSellScore()
-														/ ec.getSellCount())
-												.intValue()); // 信誉,星颗数
+								resData.put("star",	Common.round(
+										ec.getSellScore()/ ec.getSellCount()).intValue()); // 信誉,星颗数
 							} else {
 								resData.put("star", 0); // 信誉,星颗数
 							}
@@ -246,11 +435,12 @@ public class MobileAppBizImpl implements MobileAppBiz {
 						resData.put("certified", staff.getParent()
 								.getEnterprise().getIsApproved() == true ? 1
 								: 0); // 认证
-						resData.put(
-								"star",
-								Common.round(
-										ec.getSellScore() / ec.getSellCount())
-										.intValue()); // 信誉,星颗数
+						if (ec != null) {
+							resData.put("star",	Common.round(
+									ec.getSellScore()/ ec.getSellCount()).intValue()); // 信誉,星颗数
+						} else {
+							resData.put("star", 0); // 信誉,星颗数
+						}
 						resData.put("unreadMsg", receiverMessageRelationshipBiz
 								.countUnreadMessage(staff)); // 未读消息数
 						resData.put("type", Constant.LOGIN_STAFF); // 用户类型为子账号
@@ -470,6 +660,92 @@ public class MobileAppBizImpl implements MobileAppBiz {
 		return result;
 	}
 
+	private Message getTransactionMessage(){
+		//得到消息类别,选择(交易信息)
+		MessageClass messageClass = messageClassBiz.find(Constant.MESSAGE_TYPE_NAME);
+		Message message = new Message();
+		message.setMessageClass(messageClass);
+		messageBiz.save(message);
+		return message;
+	}
+	
+	/**
+	 * 系统自动发送交易信息
+	 * @author xuwf
+	 * @since 2013-11-06
+	 * 
+	 * @param sender			//发送人	('系统自动发送')
+	 * @param userType			//用户类型,确定接收方的信息(user或者staff)
+	 * @param messge			//消息
+	 * @param receiverId		//接收人id(user或者staff)
+	 * @param receiver			//接收人名称(user或者staff)
+	 * @param confirmSend		//是否发送
+	 * @param orderNumber		//订单号或者标单号
+	 * @param flag				//交易操作标识(根据交易不同标识返回不同信息)
+	 */
+	public String sendTransactionMessage(Integer userType,Message message,Integer receiverId,String receiver,boolean confirmSend,String orderNumber,Integer flag){
+		String messages = null;
+		if(confirmSend){//确定是否发送
+			//发送者消息关联类
+			SenderMessageRelationship smrs = new SenderMessageRelationship(message, receiver);
+			//接收者消息关联类
+			ReceiverMessageRelationship rmrs = new ReceiverMessageRelationship(message, Constant.TRANSACTIONS_INFO_SENDER);
+				
+			if(userType == Constant.LOGIN_USER){//主账号
+				rmrs.setReceiverUserId(receiverId);
+			}else if(userType == Constant.LOGIN_STAFF){//子账号
+				rmrs.setReceiverStaffId(receiverId);
+			}
+			String querystaffsql = " select id from staff where staffStatus=1 and parent_id = "+receiverId;
+			List<Map<String,Object>> staffIds = dao.find(querystaffsql);
+			if(staffIds.size() > 0){//存在子账号发送给该账号下的所有能用的子账号
+				Long l1 = System.currentTimeMillis();
+				SenderGroupMessageRelationship s = new SenderGroupMessageRelationship();
+				s.setMessage(message);
+				senderGroupMessageRelationshipBiz.save(s);
+				Object[][] sucobjs = new Object[staffIds.size()][1];
+				String insertstaffsql = "INSERT INTO receivermessagerelationship (deleteSign,readSign,receiverStaffId,sender,message_id) VALUES(0,0,?,'"+Constant.TRANSACTIONS_INFO_SENDER+"',"+message.getId()+")";
+				for(int i = 0 ;i< staffIds.size();i++){
+				    Map<String, Object> map =staffIds.get(i);
+				    sucobjs[i][0] = map.get("id");
+				}
+				dao.batchUpdate(insertstaffsql, sucobjs);
+				logger.info("方法耗时："+(System.currentTimeMillis()-l1));
+			}
+			if(flag == 1){//订单申请							接收人:卖家
+				messages = Common.buyApply+orderNumber;
+			}
+			if(flag == 2 )//卖家确认订单							接收人:买家
+				messages = Common.sellerConfirmMessage1+message.getSendTime()+Common.sellerConfirmMessage2+orderNumber;
+			if(flag == 3)//卖家取消订单							接收人:买家
+				messages = Common.sellerCancel+orderNumber;
+			if(flag == 4)//买家关闭,卖家未关闭						接收人:卖家
+				messages = Common.buyerCloseFirst+orderNumber;
+			if(flag == 5)//卖家关闭,买家未关闭						接收人:买家
+				messages = Common.sellerCloseFirst+orderNumber;
+			if(flag == 6)//买家关闭然后卖家关闭或者卖家关闭然后买家关闭		接收人:买家、卖家
+				messages = Common.orderOver+orderNumber;
+			if(flag == 7)//运营人员关闭订单(申诉处理一致)				接收人:买家、卖家
+				messages = Common.platCloseOrder+orderNumber;
+			if(flag == 8)//运营人员取消订单(申诉处理一致)				接收人:买家、卖家
+				messages = Common.platCancelOrder+orderNumber;
+			if(flag == 9)//招标审核通过							接收人:招标方-即买家
+				messages = Common.biddingAuditOK+orderNumber;
+			if(flag == 10)//招标审核驳回 							接收人:招标方-即买家
+				messages = Common.biddingAuditFail+orderNumber;
+			if(flag == 11)//选择应标							接收人:应标方-即卖家
+				messages = Common.selectResponse+orderNumber;
+			if(flag == 12)//取消招标							接收人:所有应标方
+				messages = Common.cancelBiddingService+orderNumber;
+			
+			message.setContent(messages);
+			messageBiz.update(message);
+			senderMessageRelationshipBiz.save(smrs);
+			receiverMessageRelationshipBiz.save(rmrs);
+		}
+		return messages;
+	}
+	
 	public static void main(String[] args) {
 		String msg = "a|123123123|sdfasdfasdf";
 		String[] array = msg.split("\\|");

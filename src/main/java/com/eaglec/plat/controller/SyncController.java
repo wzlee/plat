@@ -144,7 +144,8 @@ public class SyncController {
 			this.foreignKeyMap.put("enterprise_id", new String[]{"enterprise", "eid", "id"});
 		}else if(className.equals("orgregisterapproval")){
 			this.uniqueKey = "oraid";
-			this.ignoreFields = "id,manager_id";			
+			this.ignoreFields = "id,manager_id";
+			this.foreignKeyMap.put("enterprise_id", new String[]{"enterprise","eid","id"});
 		}else if(className.equals("goodsorder")){
 			this.uniqueKey = "oid";
 			this.ignoreFields = "id,staff_id,biddingService_id,buyer_id,service_id,seller_id,purchaser_id";
@@ -250,6 +251,9 @@ public class SyncController {
     		for(Object keyName : map.keySet()){
     			Object value = map.get(keyName);
         		if(!ignoreFields.contains(keyName.toString())){
+        			if(foreignKeyMap.keySet().contains(keyName.toString())){
+            			value = uuid_foreignkey_map.get(keyName);
+        			}
         			if(updateString.length() != 0){
         				updateString.append(",");
         			}

@@ -1643,7 +1643,7 @@ public class GoodsOrderController extends BaseController {
 	 * @param sm_login 请求中带有的cookie值
 	 * @return  数据集合 
 	 * */
-	private Map<String, Object> checkLogin(String sm_login) {
+	public Map<String, Object> checkLogin(String sm_login) {
 		Map<String, Object> result = new HashMap<String, Object>();
  		String[] strArray = sm_login.split("\\|");
  		if(strArray.length != 3) {
@@ -1655,7 +1655,7 @@ public class GoodsOrderController extends BaseController {
  		String uuid = strArray[1];
  		String secret = strArray[2];
  		if("user".equals(userType)) {
- 			User user = userBiz.findUserByUid(uuid);		//根据uid获取用户
+ 			User user = userBiz.findUserByUuid(uuid);		//根据uid获取用户
  			if(user == null) {
  				result.put("success", false);
  				result.put("message", "不存在该用户");

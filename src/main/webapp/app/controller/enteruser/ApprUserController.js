@@ -13,7 +13,8 @@ Ext.define('plat.controller.enteruser.ApprUserController', {
     			'enteruser.ApprUserTab',
     			'enteruser.ApprPersonalUserWindow',
     			'enteruser.ApprPersonalUserDetailWindow',
-    			'enteruser.ApprOrgRegisterDetailWindow'
+    			'enteruser.ApprOrgRegisterDetailWindow',
+    			'service.PictureWindow'
     		],    
      refs : [{
 				ref : 'appruserwindow',
@@ -36,11 +37,168 @@ Ext.define('plat.controller.enteruser.ApprUserController', {
 			{
 				ref : 'approrgregisterdetailwindow',
 				selector : 'approrgregisterdetailwindow'
+			},
+			{
+				ref : 'picturewindow',
+				selector: 'picturewindow'
 			}
 		],
    
     init: function() {
         this.control({
+        	'apprusertab actioncolumn':{
+        		//企业实名认证
+            	pictureclick:function(column,grid, rowIndex, colIndex, node, e, record, rowEl){
+            		  var record = grid.getStore().getAt(rowIndex);
+					  var src = record.data.licenceDuplicate;
+					  if (src) {
+						 if(src.indexOf('http') > -1){
+						     src = record.data.licenceDuplicate;
+						 }else {
+						     src = 'upload/'+record.data.licenceDuplicate;
+						 }					       			
+					  } else {
+						 src = 'resources/images/service/default_service_pic.gif';
+					  }
+					  var pictureWindows = this.getPicturewindow();
+				      if(!pictureWindows){
+				    	  pictureWindows = Ext.widget('picturewindow',{
+				    		title:'查看图片['+record.data.name+']'
+				          });    		
+				      }
+					  pictureWindows.update({src:src});
+					  pictureWindows.show();
+					  pictureWindows.setTitle('查看图片['+record.data.name+']');
+            	},
+            	pictureclick1:function(column,grid, rowIndex, colIndex, node, e, record, rowEl){
+            		  var record = grid.getStore().getAt(rowIndex);
+					  var src = record.data.businessLetter;
+					  if (src) {
+						 if(src.indexOf('http') > -1){
+						     src = record.data.businessLetter;
+						 }else {
+						     src = 'upload/'+record.data.businessLetter;
+						 }					       			
+					  } else {
+						 src = 'resources/images/service/default_service_pic.gif';
+					  }
+					  var pictureWindows = this.getPicturewindow();
+				      if(!pictureWindows){
+				    	  pictureWindows = Ext.widget('picturewindow',{
+				    		title:'查看图片['+record.data.name+']'
+				          });    		
+				      }
+					  pictureWindows.update({src:src});
+					  pictureWindows.show();
+					  pictureWindows.setTitle('查看图片['+record.data.name+']');
+            	},
+            	//服务机构认证
+            	pictureclick2:function(column,grid, rowIndex, colIndex, node, e, record, rowEl){
+            		  var record = grid.getStore().getAt(rowIndex);
+					  var src = record.data.licenceDuplicate;
+					  if (src) {
+						 if(src.indexOf('http') > -1){
+						     src = record.data.licenceDuplicate;
+						 }else {
+						     src = 'upload/'+record.data.licenceDuplicate;
+						 }					       			
+					  } else {
+						 src = 'resources/images/service/default_service_pic.gif';
+					  }
+            		  if(record.raw.enterprise.isApproved) {
+            		  	value = record.raw.enterprise.licenceDuplicate;
+            		  	if(src.indexOf('http') > -1){
+						     src = value;
+						 }else {
+						     src = 'upload/'+value;
+						 }	
+            		  }
+					  var pictureWindows = this.getPicturewindow();
+				      if(!pictureWindows){
+				    	  pictureWindows = Ext.widget('picturewindow',{
+				    		title:'查看图片['+record.data.name+']'
+				          });    		
+				      }
+					  pictureWindows.update({src:src});
+					  pictureWindows.show();
+					  pictureWindows.setTitle('查看图片['+record.data.name+']');
+            	},
+            	pictureclick3:function(column,grid, rowIndex, colIndex, node, e, record, rowEl){
+            		  var record = grid.getStore().getAt(rowIndex);
+					  var src = record.data.businessLetter;
+					  if (src) {
+						 if(src.indexOf('http') > -1){
+						     src = record.data.businessLetter;
+						 }else {
+						     src = 'upload/'+record.data.businessLetter;
+						 }					       			
+					  } else {
+						 src = 'resources/images/service/default_service_pic.gif';
+					  }
+					  if(record.raw.enterprise.isApproved){
+					  	value = record.raw.enterprise.businessLetter;
+					  	if(src.indexOf('http') > -1){
+						     src = value;
+						 }else {
+						     src = 'upload/'+value;
+						 }	
+					  }
+					  var pictureWindows = this.getPicturewindow();
+				      if(!pictureWindows){
+				    	  pictureWindows = Ext.widget('picturewindow',{
+				    		title:'查看图片['+record.data.name+']'
+				          });    		
+				      }
+					  pictureWindows.update({src:src});
+					  pictureWindows.show();
+					  pictureWindows.setTitle('查看图片['+record.data.name+']');
+            	},
+            	//个人用户实名认证
+            	pictureclick4:function(column,grid, rowIndex, colIndex, node, e, record, rowEl){
+            		  var record = grid.getStore().getAt(rowIndex);
+					  var src = record.data.personalPhoto;
+					  if (src) {
+						 if(src.indexOf('http') > -1){
+						     src = record.data.personalPhoto;
+						 }else {
+						     src = 'upload/'+record.data.personalPhoto;
+						 }					       			
+					  } else {
+						 src = 'resources/images/ucenter/default_logo.jpg';
+					  }
+					  var pictureWindows = this.getPicturewindow();
+				      if(!pictureWindows){
+				    	  pictureWindows = Ext.widget('picturewindow',{
+				    		title:'查看图片['+record.data.name+']'
+				          });    		
+				      }
+					  pictureWindows.update({src:src});
+					  pictureWindows.show();
+					  pictureWindows.setTitle('查看图片['+record.data.name+']');
+            	},
+            	pictureclick5:function(column,grid, rowIndex, colIndex, node, e, record, rowEl){
+            		  var record = grid.getStore().getAt(rowIndex);
+					  var src = record.data.idCardPhoto;
+					  if (src) {
+						 if(src.indexOf('http') > -1){
+						     src = record.data.idCardPhoto;
+						 }else {
+						     src = 'upload/'+record.data.idCardPhoto;
+						 }					       			
+					  } else {
+						 src = 'resources/images/ucenter/default_logo.jpg';
+					  }
+					  var pictureWindows = this.getPicturewindow();
+				      if(!pictureWindows){
+				    	  pictureWindows = Ext.widget('picturewindow',{
+				    		title:'查看图片['+record.data.name+']'
+				          });    		
+				      }
+					  pictureWindows.update({src:src});
+					  pictureWindows.show();
+					  pictureWindows.setTitle('查看图片['+record.data.name+']');
+            	}
+            },
             'appruserwindow' : {
             	afterrender:function(window){
             		var mask = new Ext.LoadMask(window.getEl(), {

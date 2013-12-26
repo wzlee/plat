@@ -27,7 +27,7 @@
    <!-- 左边菜单 -->
    	<jsp:include page="left.jsp" flush="true" />
     <div class="main-column">
-    	<div><h3 class="top-title">我的子账号<input onclick="window.location.href='ucenter/staff_add?type=${user.enterprise.type}&op=88'" type="submit" value="添加子账号" style="height: 25px;width: 100px;float:right;font-size:13px;color: #800080;"></h3></div>    	
+    	<div><h3 class="top-title">我的子账号<input onclick="window.location.href='/ucenter/staff_add?type=${user.enterprise.type}&op=88'" type="submit" value="添加子账号" style="height: 25px;width: 100px;float:right;font-size:13px;color: #800080;"></h3></div>    	
     	<input id="pid" type="hidden" value="${user.id}">
     	<input id="eType" type="hidden" value="${user.enterprise.type}">
     	<form id="serach_form" method="post" style="margin-top: 10px;margin-bottom: 20px;">
